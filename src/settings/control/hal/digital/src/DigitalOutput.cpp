@@ -16,6 +16,21 @@ DigitalOutput::DigitalOutput()
 {
 }
 
+DigitalOutput::DigitalOutput(DigitalOutput&& rhs)  noexcept
+  : GpioLines(move(rhs))
+  , m_linesRequest(*this)
+  , m_settingPath(move(rhs.m_settingPath))
+{
+
+}
+
+DigitalOutput& DigitalOutput::operator=(DigitalOutput&& rhs)  noexcept
+{
+  GpioLines::operator=(move(rhs));
+  m_settingPath = move(rhs.m_settingPath);
+  return *this;
+}
+
 ResultCode
 DigitalOutput::configure(const Config::DigitalOutput::Fields& config)
 {

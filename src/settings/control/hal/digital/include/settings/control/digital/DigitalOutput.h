@@ -25,8 +25,8 @@ public:
   DigitalOutput();
   ~DigitalOutput() override = default;
 
-  DigitalOutput(DigitalOutput&&)  noexcept = default;
-  DigitalOutput& operator=(DigitalOutput&&)  noexcept;
+  DigitalOutput(DigitalOutput&& rhs)  noexcept;
+  DigitalOutput& operator=(DigitalOutput&& rhs)  noexcept;
 
   ResultCode configure(const Config::DigitalOutput::Fields& config);
   bool discover() override;
@@ -47,6 +47,5 @@ public:
 
 protected:
   SettingPath m_settingPath;
-  GpioOutputLinesSource m_linesSource;
   GpioOutputLinesRequest m_linesRequest;
 };
