@@ -79,5 +79,8 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  return app.exec();
+  while (true) {
+    // QCoreApplication::processEvents();
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
 }

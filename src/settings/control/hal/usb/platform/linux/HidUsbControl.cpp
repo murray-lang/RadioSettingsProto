@@ -1,3 +1,4 @@
+#include <CrossPlatformTypes.h>
 #include <ResultCode.h>
 #include "settings/control/usb/HidUsbControl.h"
 #include <hidapi.h>
@@ -6,6 +7,23 @@ HidUsbControl::HidUsbControl(uint16_t vendorId, uint16_t productId)
     : UsbControl(vendorId, productId)
 {
     m_device = nullptr;
+}
+
+HidUsbControl::HidUsbControl(HidUsbControl&& rhs) : UsbControl(rhs.m_vendorId, rhs.m_productId)
+{
+    m_device = rhs.m_device;
+    rhs.m_device = nullptr;
+}
+
+HidUsbControl& 
+HidUsbControl::operator=(HidUsbControl&& rhs)
+{
+    if (this != &rhs) {
+        UsbControl::operator=(move(rhs));
+        m_device = rhs.m_device;
+        rhs.m_device = nullptr;
+    }
+    return *this;
 }
 
 ResultCode HidUsbControl::initialise() {

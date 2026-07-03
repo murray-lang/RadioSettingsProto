@@ -12,6 +12,7 @@
 
 GpioLineTransitionHandlers::GpioLineTransitionHandlers()
   : m_handlers{}
+  , m_handlerStorage()
 {
   for (int i = 0; i < MAX_GPIO_LINES; i++) m_handlers[i] = nullptr;
 }

@@ -173,4 +173,8 @@ protected:
   AutoCompleteTrigger m_trigger;
 };
 
+#ifdef USE_ETL
 using SettingUpdateVector = etl::vector<SettingUpdate, MAX_SETTING_UPDATE_SEQUENCE>;
+#else
+using SettingUpdateVector = std::vector<SettingUpdate>;
+#endif

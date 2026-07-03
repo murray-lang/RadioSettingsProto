@@ -18,7 +18,7 @@ RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
 BandSettingsCache bandSettingsCache;
 
 RadioControlClient::RadioControlClient()
-  : m_radioSettings(generalCoverageRadioMeta, bandSettingsCache)
+  : m_radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache)
 {
 
 }

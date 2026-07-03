@@ -2,7 +2,7 @@
 
 ModeList::ModeList(const makesdr_ModeListPb& raw)
    : m_rawSettings(raw)
-   , m_modes(raw.modes, MAX_MODES)
+   , m_modes(raw.modes)
 {
 }
 

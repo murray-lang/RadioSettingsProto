@@ -9,6 +9,7 @@
 #include <etl/span.h>
 using BandSpan = etl::span<const makesdr_BandPb, MAX_BANDS_PER_CATEGORY>;
 #else
+#include <span>
 using BandSpan = std::span<const makesdr_BandPb>;
 #endif
 

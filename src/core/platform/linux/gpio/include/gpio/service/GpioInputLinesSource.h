@@ -28,10 +28,10 @@ struct LineEventCallbackItem {
 
 #ifdef USE_ETL
 using LineEventCallbackVector = etl::vector<LineEventCallbackItem, MAX_DIGITAL_INPUT_HANDLERS>;
-using GpioLineTransitionHandlerVariantVector = etl::vector<GpioLineTransitionHandlerVariant, MAX_GPIO_LINES>;
+// using GpioLineTransitionHandlerVariantVector = etl::vector<GpioLineTransitionHandlerVariant, MAX_GPIO_LINES>;
 #else
 using LineEventCallbackVector = std::vector<LineEventCallbackItem>;
-using GpioLineTransitionHandlerVariantVector = std::vector<GpioLineTransitionHandlerVariant>;
+// using GpioLineTransitionHandlerVariantVector = std::vector<GpioLineTransitionHandlerVariant>;
 #endif
 
 
@@ -48,7 +48,7 @@ class GpioInputLinesSource : public GpioLinesSourceBase, public Runnable
 {
 public:
   GpioInputLinesSource();
-  ~GpioInputLinesSource() override = default;
+  ~GpioInputLinesSource() override;
 
   ResultCode start();
   void stop();

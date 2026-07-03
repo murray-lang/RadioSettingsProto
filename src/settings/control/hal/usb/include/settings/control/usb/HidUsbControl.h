@@ -10,6 +10,8 @@ typedef hid_device_ hid_device;
 class HidUsbControl : public UsbControl {
 public:
     HidUsbControl(uint16_t vendorId, uint16_t productId);
+    HidUsbControl(HidUsbControl&& rhs);
+    HidUsbControl& operator=(HidUsbControl&& rhs);
     ~HidUsbControl() override = default;
 
     ResultCode initialise() override;

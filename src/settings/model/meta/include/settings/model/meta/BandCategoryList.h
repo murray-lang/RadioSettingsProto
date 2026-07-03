@@ -10,7 +10,8 @@
 
 using BandCategorySpan = etl::span<const makesdr_BandCategoryPb, MAX_BAND_CATEGORIES>;
 #else
-using BandCategorySpan = etl::span<const makesdr_BandCategoryPb>;
+#include <span>
+using BandCategorySpan = std::span<const makesdr_BandCategoryPb>;
 #endif
 
 class BandCategoryList

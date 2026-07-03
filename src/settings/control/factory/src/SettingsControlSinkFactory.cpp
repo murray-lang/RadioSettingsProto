@@ -25,7 +25,7 @@ SettingsControlSinkFactory::create(const Config::Control::SinkConfigVariant& con
     FunCubeDongle funCube;
     result = funCube.configure(get<Config::FunCube::Fields>(config));
     if (result == ResultCode::OK) {
-      sink.emplace<FunCubeDongle>(funCube);
+      sink.emplace<FunCubeDongle>(move(funCube));
     }
     return result;
   }

@@ -1,3 +1,4 @@
+#include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
 #include "settings/model/core/RadioSettings.h"
 

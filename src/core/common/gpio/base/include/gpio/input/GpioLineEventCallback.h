@@ -2,7 +2,7 @@
 
 #include "GpioLineEvent.h"
 
-#ifdef IS_STM32
+#ifdef USE_ETL
 #include <etl/delegate.h>
 
 using GpioLineEventCallback = etl::delegate<void(GpioLineEvent*)>;
@@ -12,7 +12,7 @@ inline GpioLineEventCallback makeGpioLineEventCallback(T* self)
 {
   return GpioLineEventCallback::create<T, MemberFn>(*self);
 }
-#elif defined(IS_LINUX)
+#else
 #include <functional>
 
 using GpioLineEventCallback = std::function<void(GpioLineEvent*)>;
