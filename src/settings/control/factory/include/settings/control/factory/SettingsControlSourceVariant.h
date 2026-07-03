@@ -29,7 +29,7 @@ using std::unique_ptr;
 
 #include <settings/control/source/SettingsControlSource.h>
 #ifdef USE_GPIO
-#include <settings/control/gpio/DigitalInputs.h>
+#include <settings/control/digital/DigitalInputs.h>
 #endif
 
 #ifdef IS_QT

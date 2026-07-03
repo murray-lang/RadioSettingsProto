@@ -7,6 +7,7 @@
 #include <config/json/RadioConfig.json.h>
 #include <fstream>
 #include <settings/control/radio/RadioControl.h>
+#include <gpio/service/Gpio.h>
 
 #include "RadioControlClient.h"
 
@@ -17,7 +18,7 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
   ResultCode rc = ResultCode::OK;
   // Resolve config path under the current user's home directory: ~/.config/nexusdr/nexusdr.json
 
-  const QString configPath = configHome + "/nexusdr.json";
+  const QString configPath = configHome + "/gpio-test.json";
   if (QFile::exists(configPath)) {
     try {
       std::ifstream f(configPath.toStdString());

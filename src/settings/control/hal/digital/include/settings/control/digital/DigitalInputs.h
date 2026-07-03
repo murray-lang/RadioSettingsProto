@@ -3,7 +3,7 @@
 #include <settings/control/source/SettingsControlSource.h>
 #include <config/struct/DigitalInputsConfig.h>
 #include <settings/model/core/RadioSettings.h>
-#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+// #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #include "settings/control/digital//DigitalInputTypes.h"
 

@@ -1,5 +1,5 @@
 #include <ResultCode.h>
-#include "../include/settings/control/factory/SettingsControlSinkFactory.h"
+#include "settings/control/factory/SettingsControlSinkFactory.h"
 
 // #ifdef USE_GPIO
 // #include "config/struct/BandSelectorConfig.h"

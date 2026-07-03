@@ -113,7 +113,7 @@ GpioInputLinesSource::handlePinTransition(GpioLineMask mask, Timestamp timestamp
     event.changed = true;
     event.mask = mask;
     event.timestamp = timestamp;
-    gpioReadLine(mask, &event.value); // Just send the raw value
+    readLine(mask, &event.value); // Just send the raw value
   }
   if (invokeCallbacks) {
     callback(event);

@@ -17,7 +17,7 @@ target_include_directories(settings-control-radio PUBLIC
 set(RADIO_CONTROL_LIBS
         config-struct
         settings-control-hal-usb
-        settings-control-hal-gpio
+        settings-control-hal-digital
         settings-control-base
         settings-control-sink
         settings-control-source

@@ -1,7 +1,7 @@
 #include "settings/model/core/RadioSettings.h"
 
-#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
-#include <stm32h745i/app/support/safe_printf.h>
+// #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+// #include <stm32h745i/app/support/safe_printf.h>
 
 #include "settings/model/proto/ProtobufIo.h"
 
@@ -118,9 +118,6 @@ RadioSettings::applySettingUpdate(const SettingUpdate &settingUpdate)
     // printf("[CM4]\tSettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
     rc = m_visitor.updateField(settingUpdate);
     // printf("[CM4]\tapplySettingUpdate: %d\r\n", rc);
-  }
-  if (rc == ResultCode::OK) {
-    BSP_LED_Toggle(LED_GREEN);
   }
   if (rc == ResultCode::OK && settingUpdate.trigger() != AutoCompleteTrigger::NONE) {
     return autoComplete(settingUpdate.path(), 0, settingUpdate.trigger());
