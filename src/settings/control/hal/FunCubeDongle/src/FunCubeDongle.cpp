@@ -1,5 +1,5 @@
-#include "include/settings/control/FunCubeDongle/FunCubeDongle.h"
-#include "include/settings/control/FunCubeDongle/FCDHidCmd.h"
+#include "../include/settings/control/FunCubeDongle/FunCubeDongle.h"
+#include "../include/settings/control/FunCubeDongle/FCDHidCmd.h"
 #include <CrossPlatformTypes.h>
 
 #include <cmath>

@@ -2,7 +2,7 @@
 
 
 #include "settings/control/sink/SettingsControlSink.h"
-#include "settings/control/usb/HidUsbControl.h"
+#include "usb/hid/UsbHid.h"
 #include "settings/model/core/RadioSettings.h"
 #include "config/struct/FunCubeConfig.h"
 #include "FCDHidCmd.h"
@@ -48,7 +48,7 @@ protected:
   ResultCode setIfGain(float ifGain);
 
 protected:
-  HidUsbControl m_control;
+  UsbHid m_control;
   float m_lastRfGain;
   float m_lastIfGain;
   

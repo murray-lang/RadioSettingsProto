@@ -4,3 +4,4 @@ project(core-common)
 
 add_subdirectory(gpio)
 add_subdirectory(time)
+add_subdirectory(usb)
