@@ -1,3 +1,4 @@
+#include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
 #include "settings/model/core/RadioSettings.h"
 
@@ -7,7 +8,7 @@
 
 DigitalInput::DigitalInput()
   : m_lineEventCallback(
-    GpioLineEventCallback::create<DigitalInput, &DigitalInput::handleGpioLineEvent>(*this)
+    makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this)
     )
   , m_linesRequest(*this, m_lineEventCallback)
   , m_isPathIndirect(false)
@@ -17,7 +18,7 @@ DigitalInput::DigitalInput()
 
 DigitalInput::DigitalInput(DigitalInput&& rhs)  noexcept
  : GpioInputLines(move(rhs))
-  , m_lineEventCallback(GpioLineEventCallback::create<DigitalInput, &DigitalInput::handleGpioLineEvent>(*this))
+  , m_lineEventCallback(makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this))
   , m_linesRequest(*this, m_lineEventCallback)
   , m_settingPath(move(rhs.m_settingPath))
   , m_isPathIndirect(rhs.m_isPathIndirect)
@@ -30,7 +31,7 @@ DigitalInput::DigitalInput(DigitalInput&& rhs)  noexcept
 DigitalInput&
 DigitalInput::operator=(DigitalInput&& rhs)  noexcept
 {
-  m_lineEventCallback = GpioLineEventCallback::create<DigitalInput, &DigitalInput::handleGpioLineEvent>(*this);
+  m_lineEventCallback = makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this);
   GpioInputLines::operator=(move(rhs));
   m_isPathIndirect = rhs.m_isPathIndirect;
   m_settingPath = move(rhs.m_settingPath);

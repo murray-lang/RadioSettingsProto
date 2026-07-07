@@ -25,9 +25,9 @@ using std::unique_ptr;
 #endif
 
 #ifdef USE_GPIO
-#include "settings/control/gpio/DigitalOutputs.h"
-#include "settings/control/gpio/DigitalOutput.h"
-#include "settings/control/gpio/GpioBandSelector.h"
+#include "settings/control/digital/DigitalOutputs.h"
+#include "settings/control/digital/DigitalOutput.h"
+#include "settings/control/digital/GpioBandSelector.h"
 #endif
 
 #ifdef IS_QT

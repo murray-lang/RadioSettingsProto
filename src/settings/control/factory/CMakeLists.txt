@@ -34,7 +34,7 @@ set(CONTROL_FACTORY_LIBS
 if(USE_GPIO)
     set(CONTROL_FACTORY_LIBS
             ${CONTROL_FACTORY_LIBS}
-            settings-control-hal-gpio
+            settings-control-hal-digital
     )
 endif()
 

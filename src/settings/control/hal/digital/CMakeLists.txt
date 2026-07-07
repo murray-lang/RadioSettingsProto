@@ -44,6 +44,10 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
             core-freertos-gpio-cm7
             core-stm32h745i-thread-cm7
     )
+elseif(PLATFORM_FAMILY STREQUAL "linux")
+    set(GPIO_LIBRARIES ${GPIO_LIBRARIES}
+            core-linux-gpio
+    )
 endif()
 
 add_library(settings-control-hal-digital STATIC ${GPIO_SOURCES})

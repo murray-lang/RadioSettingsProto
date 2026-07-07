@@ -13,18 +13,23 @@ RadioControl::configure(const Config::Control::Fields& config)
 {
   ResultCode rc = ResultCode::OK;
   for (auto& controllerConfig : config.sinks) {
-    SettingsControlSinkVariant sink;
-    rc = SettingsControlSinkFactory::create(controllerConfig, sink);
-    if (rc == ResultCode::OK) {
-      m_controlSinks.emplace_back(move(sink));
-    } else {
+    m_controlSinks.emplace_back();
+    // SettingsControlSinkVariant sink;
+    ResultCode rc = SettingsControlSinkFactory::create(controllerConfig, m_controlSinks.back());
+    if (rc != ResultCode::OK) {
       return rc;
     }
+    // if (rc == ResultCode::OK) {
+    //   m_controlSinks.emplace_back(sink);
+    // } else {
+    //   return rc;
+    // }
   }
 
   for (auto& controllerConfig : config.sources) {
-    SettingsControlSourceVariant source;
-    rc = SettingsControlSourceFactory::create(controllerConfig, source);
+    m_controlSources.emplace_back();
+    // SettingsControlSourceVariant source;
+    rc = SettingsControlSourceFactory::create(controllerConfig, m_controlSources.back());
     if (rc == ResultCode::OK) {
       rc = visit([this](auto&& s) -> ResultCode {
         using T = decay_t<decltype(s)>;
@@ -36,9 +41,9 @@ RadioControl::configure(const Config::Control::Fields& config)
         {
           return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES_DEFINED;
         }
-      }, source);
+      }, m_controlSources.back());
       if (rc == ResultCode::OK) {
-        m_controlSources.emplace_back(move(source));
+        // m_controlSources.emplace_back(move(source));
         break;
       }
     } else {

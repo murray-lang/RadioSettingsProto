@@ -11,7 +11,8 @@
 #ifdef USE_ETL
 using GpioLineTransitionHandlerVariantVector = etl::vector<GpioLineTransitionHandlerVariant, MAX_GPIO_LINES>;
 #else
-using GpioLineTransitionHandlerVariantVector = std::vector<GpioLineTransitionHandlerVariant>;
+#include <list>
+using GpioLineTransitionHandlerVariantVector = std::list<GpioLineTransitionHandlerVariant>;
 #endif
 
 class GpioLineTransitionHandlers

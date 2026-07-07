@@ -2,7 +2,7 @@
 
 
 GpioOutputLinesSource::GpioOutputLinesSource()
-  : m_lineWriter(GpioLineWriter::create<GpioOutputLinesSource, &GpioOutputLinesSource::writeLine>(*this))
+  : m_lineWriter(makeGpioLineWriter<GpioOutputLinesSource, &GpioOutputLinesSource::writeLine>(this))
 {
 
 }

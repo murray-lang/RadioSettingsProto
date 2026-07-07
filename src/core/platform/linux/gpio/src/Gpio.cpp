@@ -60,6 +60,7 @@ Gpio::requestOutputs(const char * contextId, GpioOutputLinesRequest* requests)
   if (!m_pChip) {
     return ResultCode::ERR_SETTING_CONTROL_GPIOD_CHIP_NOT_OPENED;
   }
+  m_outputLinesSource.initialise(m_pChip, contextId);
   return m_outputLinesSource.requestLines(contextId, requests);
 }
 

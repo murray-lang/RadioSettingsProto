@@ -1,5 +1,4 @@
 
-#include <format>
 #include <vector>
 #include <iostream>
 #include <sstream>
@@ -52,8 +51,14 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
     generatePaths(fieldEntries, "", emptyTags, allPaths);
 
     // Output files
-    std::string headerFile = std::format("{}.h", baseName);
-    std::string sourceFile = std::format("{}.cpp", baseName);
+    std::ostringstream oss;
+    oss << baseName << ".h";
+    std::string headerFile = oss.str();
+    // std::string headerFile = std::format("{}.h", baseName);
+    oss.clear();
+    oss << baseName << ".cpp";
+    std::string sourceFile = oss.str();
+    // std::string sourceFile = std::format("{}.cpp", baseName);
 
 
     // Generate header file

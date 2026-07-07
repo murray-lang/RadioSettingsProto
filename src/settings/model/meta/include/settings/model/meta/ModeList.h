@@ -5,15 +5,14 @@
 #include "settings/model/proto/RadioSettings.pb.h"
 
 
-#define MAX_MODE_COUNT 10
-
 #ifdef USE_ETL
 #include <etl/span.h>
 
 
-using ModeSpan = etl::span<const makesdr_ModePb, MAX_MODE_COUNT>;
+using ModeSpan = etl::span<const makesdr_ModePb, MAX_MODES>;
 #else
-using ModeSpan = std::span<makesdr_ModePb>;
+#include <span>
+using ModeSpan = std::span<const makesdr_ModePb>;
 #endif
 
 class ModeList

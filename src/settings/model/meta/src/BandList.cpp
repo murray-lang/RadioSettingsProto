@@ -15,7 +15,7 @@ BandList::findBand(const BandName& name) const
   uint32_t max = count();
   for (uint32_t i = 0; i < max; i++) {
     if (name == m_bands[i].name) {
-      return &m_bands.at(i);
+      return &m_bands[i];
     }
   }
   return nullptr;

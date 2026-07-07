@@ -42,6 +42,8 @@ set(PROJECT_LIBRARIES
         config-struct
         config-json
         settings-control-radio
+        core-linux-gpio
+        
         ArduinoJson
 
 )

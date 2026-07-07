@@ -13,7 +13,10 @@ class FunCubeDongle : public SettingsControlSink, public SettingUpdateSink
 {
 public:
   FunCubeDongle();
+  FunCubeDongle(FunCubeDongle&& rhs);
   ~FunCubeDongle() override;
+
+  FunCubeDongle& operator=(FunCubeDongle&& rhs);
 
     // void applySettings(const RadioSettings& radioSettings) override;
     // void readSettings(RadioSettings& radioSettings) override;
@@ -48,4 +51,5 @@ protected:
   HidUsbControl m_control;
   float m_lastRfGain;
   float m_lastIfGain;
+  
 };

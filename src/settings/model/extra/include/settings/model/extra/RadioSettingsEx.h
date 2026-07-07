@@ -14,21 +14,21 @@ class RadioSettingsEx : public RadioSettings, public AutoComplete
 public:
   RadioSettingsEx(makesdr_RadioSettingsPb& raw, const RadioMeta& meta, BandSettingsCache& cache)
     : RadioSettings(raw, meta.raw(), cache)
-    , m_activeBandSettings(m_rawSettings.active_bands)
-    , m_receiverSettings(m_rawSettings.receiver)
-    , m_transmitterSettings(m_rawSettings.transmitter)
+    , m_activeBandSettings(m_payload.body.active_bands)
+    , m_receiverSettings(m_payload.body.receiver)
+    , m_transmitterSettings(m_payload.body.transmitter)
     , m_meta(meta)
   {
     m_activeBandSettings.setCategories(&m_meta);
   }
 
-  makesdr_RadioSettingsPb& rawSettings() { return m_rawSettings; }
-  [[nodiscard]] const makesdr_RadioSettingsPb& rawSettings() const { return m_rawSettings; }
+  makesdr_RadioSettingsPb& rawSettings() { return m_payload.body; }
+  [[nodiscard]] const makesdr_RadioSettingsPb& rawSettings() const { return m_payload.body; }
 
-  [[nodiscard]] bool hasReceiver() const { return m_rawSettings.has_receiver; }
-  [[nodiscard]] bool hasTransmitter() const { return m_rawSettings.has_transmitter; }
-  [[nodiscard]] bool hasActiveBands() const { return m_rawSettings.has_active_bands; }
-  [[nodiscard]] bool hasPtt() const { return m_rawSettings.has_ptt; }
+  [[nodiscard]] bool hasReceiver() const { return m_payload.body.has_receiver; }
+  [[nodiscard]] bool hasTransmitter() const { return m_payload.body.has_transmitter; }
+  [[nodiscard]] bool hasActiveBands() const { return m_payload.body.has_active_bands; }
+  [[nodiscard]] bool hasPtt() const { return m_payload.body.has_ptt; }
 
   ActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
   ReceiverSettings& receiverSettings() { return m_receiverSettings; }
@@ -38,7 +38,7 @@ public:
   [[nodiscard]] const ReceiverSettings& receiverSettings() const { return m_receiverSettings; }
   [[nodiscard]] const TransmitterSettings& transmitterSettings() const { return m_transmitterSettings; }
 
-  [[nodiscard]] bool getPtt() const { return m_rawSettings.ptt; }
+  [[nodiscard]] bool getPtt() const { return m_payload.body.ptt; }
 
   ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length) {
     return ProtobufIo::readProtobuf<makesdr_RadioSettingsPb>(
@@ -46,7 +46,7 @@ public:
       msg_length,
       makesdr_RadioSettingsPb_fields,
       makesdr_RadioSettingsPb_init_zero,
-      m_rawSettings
+      m_payload.body
     );
   }
 

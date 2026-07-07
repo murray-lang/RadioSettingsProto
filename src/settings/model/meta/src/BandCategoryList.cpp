@@ -15,8 +15,8 @@ BandCategoryList::findCategory(const BandCategoryName& name) const
 {
   uint32_t max = count();
   for (uint32_t i = 0; i < max; i++) {
-    if (name == m_categories.at(i).name) {
-      return &m_categories.at(i);
+    if (name == m_categories[i].name) {
+      return &m_categories[i];
     }
   }
   return nullptr;
@@ -27,7 +27,7 @@ BandCategoryList::findBand(const BandName& name) const
 {
   uint32_t max = count();
   for (uint32_t i = 0; i < max; i++) {
-    BandList bands(m_categories.at(i).bands);
+    BandList bands(m_categories[i].bands);
     const makesdr_BandPb* band = bands.findBand(name);
     if (band != nullptr) {
       return band;

@@ -7,15 +7,35 @@
 #define FCDPROPLUS_VENDOR_ID    0x04d8
 #define FCDPROPLUS_PRODUCT_ID   0xfb31
 
-FunCubeDongle::FunCubeDongle() :
-  m_control(FCDPROPLUS_VENDOR_ID, FCDPROPLUS_PRODUCT_ID),
-  m_lastRfGain(0.0),
-  m_lastIfGain(0.0)
+FunCubeDongle::FunCubeDongle()
+  : m_control(FCDPROPLUS_VENDOR_ID, FCDPROPLUS_PRODUCT_ID)
+  , m_lastRfGain(0.0)
+  , m_lastIfGain(0.0)
 {
 
 }
 
-FunCubeDongle::~FunCubeDongle() = default;
+FunCubeDongle::FunCubeDongle(FunCubeDongle&& rhs)
+  : m_control(move(rhs.m_control))
+  , m_lastRfGain(rhs.m_lastRfGain)
+  , m_lastIfGain(rhs.m_lastIfGain)
+{
+
+}
+
+FunCubeDongle::~FunCubeDongle()
+{
+
+}
+
+FunCubeDongle& 
+FunCubeDongle::operator=(FunCubeDongle&& rhs)
+{
+    m_control = move(rhs.m_control);
+    m_lastRfGain = rhs.m_lastRfGain;
+    m_lastIfGain = rhs.m_lastIfGain; 
+    return *this;
+}
 
 ResultCode
 FunCubeDongle::applySettings(const RadioSettings& settings)
@@ -74,6 +94,7 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   if (pipelineSettings == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
   }
+  m_lastRfGain = 1;
   if (pipelineSettings->base.has_rf) {
     const makesdr_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
     if (rfSettings.has_centre_frequency) {

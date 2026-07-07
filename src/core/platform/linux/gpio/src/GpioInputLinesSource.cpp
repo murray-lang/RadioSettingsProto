@@ -10,8 +10,19 @@ GpioInputLinesSource::GpioInputLinesSource()
   , m_thread(*this)
 
   , m_pEventBuffer(nullptr)
-  , m_lineReader(GpioLineReader::create<GpioInputLinesSource, &GpioInputLinesSource::readLine>(*this))
+  , m_lineReader(makeGpioLineReader<GpioInputLinesSource, &GpioInputLinesSource::readLine>(this))
 {
+  m_pEventBuffer = gpiod_edge_event_buffer_new(GPIO_EVENT_QUEUE_CAPACITY);
+}
+
+GpioInputLinesSource::~GpioInputLinesSource()
+{
+  stop();
+  if (m_pEventBuffer) {
+    gpiod_edge_event_buffer_free(m_pEventBuffer);
+    m_pEventBuffer = nullptr;
+  }
+
 }
 
 ResultCode
@@ -113,7 +124,7 @@ GpioInputLinesSource::handlePinTransition(GpioLineMask mask, Timestamp timestamp
     event.changed = true;
     event.mask = mask;
     event.timestamp = timestamp;
-    gpioReadLine(mask, &event.value); // Just send the raw value
+    readLine(mask, &event.value); // Just send the raw value
   }
   if (invokeCallbacks) {
     callback(event);

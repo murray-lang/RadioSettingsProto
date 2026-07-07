@@ -7,6 +7,8 @@ class UsbControl {
 
 public:
     UsbControl(uint16_t vendorId, uint16_t productId) : m_vendorId(vendorId), m_productId(productId) {}
+    UsbControl(UsbControl&& rhs) = default;
+    UsbControl& operator=(UsbControl&& rhs) = default;
     virtual ~UsbControl() = default;
     virtual ResultCode initialise() = 0;
     virtual bool discover() = 0;

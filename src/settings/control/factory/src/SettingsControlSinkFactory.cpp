@@ -1,5 +1,5 @@
 #include <ResultCode.h>
-#include "../include/settings/control/factory/SettingsControlSinkFactory.h"
+#include "settings/control/factory/SettingsControlSinkFactory.h"
 
 // #ifdef USE_GPIO
 // #include "config/struct/BandSelectorConfig.h"
@@ -22,12 +22,13 @@ SettingsControlSinkFactory::create(const Config::Control::SinkConfigVariant& con
 {
   ResultCode result = ResultCode::OK;
   if (holds_alternative<Config::FunCube::Fields>(config)) {
-    FunCubeDongle funCube;
-    result = funCube.configure(get<Config::FunCube::Fields>(config));
-    if (result == ResultCode::OK) {
-      sink.emplace<FunCubeDongle>(funCube);
-    }
-    return result;
+    sink.emplace<FunCubeDongle>();
+    // FunCubeDongle funCube;
+    ResultCode rc = get<FunCubeDongle>(sink).configure(get<Config::FunCube::Fields>(config));
+    // if (result == ResultCode::OK) {
+    //   sink.emplace<FunCubeDongle>(move(funCube));
+    // }
+    return rc;
   }
 #ifdef USE_GPIO
   if (holds_alternative<Config::DigitalOutputs::Fields>(config)) {

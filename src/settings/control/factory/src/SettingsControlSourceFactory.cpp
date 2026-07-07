@@ -1,9 +1,8 @@
-#include "../include/settings/control/factory/SettingsControlSourceFactory.h"
+#include "settings/control/factory/SettingsControlSourceFactory.h"
 
 #ifdef USE_GPIO
 #include <config/struct/DigitalInputsConfig.h>
-#include <settings/control/gpio/DigitalInputs.h>
-#include "settings/control/gpio/RotaryEncoder.h"
+#include <settings/control/digital/DigitalInputs.h>
 #endif
 
 #ifdef IS_QT

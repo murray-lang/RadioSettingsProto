@@ -40,7 +40,7 @@
         "TARGET_PLATFORM": "rpi",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -54,7 +54,7 @@
         "TARGET_PLATFORM": "rpi",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
