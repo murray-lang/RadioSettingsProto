@@ -40,8 +40,8 @@ add_link_options(
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -x assembler-with-cpp -MMD -MP")
 
 # Build type specific flags
-set(CMAKE_C_FLAGS_DEBUG "-g3 -O0")
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0")
+set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -g")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -g")
 set(CMAKE_C_FLAGS_RELEASE "-Os")
 set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 

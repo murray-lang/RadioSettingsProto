@@ -51,4 +51,5 @@ protected:
   HidUsbControl m_control;
   float m_lastRfGain;
   float m_lastIfGain;
+  
 };

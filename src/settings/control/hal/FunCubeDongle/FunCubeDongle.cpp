@@ -94,6 +94,7 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   if (pipelineSettings == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
   }
+  m_lastRfGain = 1;
   if (pipelineSettings->base.has_rf) {
     const makesdr_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
     if (rfSettings.has_centre_frequency) {
