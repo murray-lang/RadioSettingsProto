@@ -31,7 +31,6 @@ target_compile_definitions(core-stm32h745i-setup-setup1-cm7 PUBLIC CORE_CM7)
 target_include_directories(core-stm32h745i-setup-setup1-cm7 PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
 target_link_libraries(core-stm32h745i-setup-setup1-cm7 PUBLIC
-
         $<TARGET_OBJECTS:core-stm32h745i-setup-setup1-cm7-startup>
         core-stm32h745i-lvgl-cm7
         core-stm32h745i-app-support-cm7

@@ -10,7 +10,7 @@ add_compile_definitions(LV_DRV_NO_CONF LV_CONF_INCLUDE_SIMPLE)
 add_subdirectory(${LVGL_DIR} ${CMAKE_BINARY_DIR}/lvgl)
 
 # Make FreeRTOS visible to lvgl
-target_link_libraries(lvgl PUBLIC core-stm32h745i-freertos-cm7)
+target_link_libraries(lvgl PUBLIC core-stm32h745i-cm7-freertos)
 
 set(STM32_LVGL_SOURCES
         ${STM32_LVGL_INCLUDE_DIR}/lv_conf.h
@@ -27,6 +27,6 @@ target_include_directories(core-stm32h745i-lvgl-cm7 PUBLIC
 )
 target_link_libraries(core-stm32h745i-lvgl-cm7 PUBLIC
         core-stm32h745i-drivers-bsp-disco-cm7
-        core-stm32h745i-freertos-cm7
+        core-stm32h745i-cm7-freertos
         lvgl
 )

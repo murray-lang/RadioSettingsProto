@@ -1,6 +1,9 @@
 
 #include "gpioTest.h"
 // #include "testSettings.h"
+// #include "usb/hid/UsbHid.h"
+#include "tinyusb/host/usb_host.h"
+#include "tinyusb/host/usbh.h"
 #include "stm32h745i/setup/config.h"
 #include "stm32h745i/setup/mpu_config.h"
 #include "stm32h745i/app/support/safe_printf.h"
@@ -23,9 +26,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   gpio.handlePinTransition(GPIO_Pin, ticks);
 }
 
+void OTG_FS_IRQHandler(void) {
+  // BSP_LED_Toggle(LED_RED);
+  tuh_int_handler(BOARD_TUH_RHPORT, true);  // or hcd_int_handler()
+}
+
 #ifdef __cplusplus
 }
 #endif
+
+
 
 // static void prvGpioTask( void *pvParameters );
 
@@ -78,7 +88,9 @@ int main()
   MX_DAC1_Init();
   MX_ADC1_Init();
   MX_ADC2_Init();
+  // MX_USB_OTG_HS_HCD_Init(); Conflicts with TinyUSB
 
+  USB_Host_Init();
 
   // __enable_irq();
 
@@ -108,15 +120,44 @@ static void prvGpioTask( void *pvParameters )
     SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
   }
 
-  // FreeRTOS task must either loop forever or delete itself
-  SAFE_PRINTF("[CM4]\t prvGpioTask entering infinite loop\r\n");
-  while (1) {
-    vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
-    if (rc == ResultCode::OK) {
-      int64_t& centerFrequency = radioSettings.body().active_bands.band_1.pipeline_a.base.rf.centre_frequency.value;
-      SAFE_PRINTF("[CM4]\t Centre frequency %ld\r\n", static_cast<int32_t>(centerFrequency));
-    }
+  // ResultCode rc = ResultCode::ERR_USB_HOST_INIT;
 
+  // FreeRTOS task must either loop forever or delete itself
+  SAFE_PRINTF("[CM4]\t prvGpioTask entering usb task loop\r\n");
+
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+  const TickType_t xFrequency = pdMS_TO_TICKS(10);
+  while (1) {
+    // vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
+    // if (rc == ResultCode::OK) {
+    //   int64_t& centerFrequency = radioSettings.body().active_bands.band_1.pipeline_a.base.rf.centre_frequency.value;
+    //   SAFE_PRINTF("[CM4]\t Centre frequency %ld\r\n", static_cast<int32_t>(centerFrequency));
+    // }
+    // BSP_LED_Toggle(LED_GREEN);
+    //if (rc == ResultCode::OK) {
+      tuh_task();
+   // }
+
+
+    // Wait for next cycle
+    vTaskDelayUntil(&xLastWakeTime, xFrequency);
   }
 }
+
+// void usb_host_task(void* params)
+// {
+//   auto* usb = static_cast<UsbHid*>(params);
+//
+//   TickType_t xLastWakeTime = xTaskGetTickCount();
+//   const TickType_t xFrequency = pdMS_TO_TICKS(10);  // 10ms
+//
+//   while (true) {
+//     // Process USB events
+//     // usb->task();
+//     // tuh_task();
+//
+//     // Wait for next cycle
+//     vTaskDelayUntil(&xLastWakeTime, xFrequency);
+//   }
+// }
 

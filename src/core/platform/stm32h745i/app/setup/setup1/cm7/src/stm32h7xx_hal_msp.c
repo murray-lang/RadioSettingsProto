@@ -17,7 +17,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h745i/app/setup/config.h"
+#include "stm32h745i/setup/config.h"
 /** @addtogroup STM32H7xx_HAL_Examples
   * @{
   */

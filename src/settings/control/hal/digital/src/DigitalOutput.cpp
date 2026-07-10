@@ -18,8 +18,9 @@ DigitalOutput::DigitalOutput()
 
 DigitalOutput::DigitalOutput(DigitalOutput&& rhs)  noexcept
   : GpioLines(move(rhs))
-  , m_linesRequest(*this)
   , m_settingPath(move(rhs.m_settingPath))
+  , m_linesRequest(*this)
+
 {
 
 }

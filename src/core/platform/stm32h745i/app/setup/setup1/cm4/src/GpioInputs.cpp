@@ -24,7 +24,7 @@ Stm32LineReader pin4Reader(Digital_Input_4_GPIO_Port, GPIO_PIN_4);
 Stm32LineReader pin6Reader(Digital_Input_6_GPIO_Port, GPIO_PIN_6);
 Stm32LineReader pin8Reader(Digital_Input_8_GPIO_Port, GPIO_PIN_8);
 Stm32LineReader pin13Reader(Digital_Input_13_GPIO_Port, GPIO_PIN_13);
-Stm32LineReader pin14Reader(Digital_Input_14_GPIO_Port, GPIO_PIN_14);
+// Stm32LineReader pin14Reader(Digital_Input_14_GPIO_Port, GPIO_PIN_14); //Removed due to clash with USB OTG Host mode
 Stm32LineReader pin15Reader(Digital_Input_15_GPIO_Port, GPIO_PIN_15);
 
 Stm32LineReader* lineReaders[NUM_LINE_READERS] = {
@@ -42,7 +42,7 @@ Stm32LineReader* lineReaders[NUM_LINE_READERS] = {
   nullptr,
   nullptr,
   &pin13Reader,
-  &pin14Reader,
+  nullptr, //&pin14Reader, //Removed due to clash with USB OTG Host mode
   &pin15Reader
 };
 

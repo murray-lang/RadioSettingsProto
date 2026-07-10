@@ -24,11 +24,11 @@ SettingsControlSinkFactory::create(const Config::Control::SinkConfigVariant& con
   if (holds_alternative<Config::FunCube::Fields>(config)) {
     sink.emplace<FunCubeDongle>();
     // FunCubeDongle funCube;
-    ResultCode rc = get<FunCubeDongle>(sink).configure(get<Config::FunCube::Fields>(config));
+    result = get<FunCubeDongle>(sink).configure(get<Config::FunCube::Fields>(config));
     // if (result == ResultCode::OK) {
     //   sink.emplace<FunCubeDongle>(move(funCube));
     // }
-    return rc;
+    return result;
   }
 #ifdef USE_GPIO
   if (holds_alternative<Config::DigitalOutputs::Fields>(config)) {

@@ -10,7 +10,7 @@ UsbHid::UsbHid(uint16_t vendorId, uint16_t productId)
 {
 }
 
-UsbHid::UsbHid(UsbHid&& rhs)
+UsbHid::UsbHid(UsbHid&& rhs) noexcept
   : UsbHidBase(rhs.m_vendorId, rhs.m_productId)
 {
   m_device = rhs.m_device;
@@ -18,7 +18,7 @@ UsbHid::UsbHid(UsbHid&& rhs)
 }
 
 UsbHid&
-UsbHid::operator=(UsbHid&& rhs)
+UsbHid::operator=(UsbHid&& rhs) noexcept
 {
     if (this != &rhs) {
         UsbHidBase::operator=(std::move(rhs));
@@ -70,7 +70,7 @@ void UsbHid::exit()
     hid_exit();
 }
 
-ResultCode UsbHid::read(unsigned char * data, size_t length, size_t* bytesRead) const
+ResultCode UsbHid::read(unsigned char * data, size_t length, size_t* bytesRead)
 {
   if (m_device == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_USB_HID_NOT_OPEN;

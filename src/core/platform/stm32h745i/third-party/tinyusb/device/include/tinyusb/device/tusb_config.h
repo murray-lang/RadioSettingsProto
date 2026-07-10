@@ -24,6 +24,16 @@
 #define BOARD_TUD_MAX_SPEED   OPT_MODE_FULL_SPEED
 #endif
 
+// RHPort number used for host controller
+#ifndef BOARD_TUH_RHPORT
+#define BOARD_TUH_RHPORT      0
+#endif
+
+// RHPort max operational speed
+#ifndef BOARD_TUH_MAX_SPEED
+#define BOARD_TUH_MAX_SPEED   OPT_MODE_FULL_SPEED
+#endif
+
 //--------------------------------------------------------------------
 // Common Configuration
 //--------------------------------------------------------------------

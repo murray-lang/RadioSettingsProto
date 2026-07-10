@@ -1,5 +1,5 @@
-#ifndef USBD_WRAPPER_H_
-#define USBD_WRAPPER_H_
+#ifndef STM32H745_USBD_WRAPPER_H_
+#define STM32H745_USBD_WRAPPER_H_
 
 #ifdef __cplusplus
  extern "C" {
@@ -10,7 +10,7 @@
 #define CFG_TUSB_MCU  OPT_MCU_STM32H7
 #endif
 
-#define CFG_TUSB_CONFIG_FILE "stm32h745i/tinyusb/tusb_config.h"
+#define CFG_TUSB_CONFIG_FILE "tinyusb/device/tusb_config.h"
 
    // Now include the actual TinyUSB header
 #include <device/usbd.h>
@@ -19,4 +19,4 @@
  }
 #endif
 
-#endif /* USBD_WRAPPER_H_ */
+#endif /* STM32H745_USBD_WRAPPER_H_ */

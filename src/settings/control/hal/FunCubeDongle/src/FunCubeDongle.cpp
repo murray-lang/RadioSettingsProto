@@ -1,5 +1,5 @@
-#include "../include/settings/control/FunCubeDongle/FunCubeDongle.h"
-#include "../include/settings/control/FunCubeDongle/FCDHidCmd.h"
+#include "settings/control/FunCubeDongle/FunCubeDongle.h"
+#include "settings/control/FunCubeDongle/FCDHidCmd.h"
 #include <CrossPlatformTypes.h>
 
 #include <cmath>
@@ -8,7 +8,7 @@
 #define FCDPROPLUS_PRODUCT_ID   0xfb31
 
 FunCubeDongle::FunCubeDongle()
-  : m_control(FCDPROPLUS_VENDOR_ID, FCDPROPLUS_PRODUCT_ID)
+  : m_hid(FCDPROPLUS_VENDOR_ID, FCDPROPLUS_PRODUCT_ID)
   , m_lastRfGain(0.0)
   , m_lastIfGain(0.0)
 {
@@ -16,7 +16,7 @@ FunCubeDongle::FunCubeDongle()
 }
 
 FunCubeDongle::FunCubeDongle(FunCubeDongle&& rhs)
-  : m_control(move(rhs.m_control))
+  : m_hid(move(rhs.m_hid))
   , m_lastRfGain(rhs.m_lastRfGain)
   , m_lastIfGain(rhs.m_lastIfGain)
 {
@@ -31,7 +31,7 @@ FunCubeDongle::~FunCubeDongle()
 FunCubeDongle& 
 FunCubeDongle::operator=(FunCubeDongle&& rhs)
 {
-    m_control = move(rhs.m_control);
+    m_hid = move(rhs.m_hid);
     m_lastRfGain = rhs.m_lastRfGain;
     m_lastIfGain = rhs.m_lastIfGain; 
     return *this;
@@ -147,41 +147,41 @@ void FunCubeDongle::ptt(bool on)
 ResultCode
 FunCubeDongle::configure(const Config::FunCube::Fields& config)
 {
-    return m_control.initialise();
+    return m_hid.initialise();
 }
 
 bool
 FunCubeDongle::discover()
 {
-    return m_control.discover();
+    return m_hid.discover();
 }
 
 ResultCode
 FunCubeDongle::open()
 {
-    return m_control.open();
+    return m_hid.open();
 }
 
 void
 FunCubeDongle::close()
 {
-    m_control.close();
+    m_hid.close();
 }
 
 void
 FunCubeDongle::exit()
 {
-    m_control.exit();
+    m_hid.exit();
 }
 
 ResultCode
 FunCubeDongle::transactReport(uint8_t buf[65])
 {
   size_t bytesRW;
-  ResultCode rc = m_control.write(buf, 65, &bytesRW);
+  ResultCode rc = m_hid.write(buf, 65, &bytesRW);
   if (rc != ResultCode::OK) return rc;
   buf[1] = 0;
-  return m_control.read(buf, 65, &bytesRW);
+  return m_hid.read(buf, 65, &bytesRW);
 }
 
 ResultCode

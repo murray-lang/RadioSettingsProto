@@ -48,7 +48,7 @@ protected:
   ResultCode setIfGain(float ifGain);
 
 protected:
-  UsbHid m_control;
+  UsbHid m_hid;
   float m_lastRfGain;
   float m_lastIfGain;
   

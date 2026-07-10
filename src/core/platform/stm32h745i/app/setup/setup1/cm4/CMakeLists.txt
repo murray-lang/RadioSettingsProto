@@ -10,11 +10,13 @@ set(CM4_APP_SOURCES
         ${LOCAL_INCLUDE_DIR}/config.h
         ${LOCAL_INCLUDE_DIR}/mpu_config.h
         ${LOCAL_INCLUDE_DIR}/gpio/GpioInputs.h
+        ${LOCAL_INCLUDE_DIR}/gpio/GpioOutputs.h
         ${LOCAL_INCLUDE_DIR}/stm32h7xx_it.h
 
         src/config.c
         src/mpu_config.c
         src/GpioInputs.cpp
+        src/GpioOutputs.cpp
         src/stm32h7xx_hal_msp.c
         src/stm32h7xx_it.c
         src/syscalls.c
@@ -32,6 +34,6 @@ target_include_directories(core-stm32h745i-setup-setup1-cm4 PUBLIC include)
 
 target_link_libraries(core-stm32h745i-setup-setup1-cm4 PUBLIC
         core-gpio-base
-        core-stm32h745i-app-support-cm4
         $<TARGET_OBJECTS:core-stm32h745i-setup-setup1-cm4-startup>
+        core-stm32h745i-app-support-cm4
 )

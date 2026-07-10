@@ -14,7 +14,7 @@ public:
   UsbHidBase(UsbHidBase& rhs) = delete;
   UsbHidBase& operator=(UsbHidBase& rhs) = delete;
 
-  virtual ResultCode read(unsigned char * data, size_t length, size_t* bytesRead) const = 0;
+  virtual ResultCode read(unsigned char * data, size_t length, size_t* bytesRead) = 0;
   virtual ResultCode write(const unsigned char * data, size_t length, size_t* bytesWritten) const = 0;
 
 };

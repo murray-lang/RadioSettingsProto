@@ -7,6 +7,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(DEBUG)
 endif()
 
+add_compile_definitions(USE_GPIO)
+
 set(LD_FILE_CM4 ${CMAKE_CURRENT_LIST_DIR}/ld/STM32H745XIHX_FLASH.ld)
 
 set(PLAY_SOURCES
@@ -20,6 +22,10 @@ set(PLAY_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/gpioTest.h
         ${CMAKE_CURRENT_LIST_DIR}/digitalInputConfigs.cpp
         ${CMAKE_CURRENT_LIST_DIR}/digitalInputConfigs.h
+        ${CMAKE_CURRENT_LIST_DIR}/radioConfig.h
+        ${CMAKE_CURRENT_LIST_DIR}/radioConfig.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/RadioControlClient.h
+        ${CMAKE_CURRENT_LIST_DIR}/RadioControlClient.cpp
 )
 
 add_executable(example-cm4-indirect-update
@@ -34,9 +40,11 @@ target_link_libraries(example-cm4-indirect-update PUBLIC
         -T${LD_FILE_CM4}
         config-struct
         settings-model-core
+        settings-control-radio
         settings-control-hal-digital
+        core-stm32h745i-cm4-usb-hid
         core-stm32h745i-setup-setup1-cm4
-        core-stm32h745i-thread-cm4
+        core-freertos-thread-cm4
         etl::etl
 )
 

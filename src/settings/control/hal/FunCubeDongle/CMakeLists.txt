@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-control-hal-funcube)
 
 set(FUNCUBE_SOURCES
-        include/settings/control/FunCubeDongle/FCDHidCmd.h
-        include/settings/control/FunCubeDongle/FunCubeDongle.h
-        src/FunCubeDongle.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/FunCubeDongle/FCDHidCmd.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/FunCubeDongle/FunCubeDongle.h
+        ${CMAKE_CURRENT_LIST_DIR}/src/FunCubeDongle.cpp
 )
 
 set(FUNCUBE_LIBS
@@ -17,6 +17,10 @@ set(FUNCUBE_LIBS
 
 if (PLATFORM_FAMILY STREQUAL "linux")
     set(FUNCUBE_LIBS ${FUNCUBE_LIBS} core-linux-usb-hid)
+elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    set(FUNCUBE_LIBS ${FUNCUBE_LIBS} core-stm32h745i-cm7-usb-hid)
+elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    set(FUNCUBE_LIBS ${FUNCUBE_LIBS} core-stm32h745i-cm4-usb-hid)
 endif()
 
 add_library(settings-control-hal-funcube STATIC ${FUNCUBE_SOURCES})

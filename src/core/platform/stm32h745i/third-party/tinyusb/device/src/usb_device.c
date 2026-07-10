@@ -1,6 +1,7 @@
-#include "stm32h745i/app/support/usb_msc.h"
-#include <stm32h745i/app/support/safe_printf.h>
-#include <stm32h745i/tinyusb/tusb.h>
+#include "tinyusb/device/usb_device.h"
+// #include <stm32h745i/app/support/safe_printf.h>
+#include <stdio.h>
+#include <tinyusb/device/tusb.h>
 #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 /**
@@ -10,7 +11,7 @@
   */
 void USB_Device_Init(void)
 {
-  SAFE_PRINTF("[USB]:\tInitializing USB peripheral hardware...\r\n");
+  printf("[USB]:\tInitializing USB device hardware...\r\n");
 
   /* Enable USB OTG FS peripheral clock */
   __HAL_RCC_USB_OTG_FS_CLK_ENABLE();
@@ -20,7 +21,7 @@ void USB_Device_Init(void)
 
   /* Check VBUS status */
   GPIO_PinState vbus = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_9);
-  SAFE_PRINTF("[USB]:\tVBUS detected: %s\r\n", vbus == GPIO_PIN_SET ? "YES" : "NO");
+  printf("[USB]:\tVBUS detected: %s\r\n", vbus == GPIO_PIN_SET ? "YES" : "NO");
 
   /* Enable USB interrupt in NVIC */
   HAL_NVIC_SetPriority(OTG_FS_IRQn, 6, 0);
@@ -32,12 +33,12 @@ void USB_Device_Init(void)
     .speed = TUSB_SPEED_AUTO
   };
 
-  SAFE_PRINTF("[USB]:\tInitializing TinyUSB...\r\n");
+  printf("[USB]:\tInitializing TinyUSB device...\r\n");
   if (!tusb_init(BOARD_TUD_RHPORT, &dev_init)) {
-    SAFE_PRINTF("[USB]:\tERROR: tusb_init failed!\r\n");
+    printf("[USB]:\tERROR: tusb_init failed!\r\n");
     return;
   }
-  SAFE_PRINTF("[USB]:\tTinyUSB initialized successfully - ready for enumeration\r\n");
+  printf("[USB]:\tTinyUSB device initialized successfully - ready for enumeration\r\n");
 }
 
 //--------------------------------------------------------------------+

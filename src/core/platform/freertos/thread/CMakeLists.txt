@@ -18,12 +18,12 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     add_library(core-freertos-thread-cm4 STATIC ${STM32_THREAD_SOURCES})
     target_include_directories(core-freertos-thread-cm4 PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
     target_link_libraries(core-freertos-thread-cm4 PUBLIC
-            core-stm32h745i-freertos-cm4
+            core-stm32h745i-cm4-freertos
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     add_library(core-freertos-thread-cm7 STATIC ${STM32_THREAD_SOURCES})
     target_include_directories(core-freertos-thread-cm7 PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
     target_link_libraries(core-freertos-thread-cm7 PUBLIC
-            core-stm32h745i-freertos-cm7
+            core-stm32h745i-cm7-freertos
     )
 endif()

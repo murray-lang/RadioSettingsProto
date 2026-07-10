@@ -10,6 +10,9 @@
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "settings/model/meta/generalCoverageRadioMeta.h"
 #include "../../data/exampleRadioSettings.h"
+#include <settings/control/radio/RadioControl.h>
+#include "radioConfig.h"
+#include "RadioControlClient.h"
 
 // class DigitalInputParent : public GpioInputLines
 // {
@@ -59,47 +62,71 @@
 //
 // etl::vector<DigitalInputParent, 2> digitalInputs; //{ digitalInputVariant, rotaryEncoderVariant};
 
-using RadioSettingsPb = makesdr_RadioSettingsPb;
-RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
-BandSettingsCache bandSettingsCache;
-
-RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
+// using RadioSettingsPb = makesdr_RadioSettingsPb;
+// RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
+// BandSettingsCache bandSettingsCache;
+//
+// RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
 
 Gpio& gpio = Gpio::getInstance();
 
 DigitalInputs digitalInputs;
 
+RadioControl radioControl;
+
+Gpio& gpioInstance = Gpio::getInstance();
+
 ResultCode gpioTest()
 {
-
-
-  ResultCode rc = digitalInputs.configure(digitalInputsConfig);
+  ResultCode rc = radioControl.configure(radioConfig.control);
   if (rc != ResultCode::OK) {
-    SAFE_PRINTF("[CM4]\t DigitalInputs::configure() returned %d\r\n", static_cast<int>(rc));
     return rc;
   }
 
-  const DigitalInputVector& inputs = digitalInputs.getInputs();
-  const SettingPath& path = inputs.at(1).getSettingPath();
-  // printf("[CM4]\tgpioTest() SettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
+  RadioControlClient radioControlSink;
+
+  radioControl.connectRadioSettingsSink(radioControlSink);
+  radioControl.connectSettingUpdateSink(radioControlSink);
+
+  radioControlSink.connectRadioSettingsSink(radioControl);
+
+  rc = gpioInstance.open();
+  if (rc != ResultCode::OK) {
+    return rc;
+  }
+
+  rc = radioControl.start();
+  if (rc != ResultCode::OK) {
+    return rc;
+  }
+
+  // rc = digitalInputs.configure(digitalInputsConfig);
+  // if (rc != ResultCode::OK) {
+  //   SAFE_PRINTF("[CM4]\t DigitalInputs::configure() returned %d\r\n", static_cast<int>(rc));
+  //   return rc;
+  // }
+  //
   // const DigitalInputVector& inputs = digitalInputs.getInputs();
-  // for (auto& input : inputs) {
-  //   SAFE_PRINTF("[CM4]\t Lines: %0x\r\n", input.getLines());
+  // const SettingPath& path = inputs.at(1).getSettingPath();
+  // // printf("[CM4]\tgpioTest() SettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
+  // // const DigitalInputVector& inputs = digitalInputs.getInputs();
+  // // for (auto& input : inputs) {
+  // //   SAFE_PRINTF("[CM4]\t Lines: %0x\r\n", input.getLines());
+  // // }
+  //
+  //
+  // // if (!digitalInputs.discover()) {
+  // //   SAFE_PRINTF("[CM4]\t DigitalInputs::discover() returned false\r\n");
+  // //   return ResultCode::ERR_SETTING_DIGITAL_INPUT_LINE_CONFIG;
+  // // }
+  //
+  // digitalInputs.connectSettingUpdateSink(radioSettings);
+  //
+  // rc = digitalInputs.open();
+  // if (rc != ResultCode::OK) {
+  //   SAFE_PRINTF("[CM4]\t DigitalInputs::open() returned %d\r\n", static_cast<int>(rc));
+  //   return rc;
   // }
-
-
-  // if (!digitalInputs.discover()) {
-  //   SAFE_PRINTF("[CM4]\t DigitalInputs::discover() returned false\r\n");
-  //   return ResultCode::ERR_SETTING_DIGITAL_INPUT_LINE_CONFIG;
-  // }
-
-  digitalInputs.connectSettingUpdateSink(radioSettings);
-
-  rc = digitalInputs.open();
-  if (rc != ResultCode::OK) {
-    SAFE_PRINTF("[CM4]\t DigitalInputs::open() returned %d\r\n", static_cast<int>(rc));
-    return rc;
-  }
   return rc;
   // digitalInputs.emplace_back(digitalInput);
   // digitalInputs.emplace_back(rotaryEncoder);

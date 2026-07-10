@@ -1,4 +1,4 @@
-#include "stm32h745i/app/setup/request_lines.h"
+#include "stm32h745i/setup/request_lines.h"
 
 bool request_input_line(uint16_t line, GPIO_TypeDef** port, uint16_t* pin)
 {
