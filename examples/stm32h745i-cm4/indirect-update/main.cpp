@@ -27,7 +27,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 void OTG_FS_IRQHandler(void) {
-  // BSP_LED_Toggle(LED_RED);
+  BSP_LED_Toggle(LED_RED);
   tuh_int_handler(BOARD_TUH_RHPORT, true);  // or hcd_int_handler()
 }
 
@@ -78,14 +78,21 @@ int main()
   // uint32_t exti3_vector = vectors[16 + EXTI3_IRQn];
 
   MX_GPIO_Init();
+  // HAL_GPIO_WritePin(USB_OTG_Power_GPIO_Port, USB_OTG_Power_Pin, GPIO_PIN_SET);
 
   MX_TIM6_Init();
+
   MX_DMA_Init();
+
   MX_FMC_Init();
+
   MX_SAI2_Init();
+
   MX_I2C4_Init();
+
   // MX_USART3_UART_Init();
-  MX_DAC1_Init();
+  // MX_DAC1_Init(); //DAC1 conflicts with USB Host mode due to PA5 alternative function
+
   MX_ADC1_Init();
   MX_ADC2_Init();
   // MX_USB_OTG_HS_HCD_Init(); Conflicts with TinyUSB
@@ -113,12 +120,12 @@ int main()
 
 static void prvGpioTask( void *pvParameters )
 {
-  ResultCode rc = gpioTest();
-  if (rc == ResultCode::OK) {
-    SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
-  } else {
-    SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
-  }
+  // ResultCode rc = gpioTest();
+  // if (rc == ResultCode::OK) {
+  //   SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
+  // } else {
+  //   SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
+  // }
 
   // ResultCode rc = ResultCode::ERR_USB_HOST_INIT;
 
