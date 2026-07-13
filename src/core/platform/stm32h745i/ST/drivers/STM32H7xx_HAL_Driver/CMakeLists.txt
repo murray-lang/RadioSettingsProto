@@ -18,6 +18,7 @@ set(STM32_HAL_SOURCES
         include/stm32h745i/drivers/hal/stm32h7xx_hal_flash.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_gpio_ex.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_gpio.h
+        include/stm32h745i/drivers/hal/stm32h7xx_hal_hcd.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_hsem.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_i2c_ex.h
@@ -27,6 +28,8 @@ set(STM32_HAL_SOURCES
         include/stm32h745i/drivers/hal/stm32h7xx_hal_mdma.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_mmc_ex.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_mmc.h
+        include/stm32h745i/drivers/hal/stm32h7xx_hal_opamp.h
+        include/stm32h745i/drivers/hal/stm32h7xx_hal_opamp_ex.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_pcd_ex.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_pcd.h
         include/stm32h745i/drivers/hal/stm32h7xx_hal_pwr_ex.h
@@ -67,6 +70,7 @@ set(STM32_HAL_SOURCES
         src/stm32h7xx_hal_flash.c
         src/stm32h7xx_hal_flash_ex.c
         src/stm32h7xx_hal_gpio.c
+        src/stm32h7xx_hal_hcd.c
         src/stm32h7xx_hal_hsem.c
         src/stm32h7xx_hal_i2c.c
         src/stm32h7xx_hal_i2c_ex.c
@@ -75,6 +79,8 @@ set(STM32_HAL_SOURCES
         src/stm32h7xx_hal_mdma.c
         src/stm32h7xx_hal_mmc.c
         src/stm32h7xx_hal_mmc_ex.c
+        src/stm32h7xx_hal_opamp.c
+        src/stm32h7xx_hal_opamp_ex.c
         src/stm32h7xx_hal_pcd.c
         src/stm32h7xx_hal_pcd_ex.c
         src/stm32h7xx_hal_pwr.c

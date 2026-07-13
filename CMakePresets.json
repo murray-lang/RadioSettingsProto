@@ -93,7 +93,7 @@
         "TARGET_EXAMPLE": "payload-update",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -106,7 +106,7 @@
         "TARGET_EXAMPLE": "payload-update",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -118,7 +118,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "usb-mmc",
         "TARGET_PLATFORM": "stm32h745i-cm7",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -133,7 +133,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "usb-mmc",
         "TARGET_PLATFORM": "stm32h745i-cm7",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -148,7 +148,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "usb-mmc",
         "TARGET_PLATFORM": "stm32h745i-cm4",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -163,7 +163,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "usb-mmc",
         "TARGET_PLATFORM": "stm32h745i-cm4",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -193,7 +193,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "indirect-update",
         "TARGET_PLATFORM": "stm32h745i-cm7",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -209,7 +209,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "payload-update",
         "TARGET_PLATFORM": "stm32h745i-cm7",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON"
       }
     },
@@ -222,7 +222,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "payload-update",
         "TARGET_PLATFORM": "stm32h745i-cm7",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON"
       }
     },
@@ -236,7 +236,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "indirect-update",
         "TARGET_PLATFORM": "stm32h745i-cm4",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"
@@ -251,7 +251,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "indirect-update",
         "TARGET_PLATFORM": "stm32h745i-cm4",
-        "USE_GPIO": "OFF",
+        "USE_GPIO": "ON",
         "USE_ETL": "ON",
         "NO_STL": "ON",
         "NO_SYSTEM_INCLUDE": "ON"

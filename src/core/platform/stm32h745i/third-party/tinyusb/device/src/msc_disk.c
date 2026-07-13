@@ -3,7 +3,7 @@
  * Bridges TinyUSB MSC class with BSP MMC driver
  */
 
-#include "stm32h745i/tinyusb/tusb.h"
+#include "tinyusb/device/tusb.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery_mmc.h"
 #include <stdio.h>
 

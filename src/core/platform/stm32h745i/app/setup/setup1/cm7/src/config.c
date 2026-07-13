@@ -1,4 +1,4 @@
-#include "stm32h745i/app/setup/config.h"
+#include "stm32h745i/setup/config.h"
 
 #include <stm32h745i/app/support/safe_printf.h>
 // #include <stm32h745i/tinyusb/tusb.h>
@@ -301,26 +301,26 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOH_CLK_ENABLE();
 
   /*Configure GPIO pin : PA10 */
-  GPIO_InitStruct.Pin = GPIO_PIN_10;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OTG1_FS;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  // GPIO_InitStruct.Pin = GPIO_PIN_10;
+  // GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  // GPIO_InitStruct.Pull = GPIO_NOPULL;
+  // GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  // GPIO_InitStruct.Alternate = GPIO_AF10_OTG1_FS;
+  // HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : VBUS_FS2_Pin */
-  GPIO_InitStruct.Pin = VBUS_FS2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(VBUS_FS2_GPIO_Port, &GPIO_InitStruct);
+  // /*Configure GPIO pin : VBUS_FS2_Pin */
+  // GPIO_InitStruct.Pin = VBUS_FS2_Pin;
+  // GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  // GPIO_InitStruct.Pull = GPIO_NOPULL;
+  // HAL_GPIO_Init(VBUS_FS2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : USB_OTG_FS2_P_Pin USB_OTG_FS2_N_Pin */
-  GPIO_InitStruct.Pin = USB_OTG_FS2_P_Pin|USB_OTG_FS2_N_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OTG1_FS;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  // GPIO_InitStruct.Pin = USB_OTG_FS2_P_Pin|USB_OTG_FS2_N_Pin;
+  // GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  // GPIO_InitStruct.Pull = GPIO_NOPULL;
+  // GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  // GPIO_InitStruct.Alternate = GPIO_AF10_OTG1_FS;
+  // HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

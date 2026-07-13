@@ -17,7 +17,7 @@
 #endif
 
 #ifndef CFG_TUSB_CONFIG_FILE
-  #define CFG_TUSB_CONFIG_FILE "stm32h745i/tinyusb/tusb_config.h"
+  #define CFG_TUSB_CONFIG_FILE "tinyusb/device/tusb_config.h"
 #endif
 
 // Now include the actual TinyUSB header

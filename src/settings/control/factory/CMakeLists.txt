@@ -20,16 +20,21 @@ target_include_directories(settings-control-factory PUBLIC
 )
 
 set(CONTROL_FACTORY_LIBS
-        settings-control-hal-usb
-
         settings-control-hal-funcube
-        settings-control-qt
+
         config-struct
         settings-control-base
         settings-control-sink
         settings-control-source
         settings-model-core
 )
+
+if (PLATFORM_FAMILY STREQUAL "linux")
+    set(CONTROL_FACTORY_LIBS
+            ${CONTROL_FACTORY_LIBS}
+            settings-control-qt
+    )
+endif()
 
 if(USE_GPIO)
     set(CONTROL_FACTORY_LIBS

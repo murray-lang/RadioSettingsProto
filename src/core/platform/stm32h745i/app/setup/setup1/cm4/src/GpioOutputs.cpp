@@ -23,8 +23,8 @@ Stm32LineWriter pin2Writer(Digital_Output_2_GPIO_Port, GPIO_PIN_2);
 Stm32LineWriter pin3Writer(Digital_Output_3_GPIO_Port, GPIO_PIN_3);
 Stm32LineWriter pin4Writer(Digital_Output_4_GPIO_Port, GPIO_PIN_4);
 Stm32LineWriter pin8Writer(Digital_Output_8_GPIO_Port, GPIO_PIN_8);
-Stm32LineWriter pin11Writer(Digital_Output_11_GPIO_Port, GPIO_PIN_11);
-Stm32LineWriter pin15Writer(Digital_Output_15_GPIO_Port, GPIO_PIN_15);
+// Stm32LineWriter pin11Writer(Digital_Output_11_GPIO_Port, GPIO_PIN_11); //Removed due to clash with USB OTG Host mode
+// Stm32LineWriter pin15Writer(Digital_Output_15_GPIO_Port, GPIO_PIN_15); //Removed due to clash with USB OTG Host mode
 
 Stm32LineWriter* lineWriters[NUM_LINE_WRITERS] = {
   nullptr,
@@ -38,11 +38,11 @@ Stm32LineWriter* lineWriters[NUM_LINE_WRITERS] = {
   &pin8Writer,
   nullptr,
   nullptr,
-  &pin11Writer,
+  nullptr, //&pin11Writer, //Removed due to clash with USB OTG Host mode
   nullptr,
   nullptr,
   nullptr,
-  &pin15Writer,
+  nullptr, //&pin15Writer, //Removed due to clash with USB OTG Host mode
 };
 
 

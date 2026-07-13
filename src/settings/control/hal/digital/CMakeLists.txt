@@ -36,13 +36,13 @@ set(GPIO_LIBRARIES
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     set(GPIO_LIBRARIES ${GPIO_LIBRARIES}
             core-freertos-gpio-cm4
-            core-stm32h745i-thread-cm4
+            core-freertos-thread-cm4
             core-stm32h745i-drivers-bsp-disco-cm4
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     set(GPIO_LIBRARIES ${GPIO_LIBRARIES}
             core-freertos-gpio-cm7
-            core-stm32h745i-thread-cm7
+            core-freertos-thread-cm7
     )
 elseif(PLATFORM_FAMILY STREQUAL "linux")
     set(GPIO_LIBRARIES ${GPIO_LIBRARIES}

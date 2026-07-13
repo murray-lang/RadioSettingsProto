@@ -1,4 +1,6 @@
 #include "../include/settings/control//radio/RadioControl.h"
+
+#include <cstdio>
 #include <settings/control/factory/SettingsControlSinkFactory.h>
 #include <settings/control/factory/SettingsControlSourceFactory.h>
 
@@ -116,23 +118,31 @@ RadioControl::applySettingUpdate(const SettingUpdate& setting)
 ResultCode
 RadioControl::start()
 {
+  printf("[RadioControl]\t Entered start().\r\n");
   for (auto& pSink : m_controlSinks) {
+    printf("[RadioControl]\t Next sink...\r\n");
     ResultCode rc = visit([&pSink](auto&& sink) -> ResultCode
     {
+
       using T = decay_t<decltype(sink)>;
       if constexpr (is_same_v<T, monostate>) {
         return ResultCode::ERR_SETTINGS_CONTROL_NO_SINKS;
       } else {
         if (sink.discover()) {
+          printf("[RadioControl]\tAbout to call sink.open()\r\n");
           return sink.open();
         }
       }
+      printf("[RadioControl]\tAbout to return error ERR_SETTINGS_CONTROL_SINK_DISCOVER\r\n");
       return ResultCode::ERR_SETTINGS_CONTROL_SINK_DISCOVER;
     }, pSink);
+    printf("[RadioControl]\t...done!\r\n");
     if (rc != ResultCode::OK) {
+      printf("[RadioControl]\t Error starting sink: %ld.\r\n", rc);
       return rc;
     }
   }
+  printf("[RadioControl]\t Sinks started.\r\n");
   for (auto& pSource : m_controlSources) {
     ResultCode rc = visit([&pSource](auto&& source) -> ResultCode
     {

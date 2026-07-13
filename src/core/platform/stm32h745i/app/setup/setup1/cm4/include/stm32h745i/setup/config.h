@@ -7,8 +7,8 @@ extern "C" {
 #endif
 #include "stm32h745i/drivers/hal/stm32h7xx_hal.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
-#include "stm32h745i/fatfs/ff_gen_drv.h"
-#include "stm32h745i/app/support/mmc_diskio.h"
+// #include "stm32h745i/fatfs/ff_gen_drv.h"
+// #include "stm32h745i/app/support/mmc_diskio.h"
 #ifdef __cplusplus
 }
 #endif
@@ -87,8 +87,8 @@ set to 'Yes') calls __io_putchar() */
 #define Digital_Input_8_GPIO_Port GPIOH
 #define Digital_Input_13_Pin GPIO_PIN_13
 #define Digital_Input_13_GPIO_Port GPIOC
-#define Digital_Input_14_Pin GPIO_PIN_14
-#define Digital_Input_14_GPIO_Port GPIOB
+// #define Digital_Input_14_Pin GPIO_PIN_14 //Removed due to clash with USB OTG Host mode
+// #define Digital_Input_14_GPIO_Port GPIOB
 #define Digital_Input_15_Pin GPIO_PIN_15
 #define Digital_Input_15_GPIO_Port GPIOA
 
@@ -103,14 +103,20 @@ set to 'Yes') calls __io_putchar() */
 #define Digital_Output_4_GPIO_Port GPIOB
 #define Digital_Output_8_Pin GPIO_PIN_8
 #define Digital_Output_8_GPIO_Port GPIOI
-#define Digital_Output_11_Pin GPIO_PIN_11
-#define Digital_Output_11_GPIO_Port GPIOI
+// #define Digital_Output_11_Pin GPIO_PIN_11 //Removed due to clash with USB OTG Host mode
+// #define Digital_Output_11_GPIO_Port GPIOI
 #define Digital_Input_14_Pin GPIO_PIN_14
 #define Digital_Input_14_GPIO_Port GPIOB
-#define Digital_Output_15_Pin GPIO_PIN_15
-#define Digital_Output_15_GPIO_Port GPIOB
+// #define Digital_Output_15_Pin GPIO_PIN_15 //Removed due to clash with USB OTG Host mode
+// #define Digital_Output_15_GPIO_Port GPIOB
 
+#define USB_OTG_Power_Pin GPIO_PIN_5
+#define USB_OTG_Power_GPIO_Port GPIOA
 
+#define USB_OTG_FS2_P_Pin GPIO_PIN_12
+#define USB_OTG_FS2_P_GPIO_Port GPIOA
+#define USB_OTG_FS2_N_Pin GPIO_PIN_11
+#define USB_OTG_FS2_N_GPIO_Port GPIOA
 
 
 #define SDIO1_D2_Pin GPIO_PIN_10
@@ -173,6 +179,7 @@ extern void MX_I2C4_Init(void);
 extern void MX_QUADSPI_Init(void);
 extern void MX_SDMMC1_MMC_Init(void);
 extern void MX_USART6_UART_Init(void);
+extern void MX_USB_OTG_HS_HCD_Init(void);
 
 // extern void USB_Device_Init(void);
 

@@ -19,14 +19,14 @@ add_subdirectory(${FREERTOS_DIR} "${CMAKE_BINARY_DIR}/freertos-${TARGET_PLATFORM
 set(DUMMY_FILE dummy.c)
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
-    add_library(core-stm32h745i-freertos-cm7 STATIC ${DUMMY_FILE})
-    target_link_libraries(core-stm32h745i-freertos-cm7 PUBLIC
+    add_library(core-stm32h745i-cm7-freertos STATIC ${DUMMY_FILE})
+    target_link_libraries(core-stm32h745i-cm7-freertos PUBLIC
             freertos_config
             freertos_kernel
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
-    add_library(core-stm32h745i-freertos-cm4 STATIC ${DUMMY_FILE})
-    target_link_libraries(core-stm32h745i-freertos-cm4 PUBLIC
+    add_library(core-stm32h745i-cm4-freertos STATIC ${DUMMY_FILE})
+    target_link_libraries(core-stm32h745i-cm4-freertos PUBLIC
             freertos_config
             freertos_kernel
     )

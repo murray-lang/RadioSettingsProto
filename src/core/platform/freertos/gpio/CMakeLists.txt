@@ -20,7 +20,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
             core-gpio-base
             core-common-time
             core-freertos-thread-cm4
-            core-stm32h745i-app-support-cm4
+#            core-stm32h745i-app-support-cm4
             core-stm32h745i-setup-setup1-cm4
             core-stm32h745i-drivers-hal-cm4
             etl::etl
