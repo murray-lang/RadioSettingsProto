@@ -76,14 +76,14 @@ RadioControl radioControl;
 
 Gpio& gpioInstance = Gpio::getInstance();
 
+RadioControlClient radioControlSink;
+
 ResultCode gpioTest()
 {
   ResultCode rc = radioControl.configure(radioConfig.control);
   if (rc != ResultCode::OK) {
     return rc;
   }
-
-  RadioControlClient radioControlSink;
 
   radioControl.connectRadioSettingsSink(radioControlSink);
   radioControl.connectSettingUpdateSink(radioControlSink);
