@@ -16,7 +16,7 @@
 using RadioSettingsPb = makesdr_RadioSettingsPb;
 using RadioSettingsPayloadPb = makesdr_RadioSettingsPayloadPb;
 
-RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
+// RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
 BandSettingsCache bandSettingsCache;
 
 RadioControlClient::RadioControlClient()
