@@ -20,7 +20,7 @@ UsbHostThread::start(uint32_t stackSize, uint32_t priority, const char* name)
   if (m_running) {
     return ResultCode::ERR_USB_HOST_THREAD_ALREADY_RUNNING;
   }
-
+  m_running = true;
   if (m_thread.start(stackSize, priority, name)) {
     return ResultCode::OK;
   }
@@ -39,10 +39,9 @@ UsbHostThread::stop()
 void
 UsbHostThread::run()
 {
-  m_running = true;
-  // const TickType_t timeout = pdMS_TO_TICKS(10);
+  const TickType_t timeout = pdMS_TO_TICKS(10);
   while (m_running) {
-    // tuh_task_ext(timeout, false);
-    tuh_task();
+    tuh_task_ext(timeout, false);
+    // tuh_task();
   }
 }

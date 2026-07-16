@@ -16,7 +16,7 @@ class UsbHost : public UsbBase
 public:
     UsbHost(uint16_t vendorId, uint16_t productId);
     UsbHost(UsbHost&& rhs) noexcept;
-    ~UsbHost() override = default;
+    ~UsbHost() override;
 
     UsbHost& operator=(UsbHost&& rhs) noexcept;
 

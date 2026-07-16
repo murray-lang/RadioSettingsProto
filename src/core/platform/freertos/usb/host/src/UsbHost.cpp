@@ -62,20 +62,18 @@ bool UsbHost::discover()
 
 ResultCode UsbHost::open()
 {
-  // printf("[CM4]\t UsbHost::open()\r\n");
   s_instance = this; // Set instance for callbacks
 
   if (!s_thread.isRunning()) {
-    // printf("[CM4]\t Starting USB Host thread\r\n");
-    return s_thread.start(configMINIMAL_STACK_SIZE*4, tskIDLE_PRIORITY, "USB Host");
-  } else {
-    // printf("[CM4]\t USB Host thread already running\r\n");
+    ResultCode rc = s_thread.start(configMINIMAL_STACK_SIZE*4, tskIDLE_PRIORITY, "USB Host");
+    if (rc != ResultCode::OK) {
+      return rc;
+    }
   }
 
   if (!m_mounted) {
     return ResultCode::ERR_USB_NOT_MOUNTED;
   }
-
 
   // Device is already opened when mounted
   return ResultCode::OK;
@@ -85,6 +83,7 @@ void UsbHost::close()
 {
   // TinyUSB handles device closure automatically on unmount
   m_mounted = false;
+  m_devAddr = 0;
   s_thread.stop();
 }
 

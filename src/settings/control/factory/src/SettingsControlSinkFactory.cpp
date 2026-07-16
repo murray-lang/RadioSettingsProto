@@ -1,4 +1,6 @@
 #include <ResultCode.h>
+#include <settings/control/usb/sinks/UsbControlSinks.h>
+#include <config/struct/UsbControlSinksConfig.h>
 #include "settings/control/factory/SettingsControlSinkFactory.h"
 
 // #ifdef USE_GPIO

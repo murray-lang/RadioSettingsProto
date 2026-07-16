@@ -57,10 +57,10 @@ UsbControlSinks::createDevices(const Config::UsbControlSinks::Fields& config)
   m_devices.clear();
   ResultCode rc = ResultCode::OK;
   for (const auto& deviceConfig : config.devices) {
-    // UsbControlSinkVariant usbDevice;
     m_devices.emplace_back();
     rc = UsbControlSinkFactory::create(deviceConfig, m_devices.back());
     if (rc != ResultCode::OK) {
+      m_devices.pop_back();
       return rc;
     }
   }

@@ -38,6 +38,9 @@ namespace Config::UsbControlSinks
     ResultCode result = ResultCode::OK;
     if (json["devices"].is<JsonVariantConst>()) {
       for (JsonVariantConst inputJson : json["devices"].as<JsonArrayConst>()) {
+        if (fields.devices.size() == fields.devices.max_size()) {
+          return ResultCode::ERR_CONFIG_TOO_MANY_ITEMS;
+        }
         TypedJson typedJson;
         result = typedJson.fromJson(inputJson);
 

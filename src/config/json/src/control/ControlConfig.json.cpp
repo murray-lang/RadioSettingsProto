@@ -32,14 +32,6 @@ namespace Config::Control
       return result;
     }
 #endif
-    // if (json.type == FunCube::type) {
-    //   FunCube::Fields fields{};
-    //   result = FunCube::fromJson(json.config, fields);
-    //   if (result == ResultCode::OK) {
-    //     sink = fields;
-    //   }
-    //   return result;
-    // }
     if (json.type == UsbControlSinks::type) {
       UsbControlSinks::Fields fields{};
       result = UsbControlSinks::fromJson(json.config, fields);

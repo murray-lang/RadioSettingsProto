@@ -16,6 +16,13 @@ UsbHidHost::UsbHidHost(UsbHidHost&& rhs) noexcept
     rhs.m_device = nullptr;
 }
 
+UsbHidHost::~UsbHidHost()
+{
+  if (m_device != nullptr) {
+    hid_close(m_device);
+  }
+}
+
 UsbHidHost& UsbHidHost::operator=(UsbHidHost&& rhs) noexcept
 {
     if (this != &rhs) {
@@ -73,6 +80,9 @@ ResultCode UsbHidHost::read(unsigned char * data, size_t length, size_t* bytesRe
   if (m_device == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_USB_HID_NOT_OPEN;
   }
+  if (data == nullptr || bytesRead == nullptr) {
+    return ResultCode::ERR_USB_HOST_INVALID_PARAMETER;
+  }
   int rc = hid_read(m_device, data, length);
   if (rc < 0) {
     return ResultCode::ERR_SETTING_CONTROL_USB_HID_READ;
@@ -85,6 +95,9 @@ ResultCode UsbHidHost::write(const unsigned char * data, size_t length, size_t* 
 {
   if (m_device == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_USB_HID_NOT_OPEN;
+  }
+  if (data == nullptr || bytesWritten == nullptr) {
+    return ResultCode::ERR_USB_HOST_INVALID_PARAMETER;
   }
   int rc = hid_write(m_device, data, length);
   if (rc < 0) {

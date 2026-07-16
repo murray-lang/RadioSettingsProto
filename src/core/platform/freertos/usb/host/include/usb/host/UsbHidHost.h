@@ -1,7 +1,10 @@
 #ifndef FREERTOS_USB_HID_H_
 #define FREERTOS_USB_HID_H_
-#include "ResultCode.h"
-#include "usb/host/UsbHost.h"
+
+#include <CrossPlatformTypes.h>
+#include <ResultCode.h>
+#include <usb/host/UsbHost.h>
+#include <thread/Mutex.h>
 #include <cstdint>
 
 // Forward declaration of TinyUSB types
@@ -44,9 +47,10 @@ public:
 
 protected:
   // HID-specific device tracking
+  Mutex m_reportMutex;
   uint8_t m_instance;
-  bool m_reportPending;
 
+  bool m_reportPending;
   // HID report buffers
   uint8_t m_reportBuffer[REPORT_BUFFER_SIZE];
   size_t m_lastReportSize;

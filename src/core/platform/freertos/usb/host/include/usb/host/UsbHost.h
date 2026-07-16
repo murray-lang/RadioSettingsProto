@@ -31,12 +31,6 @@ public:
     void close() override;
     void exit() override;
 
-  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
-  // {
-  //   return &m_threadRequirements;
-  // }
-  // bool tick() override;
-
     // Generic USB host callbacks
     static void onMount(uint8_t dev_addr);
     static void onUmount(uint8_t dev_addr);
@@ -50,7 +44,7 @@ public:
     size_t* bytesRead
     );
 
-  [[nodiscard]] ResultCode write(uint8_t request, uint16_t value, uint16_t index) const;
+  ResultCode write(uint8_t request, uint16_t value, uint16_t index) const;
 
   ResultCode write(
     uint8_t request,

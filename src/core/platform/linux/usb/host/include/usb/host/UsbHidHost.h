@@ -22,7 +22,7 @@ public:
 
     UsbHidHost(UsbHidHost&& rhs) noexcept;
     UsbHidHost& operator=(UsbHidHost&& rhs) noexcept;
-    ~UsbHidHost() override = default;
+    ~UsbHidHost() override;
 
     ResultCode initialise() override;
     bool discover() override;

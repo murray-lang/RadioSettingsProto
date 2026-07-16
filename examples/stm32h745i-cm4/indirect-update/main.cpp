@@ -112,13 +112,6 @@ int main()
     SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", taskRc);
   }
 
-  ResultCode rc = gpioTest();
-  if (rc == ResultCode::OK) {
-    SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
-  } else {
-    SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
-  }
-
   vTaskStartScheduler();
 
   while (1) {}
@@ -127,12 +120,12 @@ int main()
 
 static void prvGpioTask( void *pvParameters )
 {
-  // ResultCode rc = gpioTest();
-  // if (rc == ResultCode::OK) {
-  //   SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
-  // } else {
-  //   SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
-  // }
+  ResultCode rc = gpioTest();
+  if (rc == ResultCode::OK) {
+    SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
+  } else {
+    SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
+  }
 
   // ResultCode rc = ResultCode::ERR_USB_HOST_INIT;
 

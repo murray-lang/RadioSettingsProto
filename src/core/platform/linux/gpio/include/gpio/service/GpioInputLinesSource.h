@@ -29,10 +29,8 @@ struct LineEventCallbackItem {
 
 #ifdef USE_ETL
 using LineEventCallbackVector = etl::vector<LineEventCallbackItem, MAX_DIGITAL_INPUT_HANDLERS>;
-// using GpioLineTransitionHandlerVariantVector = etl::vector<GpioLineTransitionHandlerVariant, MAX_GPIO_LINES>;
 #else
 using LineEventCallbackVector = std::vector<LineEventCallbackItem>;
-// using GpioLineTransitionHandlerVariantVector = std::vector<GpioLineTransitionHandlerVariant>;
 #endif
 
 
@@ -59,17 +57,10 @@ public:
 
   void handlePinTransition(GpioLineMask mask, Timestamp timestamp);
 
-  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
-  // {
-  //   return &m_threadRequirements;
-  // }
-
   void run() override;
-  // void quit() override;
 
   [[nodiscard]] bool isRunning() const { return m_running; }
 
-  // void run() override;
 
 protected:
   ResultCode readLine(GpioLineMask mask, GpioLineValue* value);

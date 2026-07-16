@@ -9,12 +9,10 @@
 
 #include <ResultCode.h>
 
-#include "thread/Runnable.h"
-
 struct gpiod_chip;
 
 
-class Gpio : public Runnable
+class Gpio
 {
 public:
   Gpio();
@@ -35,22 +33,12 @@ public:
   ResultCode open();
   void close();
 
-  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
-  // {
-  //   return m_inputLinesSource.getThreadRequirements();
-  // }
-  //
-  // void run() override { m_inputLinesSource.run(); }
-  // void quit() override { m_inputLinesSource.quit(); }
-
   ResultCode startInputs();
   void stopInputs();
 
   ResultCode requestInputs(const char * contextId, GpioInputLinesRequestVector& requests);
   ResultCode requestOutputs(const char * contextId, GpioOutputLinesRequest* requests);
 
-  // GpioInputLinesSource& getInputLinesSource() { return m_inputLinesSource; }
-  // GpioOutputLinesSource& getOutputLinesSource() { return m_outputLinesSource; }
   void handlePinTransition(GpioLineMask mask, uint32_t timestamp)
   {
     m_inputLinesSource.handlePinTransition(mask, timestamp);
