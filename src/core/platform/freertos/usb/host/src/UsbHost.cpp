@@ -22,6 +22,11 @@ UsbHost::UsbHost(UsbHost&& rhs) noexcept
     , m_devAddr(rhs.m_devAddr)
     , m_mounted(rhs.m_mounted)
 {
+  if (s_instance == &rhs) {
+    s_instance = this;
+  }
+  rhs.m_mounted = false;
+  rhs.m_devAddr = 0;
 }
 
 UsbHost& UsbHost::operator=(UsbHost&& rhs) noexcept

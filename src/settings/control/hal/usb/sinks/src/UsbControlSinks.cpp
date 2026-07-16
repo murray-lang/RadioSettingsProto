@@ -3,11 +3,6 @@
 #include "settings/control/usb/sinks/UsbControlSinkFactory.h"
 
 
-UsbControlSinks::UsbControlSinks()
-  // : m_maxThreadRequirements{0, 0, false}
-{
-
-}
 ResultCode
 UsbControlSinks::configure(const Config::UsbControlSinks::Fields& config)
 {
@@ -24,7 +19,6 @@ ResultCode
 UsbControlSinks::open()
 {
   for (auto& device : m_devices) {
-    // ResultCode rc = ResultCode::OK;
     ResultCode rc = visit([](auto&& dev) -> ResultCode
     {
       ResultCode devRc = dev.open();
@@ -57,54 +51,18 @@ UsbControlSinks::exit()
 
 }
 
-
-// void
-// UsbControlSinks::updateThreadRequirements(const UsbControlSinkVariant& usbDevice)
-// {
-//   const ThreadRequirements* nextReq = getDeviceThreadRequirements(usbDevice);
-//   if (nextReq != nullptr) {
-//     m_maxThreadRequirements.stackSize = std::max(m_maxThreadRequirements.stackSize, nextReq->stackSize);
-//     m_maxThreadRequirements.priority = std::max(m_maxThreadRequirements.priority, nextReq->priority);
-//   }
-// }
-//
-// const Runnable::ThreadRequirements*
-// UsbControlSinks::getDeviceThreadRequirements(const UsbControlSinkVariant& usbDevice)
-// {
-//   return visit([](auto&& dev) -> const ThreadRequirements*
-//   {
-//     return dev.getThreadRequirements();
-//   }, usbDevice);
-// }
-//
-// // void loop() override;
-// bool
-// UsbControlSinks::tick()
-// {
-//   for (auto& device : m_devices) {
-//     visit([](auto&& dev)
-//     {
-//       dev.tick();
-//     }, device);
-//   }
-//   return true;
-// }
-
 ResultCode
 UsbControlSinks::createDevices(const Config::UsbControlSinks::Fields& config)
 {
   m_devices.clear();
-  // m_maxThreadRequirements = {0, 0, false};
   ResultCode rc = ResultCode::OK;
   for (const auto& deviceConfig : config.devices) {
     // UsbControlSinkVariant usbDevice;
     m_devices.emplace_back();
     rc = UsbControlSinkFactory::create(deviceConfig, m_devices.back());
-    if (rc == ResultCode::OK) {
-      // m_devices.emplace_back(move(usbDevice));
-      // updateThreadRequirements(usbDevice);
+    if (rc != ResultCode::OK) {
+      return rc;
     }
-    return rc;
   }
   return rc;
 }

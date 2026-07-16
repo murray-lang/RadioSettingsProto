@@ -49,11 +49,6 @@ public:
   ResultCode start(uint32_t stackSize, uint32_t priority, const char* name);
   void stop();
 
-  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
-  // {
-  //   return &m_threadRequirements;
-  // }
-
   ResultCode requestLines(const char* context, GpioInputLinesRequest* request);
   ResultCode requestLines(const char* context, GpioInputLinesRequestVector& requests);
 

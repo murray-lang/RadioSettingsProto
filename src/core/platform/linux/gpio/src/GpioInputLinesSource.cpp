@@ -2,23 +2,19 @@
 #include <gpiod.h>
 #include <variant>
 
-// #include <stm32h745i/setup/config.h>
-// #include <stm32h745i/app/support/safe_printf.h>
-
 GpioInputLinesSource::GpioInputLinesSource()
   : m_running(false)
   , m_thread(*this)
 
   , m_pEventBuffer(nullptr)
   , m_lineReader(makeGpioLineReader<GpioInputLinesSource, &GpioInputLinesSource::readLine>(this))
-  // , m_threadRequirements{0, 0, false} //Exclusive thread required on linux due to polling wait
 {
   m_pEventBuffer = gpiod_edge_event_buffer_new(GPIO_EVENT_QUEUE_CAPACITY);
 }
 
 GpioInputLinesSource::~GpioInputLinesSource()
 {
-  // stop();
+  stop();
   if (m_pEventBuffer) {
     gpiod_edge_event_buffer_free(m_pEventBuffer);
     m_pEventBuffer = nullptr;

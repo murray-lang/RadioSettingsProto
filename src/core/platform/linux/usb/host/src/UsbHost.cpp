@@ -192,11 +192,6 @@ UsbHost::write(
         return ResultCode::ERR_USB_HOST_INVALID_PARAMETER;
     }
 
-    // USB control transfer for vendor-specific OUT request
-    // bmRequestType: 0x40 = LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_RECIPIENT_DEVICE
-    // bRequest: 0x00 (vendor-specific write)
-    // wValue: 0
-    // wIndex: 0
     uint8_t bmRequestType = static_cast<uint8_t>(LIBUSB_ENDPOINT_OUT) |
                             static_cast<uint8_t>(LIBUSB_REQUEST_TYPE_VENDOR) |
                             static_cast<uint8_t>(LIBUSB_RECIPIENT_DEVICE);

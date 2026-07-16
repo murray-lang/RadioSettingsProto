@@ -1,6 +1,7 @@
 #ifndef FREERTOS_USBHOSTTHREAD_H
 #define FREERTOS_USBHOSTTHREAD_H
 
+#include <CrossPlatformTypes.h>
 #include <ResultCode.h>
 #include <thread/Thread.h>
 
@@ -20,7 +21,7 @@ public:
 
 protected:
   Thread m_thread;
-  bool m_running;
+  atomic<bool> m_running;
 };
 
 #endif // FREERTOS_USBHOSTTHREAD_H
