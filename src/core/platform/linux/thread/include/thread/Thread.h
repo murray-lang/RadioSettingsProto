@@ -1,7 +1,7 @@
 #ifndef __STD_THREAD_H__
 #define __STD_THREAD_H__
 
-#include "Runnable.h"
+#include <thread/Runnable.h>
 #include <cstdint>
 
 #include <thread>

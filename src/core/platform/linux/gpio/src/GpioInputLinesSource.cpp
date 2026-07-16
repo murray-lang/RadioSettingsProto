@@ -11,13 +11,14 @@ GpioInputLinesSource::GpioInputLinesSource()
 
   , m_pEventBuffer(nullptr)
   , m_lineReader(makeGpioLineReader<GpioInputLinesSource, &GpioInputLinesSource::readLine>(this))
+  // , m_threadRequirements{0, 0, false} //Exclusive thread required on linux due to polling wait
 {
   m_pEventBuffer = gpiod_edge_event_buffer_new(GPIO_EVENT_QUEUE_CAPACITY);
 }
 
 GpioInputLinesSource::~GpioInputLinesSource()
 {
-  stop();
+  // stop();
   if (m_pEventBuffer) {
     gpiod_edge_event_buffer_free(m_pEventBuffer);
     m_pEventBuffer = nullptr;

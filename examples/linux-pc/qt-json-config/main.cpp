@@ -8,7 +8,7 @@
 #include <fstream>
 #include <settings/control/radio/RadioControl.h>
 
-#include "RadioControlClient.h"
+// #include "RadioControlClient.h"
 
 
 
@@ -17,7 +17,7 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
   ResultCode rc = ResultCode::OK;
   // Resolve config path under the current user's home directory: ~/.config/nexusdr/nexusdr.json
 
-  const QString configPath = configHome + "/nexusdr.json";
+  const QString configPath = configHome + "/softrock-test.json";
   if (QFile::exists(configPath)) {
     try {
       std::ifstream f(configPath.toStdString());
@@ -55,6 +55,11 @@ int main(int argc, char *argv[])
 
   RadioControl radioControl;
   rc = radioControl.configure(radioConfig.control);
+  if (rc != ResultCode::OK) {
+    return -1;
+  }
+
+  rc = radioControl.start();
   if (rc != ResultCode::OK) {
     return -1;
   }

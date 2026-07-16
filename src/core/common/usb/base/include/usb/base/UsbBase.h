@@ -1,15 +1,18 @@
 #pragma once
 
 #include <cstdint>
-#include "ResultCode.h"
+#include <cstddef>
+#include <ResultCode.h>
+#include <thread/Runnable.h>
 
-class UsbBase {
+class UsbBase : public Runnable
+{
 
 public:
     UsbBase(uint16_t vendorId, uint16_t productId) : m_vendorId(vendorId), m_productId(productId) {}
     UsbBase(UsbBase&& rhs) = default;
     UsbBase& operator=(UsbBase&& rhs) = default;
-    virtual ~UsbBase() = default;
+    ~UsbBase() override = default;
     virtual ResultCode initialise() = 0;
     virtual bool discover() = 0;
     virtual ResultCode open() = 0;

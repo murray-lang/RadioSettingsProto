@@ -2,7 +2,8 @@
 #include "ResultCode.h"
 
 
-class SettingsControlBase {
+class SettingsControlBase
+{
 public:
   virtual ~SettingsControlBase() = default;
 

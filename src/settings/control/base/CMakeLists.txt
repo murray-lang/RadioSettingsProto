@@ -16,6 +16,6 @@ target_include_directories(settings-control-base INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-#target_link_libraries(settings-control-base PUBLIC
-#        config
-#)
+target_link_libraries(settings-control-base INTERFACE
+        core-common-thread
+)

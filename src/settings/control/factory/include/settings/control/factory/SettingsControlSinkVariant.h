@@ -25,28 +25,28 @@ using std::unique_ptr;
 #endif
 
 #ifdef USE_GPIO
-#include "settings/control/digital/DigitalOutputs.h"
-#include "settings/control/digital/DigitalOutput.h"
-#include "settings/control/digital/GpioBandSelector.h"
+#include <settings/control/digital/DigitalOutputs.h>
+#include <settings/control/digital/DigitalOutput.h>
+#include <settings/control/digital/GpioBandSelector.h>
 #endif
 
 #ifdef IS_QT
-#include "settings/control/qt/QtSettingsControlSink.h"
+#include <settings/control/qt/QtSettingsControlSink.h>
 #endif
 
-#include "settings/control/FunCubeDongle/FunCubeDongle.h"
+#include <settings/control/usb/sinks/UsbControlSinks.h>
 
 
 #ifdef USE_GPIO
   #ifdef IS_QT
-    using SettingsControlSinkVariant = variant<FunCubeDongle, DigitalOutputs, QtSettingsControlSink>;
+    using SettingsControlSinkVariant = variant<UsbControlSinks, DigitalOutputs, QtSettingsControlSink>;
   #else
-    using SettingsControlSinkVariant = variant<FunCubeDongle, DigitalOutputs>;
+    using SettingsControlSinkVariant = variant<UsbControlSinks, DigitalOutputs>;
   #endif
 #else
   #ifdef IS_QT
-    using SettingsControlSinkVariant = variant<FunCubeDongle, QtSettingsControlSink>;
+    using SettingsControlSinkVariant = variant<UsbControlSinks, QtSettingsControlSink>;
   #else
-    using SettingsControlSinkVariant = variant<FunCubeDongle>;
+    using SettingsControlSinkVariant = variant<UsbControlSinks>;
   #endif
 #endif

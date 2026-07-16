@@ -5,7 +5,8 @@
 #include <settings/model/core/RadioSettings.h>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
-#include "settings/control/digital//DigitalInputTypes.h"
+#include <settings/control/digital//DigitalInputTypes.h>
+// #include <runnable/Runnable.h>
 
 
 class DigitalInputs : public SettingsControlSource
@@ -13,7 +14,7 @@ class DigitalInputs : public SettingsControlSource
 public:
 
   explicit DigitalInputs(const char* consumer = "");
-  ~DigitalInputs() override;
+  ~DigitalInputs() override = default;
 
   DigitalInputs(DigitalInputs&& rhs)  noexcept;
   DigitalInputs& operator=(DigitalInputs&& rhs)  noexcept;
@@ -24,6 +25,11 @@ public:
   ResultCode open() override;
   void close() override;
   void exit() override;
+
+  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override;
+  // void run() override;
+  // void quit() override;
+  // bool tick() override;
 
   [[nodiscard]] const DigitalInputVector& getInputs() const { return m_inputs; }
 

@@ -3,8 +3,15 @@
     "control": {
         "sinks": [
           {
-            "type": "funcube",
+            "type": "usbcontrolsinks",
             "config": {
+              "devices": [
+                {
+                  "type": "funcube",
+                  "config": {
+                  }
+                }
+              ]
             }
           },
           {

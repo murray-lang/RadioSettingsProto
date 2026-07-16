@@ -9,14 +9,16 @@
 
 #include <ResultCode.h>
 
+#include "thread/Runnable.h"
+
 struct gpiod_chip;
 
 
-class Gpio
+class Gpio : public Runnable
 {
 public:
   Gpio();
-  virtual ~Gpio();
+  ~Gpio() override;
 
   static Gpio& getInstance() {
     static Gpio instance; // Only created once, thread-safe since C++11
@@ -32,6 +34,14 @@ public:
   static bool isPresent();
   ResultCode open();
   void close();
+
+  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
+  // {
+  //   return m_inputLinesSource.getThreadRequirements();
+  // }
+  //
+  // void run() override { m_inputLinesSource.run(); }
+  // void quit() override { m_inputLinesSource.quit(); }
 
   ResultCode startInputs();
   void stopInputs();
@@ -50,6 +60,7 @@ private:
   GpioInputLinesSource m_inputLinesSource;
   GpioOutputLinesSource m_outputLinesSource;
   gpiod_chip* m_pChip;
+
 };
 
 #endif // LINUX_GPIO_H_

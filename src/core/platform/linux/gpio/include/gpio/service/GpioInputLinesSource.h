@@ -9,11 +9,12 @@
 #include "gpio/input/handlers/GpioTransitionHandlers.h"
 
 #include <thread/Thread.h>
-#include <thread/Runnable.h>
+
 #include <thread/Queue.h>
 #include <thread/Semaphore.h>
 
 #include "GpioLinesSourceBase.h"
+#include "thread/Runnable.h"
 
 #ifdef USE_ETL
 #include <etl/vector.h>
@@ -58,9 +59,17 @@ public:
 
   void handlePinTransition(GpioLineMask mask, Timestamp timestamp);
 
-  [[nodiscard]] bool isRunning() const { return m_running; }
+  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
+  // {
+  //   return &m_threadRequirements;
+  // }
 
   void run() override;
+  // void quit() override;
+
+  [[nodiscard]] bool isRunning() const { return m_running; }
+
+  // void run() override;
 
 protected:
   ResultCode readLine(GpioLineMask mask, GpioLineValue* value);
@@ -84,5 +93,6 @@ private:
 
   gpiod_edge_event_buffer* m_pEventBuffer;
   GpioLineReader m_lineReader;
+  // ThreadRequirements m_threadRequirements;
 };
 #endif // LINUX_GPIOINPUTLINESOURCE_H_
