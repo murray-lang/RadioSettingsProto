@@ -1,8 +1,11 @@
 #include "gpio/service/GpioInputLinesSource.h"
 
+#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+
 GpioInputLinesSource::GpioInputLinesSource()
   : m_running(false)
   , m_thread(*this)
+  // , m_threadRequirements{ configMINIMAL_STACK_SIZE*5, tskIDLE_PRIORITY, true }
 {
 }
 
@@ -22,11 +25,13 @@ GpioInputLinesSource::start(uint32_t stackSize, uint32_t priority, const char* n
 void
 GpioInputLinesSource::stop()
 {
-  m_running = false;
-  // Send dummy event to unblock the waiting task
-  GpioLineEvent dummyEvent = {0, false, 0, 0};
-  m_eventQueue.send(dummyEvent, 0);
-  m_thread.join();
+  if (m_running) {
+    m_running = false;
+    // Send dummy event to unblock the waiting task
+    GpioLineEvent dummyEvent = {0, false, 0, 0};
+    m_eventQueue.send(dummyEvent, 0);
+    m_thread.join();
+  }
 }
 
 ResultCode
@@ -72,7 +77,6 @@ GpioInputLinesSource::handlePinTransition(GpioLineMask mask, Timestamp timestamp
   GpioLineTransitionHandler* handler = m_transitionHandlers.getTransitionHandler(mask);
   if (handler != nullptr) {
     if (handler->handleLineTransition(mask, timestamp, &event)) {
-
       enqueueEvent(event);
     }
   } else {
@@ -105,7 +109,7 @@ GpioInputLinesSource::run()
     // Wait for event from queue (blocks until event available)
     if (m_eventQueue.receive(event)) {
       if (!m_running) {
-        break;  // Dummy event sent by stop()
+        break;  // Dummy event sent by quit()
       }
 
       // Process the event
@@ -119,6 +123,36 @@ GpioInputLinesSource::run()
     }
   }
 }
+
+// void
+// GpioInputLinesSource::quit()
+// {
+//   m_running = false;
+//   // Send dummy event to unblock the waiting task
+//   GpioLineEvent dummyEvent = {0, false, 0, 0};
+//   m_eventQueue.send(dummyEvent, 0);
+// }
+//
+// bool
+// GpioInputLinesSource::tick()
+// {
+//   GpioLineEvent event{};
+//   if (m_running) {
+//     // Wait for event from queue
+//     if (m_eventQueue.receive(event, 10)) {
+//       // Process the event
+//       if (event.mask != 0) {  // Skip dummy events
+//         for (auto& callbackItem : m_lineEventCallbacks) {
+//           if (callbackItem.mask & event.mask) {
+//             (*callbackItem.callback)(&event);
+//           }
+//         }
+//       }
+//     }
+//     return true;
+//   }
+//   return false;
+// }
 
 void
 GpioInputLinesSource::continueDebouncing()

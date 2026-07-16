@@ -6,6 +6,7 @@
 
 #include <gpio/service/GpioInputLinesSource.h>
 #include <gpio/service/GpioOutputLinesSource.h>
+#include <thread/Runnable.h>
 #include <ResultCode.h>
 
 
@@ -15,7 +16,7 @@ class Gpio
 {
 public:
   Gpio() = default;
-  virtual ~Gpio() = default;
+  ~Gpio() = default;
 
   static Gpio& getInstance() {
     static Gpio instance; // Only created once, thread-safe since C++11
@@ -35,6 +36,15 @@ public:
   ResultCode startInputs();
   void stopInputs();
 
+  // [[nodiscard]] const ThreadRequirements* getThreadRequirements() const override
+  // {
+  //   return m_inputLinesSource.getThreadRequirements();
+  // }
+  //
+  // void run() override { m_inputLinesSource.run(); }
+  // void quit() override { m_inputLinesSource.quit(); }
+  // bool tick() override { return m_inputLinesSource.tick(); }
+
   ResultCode requestInputs(const char * contextId, GpioInputLinesRequestVector& requests);
   ResultCode requestOutputs(const char * contextId, GpioOutputLinesRequest* requests);
 
@@ -48,6 +58,8 @@ public:
 private:
   GpioInputLinesSource m_inputLinesSource;
   GpioOutputLinesSource m_outputLinesSource;
+
+
 };
 
 #endif // FREERTOS_GPIO_H_

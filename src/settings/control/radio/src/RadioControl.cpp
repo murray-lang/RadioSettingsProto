@@ -138,7 +138,7 @@ RadioControl::start()
     }, pSink);
     printf("[RadioControl]\t...done!\r\n");
     if (rc != ResultCode::OK) {
-      printf("[RadioControl]\t Error starting sink: %ld.\r\n", rc);
+      printf("[RadioControl]\t Error starting sink: %u.\r\n", static_cast<uint32_t>(rc));
       return rc;
     }
   }

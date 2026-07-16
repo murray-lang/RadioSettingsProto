@@ -16,8 +16,6 @@ target_include_directories(settings-control-radio PUBLIC
 
 set(RADIO_CONTROL_LIBS
         config-struct
-        settings-control-hal-funcube
-        settings-control-hal-digital
         settings-control-base
         settings-control-sink
         settings-control-source
@@ -25,9 +23,14 @@ set(RADIO_CONTROL_LIBS
         settings-model-core
 )
 
-if (PLATFORM_FAMILY STREQUAL "linux")
-    set(RADIO_CONTROL_LIBS ${RADIO_CONTROL_LIBS} core-linux-gpio)
+if (USE_GPIO)
+    set(RADIO_CONTROL_LIBS ${RADIO_CONTROL_LIBS} settings-control-hal-digital)
+    if (PLATFORM_FAMILY STREQUAL "linux")
+        set(RADIO_CONTROL_LIBS ${RADIO_CONTROL_LIBS} core-linux-gpio)
+    endif()
 endif()
+
+
 
 target_link_libraries(settings-control-radio PUBLIC
     ${RADIO_CONTROL_LIBS}

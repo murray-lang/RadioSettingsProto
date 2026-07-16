@@ -22,7 +22,6 @@ using DigitalOutputValueVector = etl::vector<bool, MAX_GPIO_LINES_PER_DEVICE>;
 #include <vector>
 #include <variant>
 
-using DigitalOutputVariant = std::variant<DigitalOutput, GpioBandSelector>;
 class DigitalOutputVariantVector : public std::vector<DigitalOutputVariant> {
 public:
   using std::vector<DigitalOutputVariant>::vector;

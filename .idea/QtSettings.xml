@@ -20,6 +20,30 @@
             </PerProfileState>
           </value>
         </entry>
+        <entry key="qt-gpio-input-rpi-debug">
+          <value>
+            <PerProfileState>
+              <option name="myQmlPath" value="/usr/lib/x86_64-linux-gnu/qt6/qml" />
+              <option name="myQtBinPath" value="/usr/lib/qt6/bin" />
+            </PerProfileState>
+          </value>
+        </entry>
+        <entry key="qt-json-config-debug">
+          <value>
+            <PerProfileState>
+              <option name="myQmlPath" value="/usr/lib/x86_64-linux-gnu/qt6/qml" />
+              <option name="myQtBinPath" value="/usr/lib/qt6/bin" />
+            </PerProfileState>
+          </value>
+        </entry>
+        <entry key="qt-json-config-release">
+          <value>
+            <PerProfileState>
+              <option name="myQmlPath" value="/usr/lib/x86_64-linux-gnu/qt6/qml" />
+              <option name="myQtBinPath" value="/usr/lib/qt6/bin" />
+            </PerProfileState>
+          </value>
+        </entry>
       </map>
     </option>
   </component>

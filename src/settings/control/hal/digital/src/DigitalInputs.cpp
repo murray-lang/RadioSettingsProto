@@ -9,11 +9,6 @@ DigitalInputs::DigitalInputs(const char* consumer) :
 
 }
 
-DigitalInputs::~DigitalInputs()
-{
-  // m_lineToInputMap.clear();
-}
-
 DigitalInputs::DigitalInputs(DigitalInputs&& rhs) noexcept
   : SettingsControlSource(move(rhs))
   , m_internalSink(*this) // Reference to new object
@@ -78,6 +73,30 @@ DigitalInputs::exit()
 {
 
 }
+
+// const Runnable::ThreadRequirements*
+// DigitalInputs::getThreadRequirements() const
+// {
+//   return Gpio::getInstance().getThreadRequirements();
+// }
+//
+// void
+// DigitalInputs::run()
+// {
+//   Gpio::getInstance().run();
+// }
+//
+// void
+// DigitalInputs::quit()
+// {
+//   Gpio::getInstance().quit();
+// }
+//
+// bool
+// DigitalInputs::tick()
+// {
+//   return Gpio::getInstance().tick();
+// }
 
 ResultCode
 DigitalInputs::createInputs(const Config::DigitalInputs::Fields& config)

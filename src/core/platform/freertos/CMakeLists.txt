@@ -4,3 +4,4 @@ project(core-freertos)
 
 add_subdirectory(gpio)
 add_subdirectory(thread)
+add_subdirectory(usb)

@@ -27,7 +27,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 }
 
 void OTG_FS_IRQHandler(void) {
-  BSP_LED_Toggle(LED_RED);
+  // BSP_LED_Toggle(LED_RED);
   tuh_int_handler(BOARD_TUH_RHPORT, true);  // or hcd_int_handler()
 }
 
@@ -105,11 +105,11 @@ int main()
   //
   // ResultCode rc = indirectUpdate(radioSettings);
 
-  BaseType_t rc = xTaskCreate( prvGpioTask, "GPIO", configMINIMAL_STACK_SIZE*5, nullptr, tskIDLE_PRIORITY, nullptr );
-  if (rc == pdPASS) {
+  BaseType_t taskRc = xTaskCreate( prvGpioTask, "GPIO", configMINIMAL_STACK_SIZE*6, nullptr, tskIDLE_PRIORITY, nullptr );
+  if (taskRc == pdPASS) {
     SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
   } else {
-    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", rc);
+    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", taskRc);
   }
 
   vTaskStartScheduler();
@@ -120,17 +120,17 @@ int main()
 
 static void prvGpioTask( void *pvParameters )
 {
-  // ResultCode rc = gpioTest();
-  // if (rc == ResultCode::OK) {
-  //   SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
-  // } else {
-  //   SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
-  // }
+  ResultCode rc = gpioTest();
+  if (rc == ResultCode::OK) {
+    SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
+  } else {
+    SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
+  }
 
   // ResultCode rc = ResultCode::ERR_USB_HOST_INIT;
 
   // FreeRTOS task must either loop forever or delete itself
-  SAFE_PRINTF("[CM4]\t prvGpioTask entering usb task loop\r\n");
+  SAFE_PRINTF("[CM4]\t Entering GPIO task loop\r\n");
 
   TickType_t xLastWakeTime = xTaskGetTickCount();
   const TickType_t xFrequency = pdMS_TO_TICKS(10);
@@ -142,7 +142,8 @@ static void prvGpioTask( void *pvParameters )
     // }
     // BSP_LED_Toggle(LED_GREEN);
     //if (rc == ResultCode::OK) {
-      tuh_task();
+      // tuh_task_ext(xFrequency, false);
+      // tuh_task();
    // }
 
 

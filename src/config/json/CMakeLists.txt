@@ -21,15 +21,19 @@ set(CONFIG_SOURCES
         include/config/json/QtControlSourceConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/ReceiverConfig.json.h
+        include/config/json/SoftRockConfig.json.h
         include/config/json/TransmitterConfig.json.h
         include/config/json/TypedJson.h
         include/config/json/UiConfig.json.h
+        include/config/json/UsbControlSinksConfig.json.h
 
         src/audio/AudioConfig.json.cpp
         src/audio/AudioIqSourceConfig.json.cpp
         src/audio/AudioSignalIqSourceConfig.json.cpp
         src/audio/IqIoConfig.json.cpp
+
         src/base/ConfigBase.json.cpp
+
         src/control/BandSelectorBandsConfig.json.cpp
         src/control/DigitalInputConfig.json.cpp
         src/control/DigitalOutputsConfig.json.cpp
@@ -42,6 +46,8 @@ set(CONFIG_SOURCES
         src/control/DigitalInputsConfig.json.cpp
         src/control/FunCubeConfig.json.cpp
         src/control/QtControlSourceConfig.json.cpp
+        src/control/SoftRockConfig.json.cpp
+        src/control/UsbControlSinksConfig.json.cpp
 
         src/radio/RadioConfig.json.cpp
         src/radio/ReceiverConfig.json.cpp

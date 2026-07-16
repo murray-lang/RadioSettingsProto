@@ -42,9 +42,9 @@ target_link_libraries(example-cm4-indirect-update PUBLIC
         settings-model-core
         settings-control-radio
         settings-control-hal-digital
-        core-stm32h745i-cm4-usb-hid
+        core-freertos-usb-host
         core-stm32h745i-setup-setup1-cm4
-        core-freertos-thread-cm4
+        core-freertos-thread
         etl::etl
 )
 

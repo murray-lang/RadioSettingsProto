@@ -2,9 +2,6 @@
 #include <gpiod.h>
 #include <variant>
 
-// #include <stm32h745i/setup/config.h>
-// #include <stm32h745i/app/support/safe_printf.h>
-
 GpioInputLinesSource::GpioInputLinesSource()
   : m_running(false)
   , m_thread(*this)

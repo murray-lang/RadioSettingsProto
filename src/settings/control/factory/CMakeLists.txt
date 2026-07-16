@@ -20,10 +20,9 @@ target_include_directories(settings-control-factory PUBLIC
 )
 
 set(CONTROL_FACTORY_LIBS
-        settings-control-hal-funcube
-
         config-struct
         settings-control-base
+        settings-control-hal-usb-sinks
         settings-control-sink
         settings-control-source
         settings-model-core

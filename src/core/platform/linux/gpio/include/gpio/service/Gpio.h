@@ -16,7 +16,7 @@ class Gpio
 {
 public:
   Gpio();
-  virtual ~Gpio();
+  ~Gpio() override;
 
   static Gpio& getInstance() {
     static Gpio instance; // Only created once, thread-safe since C++11
@@ -39,8 +39,6 @@ public:
   ResultCode requestInputs(const char * contextId, GpioInputLinesRequestVector& requests);
   ResultCode requestOutputs(const char * contextId, GpioOutputLinesRequest* requests);
 
-  // GpioInputLinesSource& getInputLinesSource() { return m_inputLinesSource; }
-  // GpioOutputLinesSource& getOutputLinesSource() { return m_outputLinesSource; }
   void handlePinTransition(GpioLineMask mask, uint32_t timestamp)
   {
     m_inputLinesSource.handlePinTransition(mask, timestamp);
@@ -50,6 +48,7 @@ private:
   GpioInputLinesSource m_inputLinesSource;
   GpioOutputLinesSource m_outputLinesSource;
   gpiod_chip* m_pChip;
+
 };
 
 #endif // LINUX_GPIO_H_

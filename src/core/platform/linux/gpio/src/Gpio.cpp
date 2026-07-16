@@ -3,8 +3,8 @@
 
 constexpr static auto defaultChipPath = "/dev/gpiochip0";
 
-Gpio::Gpio() :
-    m_pChip(nullptr)
+Gpio::Gpio()
+  : m_pChip(nullptr)
 {
 }
 

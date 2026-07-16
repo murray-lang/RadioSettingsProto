@@ -7,6 +7,7 @@
 #include "DigitalOutputsConfig.h"
 #include "QtControlSinkConfig.h"
 #include "QtControlSourceConfig.h"
+#include "UsbControlSinksConfig.h"
 
 #ifdef USE_ETL
 using etl::variant;
@@ -23,7 +24,7 @@ namespace Config::Control
   #ifdef IS_QT
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,
-      FunCube::Fields,
+      UsbControlSinks::Fields,
       GpioLines::Fields,
       QtControlSink::Fields
     >;
@@ -32,7 +33,7 @@ namespace Config::Control
   #else
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,
-      FunCube::Fields,
+      UsbControlSinks::Fields,
       GpioLines::Fields
     >;
     using SourceConfigVariant = variant<DigitalInputs::Fields>;
@@ -40,13 +41,13 @@ namespace Config::Control
 #else
   #ifdef IS_QT
     using SinkConfigVariant = variant<
-      FunCube::Fields,
+      UsbControlSinks::Fields,
       QtControlSink::Fields
     >;
     using SourceConfigVariant = variant<QtControlSource::Fields>;
   #else
     using SinkConfigVariant = variant<
-      FunCube::Fields
+      UsbControlSinks::Fields
     >;
     using SourceConfigVariant = variant<monostate>;
   #endif // IS_QT

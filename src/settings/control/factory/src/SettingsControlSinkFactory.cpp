@@ -1,4 +1,6 @@
 #include <ResultCode.h>
+#include <settings/control/usb/sinks/UsbControlSinks.h>
+#include <config/struct/UsbControlSinksConfig.h>
 #include "settings/control/factory/SettingsControlSinkFactory.h"
 
 // #ifdef USE_GPIO
@@ -21,10 +23,10 @@ ResultCode
 SettingsControlSinkFactory::create(const Config::Control::SinkConfigVariant& config, SettingsControlSinkVariant& sink)
 {
   ResultCode result = ResultCode::OK;
-  if (holds_alternative<Config::FunCube::Fields>(config)) {
-    sink.emplace<FunCubeDongle>();
+  if (holds_alternative<Config::UsbControlSinks::Fields>(config)) {
+    sink.emplace<UsbControlSinks>();
     // FunCubeDongle funCube;
-    result = get<FunCubeDongle>(sink).configure(get<Config::FunCube::Fields>(config));
+    result = get<UsbControlSinks>(sink).configure(get<Config::UsbControlSinks::Fields>(config));
     // if (result == ResultCode::OK) {
     //   sink.emplace<FunCubeDongle>(move(funCube));
     // }

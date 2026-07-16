@@ -36,6 +36,7 @@ target_include_directories(core-linux-gpio PUBLIC ${CMAKE_CURRENT_LIST_DIR}/incl
 target_link_libraries(core-linux-gpio PUBLIC
         core-gpio-base
         core-linux-time
+        core-common-thread
         core-linux-thread
         PkgConfig::GPIOD
 )

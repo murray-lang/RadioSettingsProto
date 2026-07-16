@@ -2,7 +2,7 @@
 #include "config/json/TypedJson.h"
 #include "config/json/DigitalOutputsConfig.json.h"
 #include "config/json/DigitalInputsConfig.json.h"
-#include "config/json/FunCubeConfig.json.h"
+#include "config/json/UsbControlSinksConfig.json.h"
 #include "config/json/QtControlSinkConfig.json.h"
 #include "config/json/QtControlSourceConfig.json.h"
 
@@ -32,22 +32,14 @@ namespace Config::Control
       return result;
     }
 #endif
-    if (json.type == FunCube::type) {
-      FunCube::Fields fields{};
-      result = FunCube::fromJson(json.config, fields);
+    if (json.type == UsbControlSinks::type) {
+      UsbControlSinks::Fields fields{};
+      result = UsbControlSinks::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
         sink = fields;
       }
       return result;
     }
-    // if (json.type == DigitalOutput::BandSelector::type) {
-    //   DigitalOutput::BandSelector::Fields fields{};
-    //   result = DigitalOutput::BandSelector::fromJson(json.config, fields);
-    //   if (result == ResultCode::OK) {
-    //     sink = fields;
-    //   }
-    //   return result;
-    // }
     return ResultCode::ERR_CONFIG_UNKNOWN_TYPE;
   }
 

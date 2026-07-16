@@ -8,9 +8,11 @@
 #include "gpio/input/handlers/GpioLineTransitionHandlerVariant.h"
 #include "gpio/input/handlers/GpioTransitionHandlers.h"
 #include "thread/Thread.h"
-#include "thread/Runnable.h"
+
 #include <thread/Queue.h>
 #include <thread/Semaphore.h>
+
+#include <thread/Runnable.h>
 
 #ifdef USE_ETL
 #include <etl/vector.h>
@@ -55,6 +57,8 @@ public:
   [[nodiscard]] bool isRunning() const { return m_running; }
 
   void run() override;
+  // void quit() override;
+  // bool tick() override;
 
 protected:
 
@@ -75,5 +79,6 @@ private:
   LineEventCallbackVector m_lineEventCallbacks;
 
   GpioLineTransitionHandlers m_transitionHandlers;
+  // ThreadRequirements m_threadRequirements;
 };
 #endif // FREERTOS_GPIOINPUTLINESOURCE_H_

@@ -9,11 +9,12 @@
 #include "gpio/input/handlers/GpioTransitionHandlers.h"
 
 #include <thread/Thread.h>
-#include <thread/Runnable.h>
+
 #include <thread/Queue.h>
 #include <thread/Semaphore.h>
 
 #include "GpioLinesSourceBase.h"
+#include "thread/Runnable.h"
 
 #ifdef USE_ETL
 #include <etl/vector.h>
@@ -28,10 +29,8 @@ struct LineEventCallbackItem {
 
 #ifdef USE_ETL
 using LineEventCallbackVector = etl::vector<LineEventCallbackItem, MAX_DIGITAL_INPUT_HANDLERS>;
-// using GpioLineTransitionHandlerVariantVector = etl::vector<GpioLineTransitionHandlerVariant, MAX_GPIO_LINES>;
 #else
 using LineEventCallbackVector = std::vector<LineEventCallbackItem>;
-// using GpioLineTransitionHandlerVariantVector = std::vector<GpioLineTransitionHandlerVariant>;
 #endif
 
 
@@ -58,9 +57,10 @@ public:
 
   void handlePinTransition(GpioLineMask mask, Timestamp timestamp);
 
+  void run() override;
+
   [[nodiscard]] bool isRunning() const { return m_running; }
 
-  void run() override;
 
 protected:
   ResultCode readLine(GpioLineMask mask, GpioLineValue* value);
@@ -84,5 +84,6 @@ private:
 
   gpiod_edge_event_buffer* m_pEventBuffer;
   GpioLineReader m_lineReader;
+  // ThreadRequirements m_threadRequirements;
 };
 #endif // LINUX_GPIOINPUTLINESOURCE_H_
