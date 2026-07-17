@@ -8,6 +8,7 @@
  */
 class Mutex
 {
+    friend class WaitCondition;
 public:
     /**
      * @brief Constructor. Creates a mutex.

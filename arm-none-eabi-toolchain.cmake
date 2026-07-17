@@ -47,7 +47,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 
 # ETL configuration for embedded targets
 add_compile_definitions(
-    ETL_NO_STL=1
+#    ETL_NO_STL=1 # This causes a problem because we mix std:: with etl:: for sample data
     ETL_TARGET_DEVICE_GENERIC=1
     ETL_NO_CHECKS=1
 )

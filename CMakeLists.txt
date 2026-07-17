@@ -15,6 +15,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 project(makesdr C CXX ASM)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Derive platform family from TARGET_PLATFORM
 if(TARGET_PLATFORM MATCHES "^stm32h745i-(cm[47])$")
