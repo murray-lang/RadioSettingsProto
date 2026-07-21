@@ -10,20 +10,16 @@ AudioInputDriver::AudioInputDriver(
   : AudioInputDriverBase(format, pSink)
   , m_config(config)
   , m_pSink(pSink)
-  , m_pAdcBufferI(nullptr)
-  , m_pAdcBufferQ(nullptr)
   , m_isRunning(false)
 {
   // Allocate DMA buffers (double buffered)
-  m_pAdcBufferI = new uint16_t[m_config.bufferSize * 2];
-  m_pAdcBufferQ = new uint16_t[m_config.bufferSize * 2];
+  // m_pAdcBufferI = new uint16_t[m_config.bufferSize * 2];
+  // m_pAdcBufferQ = new uint16_t[m_config.bufferSize * 2];
 }
 
 AudioInputDriver::~AudioInputDriver()
 {
   stop();
-  delete[] m_pAdcBufferI;
-  delete[] m_pAdcBufferQ;
 }
 
 ResultCode AudioInputDriver::start(uint32_t maxPacketFrames)
@@ -31,9 +27,9 @@ ResultCode AudioInputDriver::start(uint32_t maxPacketFrames)
   if (m_isRunning)
     return ResultCode::ERR_AUDIO_INPUT_DRIVER_ALREADY_STARTED;
 
-  initializeAdcs();
+  calibrateAdcs();
   initializeDma();
-  initializeTimer();
+  startTimer();
   startConversion();
 
   m_isRunning = true;
@@ -49,7 +45,7 @@ void AudioInputDriver::stop()
   m_isRunning = false;
 }
 
-void AudioInputDriver::initializeAdcs()
+void AudioInputDriver::calibrateAdcs()
 {
   // Calibrate ADCs
   if (HAL_ADCEx_Calibration_Start(m_config.pAdcI, ADC_CALIB_OFFSET, ADC_SINGLE_ENDED) != HAL_OK)
@@ -65,11 +61,11 @@ void AudioInputDriver::initializeAdcs()
 void AudioInputDriver::initializeDma()
 {
   // Start DMA for both ADCs in circular mode
-  HAL_ADC_Start_DMA(m_config.pAdcI, (uint32_t*)m_pAdcBufferI, m_config.bufferSize * 2);
-  HAL_ADC_Start_DMA(m_config.pAdcQ, (uint32_t*)m_pAdcBufferQ, m_config.bufferSize * 2);
+  HAL_ADC_Start_DMA(m_config.pAdcI, (uint32_t*)m_adcBufferI, ADC_BUFFER_SIZE * 2);
+  HAL_ADC_Start_DMA(m_config.pAdcQ, (uint32_t*)m_adcBufferQ, ADC_BUFFER_SIZE * 2);
 }
 
-void AudioInputDriver::initializeTimer()
+void AudioInputDriver::startTimer()
 {
   // Timer should already be configured to generate TRGO events at the sample rate
   // Start the timer
@@ -93,13 +89,13 @@ void AudioInputDriver::processBuffer(uint32_t offset)
 {
   // Convert ADC samples to float and interleave I/Q
   RealSamplesMax samples;
-  samples.resize(m_config.bufferSize * 2); // I and Q interleaved
+  // samples.resize(m_config.bufferSize * 2); // I and Q interleaved
 
-  for (uint32_t i = 0; i < m_config.bufferSize; ++i)
+  for (uint32_t i = 0; i < ADC_BUFFER_SIZE; ++i)
   {
     // Convert from unsigned 16-bit to signed float [-1.0, 1.0]
-    float iSample = (static_cast<float>(m_pAdcBufferI[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
-    float qSample = (static_cast<float>(m_pAdcBufferQ[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
+    float iSample = (static_cast<float>(m_adcBufferI[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
+    float qSample = (static_cast<float>(m_adcBufferQ[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
 
     samples[i * 2] = iSample;
     samples[i * 2 + 1] = qSample;
@@ -115,7 +111,7 @@ void AudioInputDriver::processBuffer(uint32_t offset)
 void AudioInputDriver::onAdcConversionComplete()
 {
   // Process second half of buffer
-  processBuffer(m_config.bufferSize);
+  processBuffer(ADC_BUFFER_SIZE);
 }
 
 void AudioInputDriver::onAdcConversionHalfComplete()

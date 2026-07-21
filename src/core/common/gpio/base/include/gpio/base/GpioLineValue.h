@@ -1,4 +1,4 @@
 #pragma once
 #include <cstdint>
 
-using GpioLineValue = std::int8_t;
+using GpioLineValue = int8_t;

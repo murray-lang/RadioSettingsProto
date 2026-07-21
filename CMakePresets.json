@@ -170,6 +170,36 @@
       }
     },
     {
+      "name": "CM4-adc-test-debug",
+      "displayName": "ADC Test Debug (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-adc-test-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "adc-test",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM4-adc-test-release",
+      "displayName": "ADC Test Release (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-adc-test-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "adc-test",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
       "name": "CM7-indirect-update-debug",
       "displayName": "Indirect Update Debug (CM7)",
       "binaryDir": "${sourceDir}/build-cm7-indirect-update-debug",

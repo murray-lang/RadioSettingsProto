@@ -33,7 +33,9 @@ target_compile_definitions(core-gpio-base PUBLIC
         LINE_MASK_WIDTH=$<IF:$<STREQUAL:${PLATFORM_FAMILY},stm32h745i>,16,32>
 )
 
-target_include_directories(core-gpio-base PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
+target_include_directories(core-gpio-base PUBLIC
+        ${INCLUDE_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/include)
 
 target_link_libraries(core-gpio-base PUBLIC
         config-struct

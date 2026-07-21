@@ -9,6 +9,7 @@ set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
         "qt-json-config"
         "qt-gpio-input"
         "indirect-update"
+        "adc-test"
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")

@@ -22,9 +22,9 @@ public:
   void onAdcConversionHalfComplete();
 
 private:
-  void initializeAdcs();
+  void calibrateAdcs();
   void initializeDma();
-  void initializeTimer();
+  void startTimer();
   void startConversion();
   void stopConversion();
   void processBuffer(uint32_t offset);
@@ -33,8 +33,8 @@ private:
   AudioSink* m_pSink;
 
   // Double buffering for DMA
-  uint16_t* m_pAdcBufferI;
-  uint16_t* m_pAdcBufferQ;
+  uint16_t m_adcBufferI[ADC_BUFFER_SIZE*2];
+  uint16_t m_adcBufferQ[ADC_BUFFER_SIZE*2];
 
   bool m_isRunning;
 };

@@ -12,6 +12,9 @@ set(STM32_AUDIO_FILES
 )
 
 add_library(core-stm32h745i-audio STATIC ${STM32_AUDIO_FILES})
+
+target_compile_definitions(core-stm32h745i-audio PUBLIC ADC_BUFFER_SIZE=512)
+
 target_include_directories(core-stm32h745i-audio PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include

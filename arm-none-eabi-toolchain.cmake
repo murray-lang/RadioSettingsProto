@@ -47,9 +47,13 @@ set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 
 # ETL configuration for embedded targets
 add_compile_definitions(
-#    ETL_NO_STL=1 # This causes a problem because we mix std:: with etl:: for sample data
     ETL_TARGET_DEVICE_GENERIC=1
     ETL_NO_CHECKS=1
+    # Tell ETL to not use STL (it will use its own implementations or compiler intrinsics)
+    # This doesn't prevent our code from using std::complex, std::vector, etc.
+    ETL_NO_STL=1
+    # Don't provide std::initializer_list since the compiler already provides it
+    ETL_NO_INITIALIZER_LIST=1
 )
 
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)
