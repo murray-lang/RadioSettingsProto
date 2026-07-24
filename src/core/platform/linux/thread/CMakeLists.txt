@@ -5,11 +5,13 @@ project(core-linux-thread)
 find_package(Threads REQUIRED)
 
 set(LINUX_THREAD_SOURCES
+        ${CMAKE_CURRENT_LIST_DIR}/include/thread/WaitCondition.h
         ${CMAKE_CURRENT_LIST_DIR}/include/thread/Mutex.h
         ${CMAKE_CURRENT_LIST_DIR}/include/thread/Queue.h
         ${CMAKE_CURRENT_LIST_DIR}/include/thread/Semaphore.h
         ${CMAKE_CURRENT_LIST_DIR}/include/thread/Thread.h
 
+        ${CMAKE_CURRENT_LIST_DIR}/src/WaitConditionStd.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/MutexStd.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/SemaphoreStd.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/ThreadStd.cpp

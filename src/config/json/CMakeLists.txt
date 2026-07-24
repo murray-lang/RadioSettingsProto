@@ -4,6 +4,7 @@ project(config-json)
 
 set(CONFIG_SOURCES
         include/config/json/AudioConfig.json.h
+        include/config/json/AdcIqSourceConfig.json.h
         include/config/json/AudioIqSourceConfig.json.h
         include/config/json/AudioSignalIqSourceConfig.json.h
         include/config/json/BandSelectorBandsConfig.json.h
@@ -28,6 +29,7 @@ set(CONFIG_SOURCES
         include/config/json/UsbControlSinksConfig.json.h
 
         src/audio/AudioConfig.json.cpp
+        src/audio/AdcIqSourceConfig.json.cpp
         src/audio/AudioIqSourceConfig.json.cpp
         src/audio/AudioSignalIqSourceConfig.json.cpp
         src/audio/IqIoConfig.json.cpp

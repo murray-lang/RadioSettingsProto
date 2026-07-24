@@ -7,8 +7,8 @@ extern "C" {
 #endif
 #include "stm32h745i/drivers/hal/stm32h7xx_hal.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
-// #include "stm32h745i/fatfs/ff_gen_drv.h"
-// #include "stm32h745i/app/support/mmc_diskio.h"
+#include <ResultCode.h>
+#include "AdcConfig.h"
 #ifdef __cplusplus
 }
 #endif
@@ -172,8 +172,8 @@ extern void MX_FMC_Init(void);
 extern void MX_SAI2_Init(void);
 extern void MX_USART3_UART_Init(void);
 extern void MX_DAC1_Init(void);
-extern void MX_ADC1_Init(void);
-extern void MX_ADC2_Init(void);
+extern enum ResultCode MX_ADC1_Init(struct AdcChannelConfig* adcChannelConfig, ADC_MultiModeTypeDef* multimode);
+extern enum ResultCode MX_ADC2_Init(struct AdcChannelConfig* adcChannelConfig);
 extern void MX_TIM6_Init(void);
 extern void MX_I2C4_Init(void);
 extern void MX_QUADSPI_Init(void);

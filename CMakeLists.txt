@@ -9,12 +9,14 @@ set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
         "qt-json-config"
         "qt-gpio-input"
         "indirect-update"
+        "adc-test"
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 project(makesdr C CXX ASM)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Derive platform family from TARGET_PLATFORM
 if(TARGET_PLATFORM MATCHES "^stm32h745i-(cm[47])$")
@@ -94,6 +96,7 @@ set(LVGL_DIR ${THIRD_PARTY_DIR}/lvgl)
 set(TINYUSB_DIR ${THIRD_PARTY_DIR}/tinyusb_src/src)
 set(FREERTOS_DIR ${THIRD_PARTY_DIR}/FreeRTOS-Kernel)
 set(WEBSOCKETS_DIR ${THIRD_PARTY_DIR}/libwebsockets)
+set(LIQUID_DSP_DIR ${THIRD_PARTY_DIR}/liquid-dsp)
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
@@ -105,6 +108,7 @@ add_subdirectory(${ARDUINO_JSON_DIR} arduinoJson)
 
 add_subdirectory(${ETL_DIR} etl)
 target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't throw exceptions
+
 
 add_subdirectory(src/core)
 add_subdirectory(src/settings)

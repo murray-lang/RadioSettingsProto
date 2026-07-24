@@ -23,6 +23,7 @@
 
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 #include "stm32h745i/drivers/hal/stm32h7xx_hal.h"
+#include "stm32h745i/setup/AdcConfig.h"
 
 #ifdef USE_FREERTOS
 #include <FreeRTOS.h>
@@ -265,6 +266,21 @@ void DMA1_Stream5_IRQHandler(void)
   /* USER CODE END DMA1_Stream5_IRQn 1 */
 }
 
+/**
+  * @brief This function handles ADC1 and ADC2 global interrupts.
+  */
+void ADC_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC_IRQn 0 */
+
+  /* USER CODE END ADC_IRQn 0 */
+  // In dual regular simultaneous mode, only ADC1 (master) generates interrupts
+  struct AdcConfig* config = getAdcConfig();
+  HAL_ADC_IRQHandler(&config->I.adc);
+  /* USER CODE BEGIN ADC_IRQn 1 */
+
+  /* USER CODE END ADC_IRQn 1 */
+}
 
 /**
   * @brief This function handles EXTI line1 interrupt.
