@@ -11,7 +11,7 @@ add_definitions(
         -DHSE_VALUE=25000000
 )
 
-add_subdirectory(audio)
+add_subdirectory(iq)
 add_subdirectory(ST)
 add_subdirectory(time)
 add_subdirectory(third-party)

@@ -1,7 +1,7 @@
 #include "stm32h745i/setup/AdcConfig.h"
 
 
-struct AdcConfig adcConfig = {
+static struct AdcConfig adcConfig = {
   .sampleRate = 0,
   .enableInput = true,
   .timer = {0},

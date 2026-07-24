@@ -1,18 +1,20 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(core-audio-base)
+project(core-common-audio)
 
 set(AUDIO_BASE_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioDriverBase.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputDriverBase.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutputDriverBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutputBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioSink.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/SampleTypes.h
 )
 
-add_library(core-audio-base INTERFACE ${AUDIO_BASE_SOURCES})
-target_include_directories(core-audio-base INTERFACE
+add_library(core-common-audio INTERFACE ${AUDIO_BASE_SOURCES})
+target_include_directories(core-common-audio INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
-target_link_libraries(core-audio-base INTERFACE etl::etl)
+target_link_libraries(core-common-audio INTERFACE
+        core-common-samples
+        etl::etl
+)

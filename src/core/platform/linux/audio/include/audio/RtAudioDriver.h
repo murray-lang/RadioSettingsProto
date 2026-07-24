@@ -1,8 +1,6 @@
 #ifndef LINUX_AUDIO_DRIVER_H
 #define LINUX_AUDIO_DRIVER_H
 #include <rtaudio/RtAudio.h>
-#include <audio/AudioDriverBase.h>
-
 
 class RtAudioDriver
 {
@@ -11,10 +9,13 @@ protected:
 
 public:
 
+  RtAudioDriver() = default;
   explicit RtAudioDriver(const RtAudio::DeviceInfo& deviceInfo) :
     m_deviceInfo(deviceInfo)
   {
   }
+  RtAudioDriver(RtAudioDriver&&) = default;
+  RtAudioDriver& operator=(RtAudioDriver&&) = default;
 
 protected:
   RtAudio m_rtAudio;

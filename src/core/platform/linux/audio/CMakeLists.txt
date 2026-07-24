@@ -47,14 +47,17 @@ list(APPEND AUDIO_INCL_DIRS ${ALSA_INCLUDE_DIR})
 list(APPEND AUDIO_LINK_LIBS ${ALSA_LIBRARIES})
 
 set(LINUX_AUDIO_DRIVER_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioDriverFactory.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioFactoryBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputFactory.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutputFactory.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/RtAudioDriver.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputDriver.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutputDriver.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInput.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutput.h
 
-        ${CMAKE_CURRENT_LIST_DIR}/src/AudioDriverFactory.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/AudioInputDriver.cpp
-
+        ${CMAKE_CURRENT_LIST_DIR}/src/AudioFactoryBase.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/AudioInputFactory.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/AudioOutputFactory.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/AudioInput.cpp
 )
 
 add_library(core-linux-audio STATIC ${LINUX_AUDIO_DRIVER_FILES})
@@ -66,6 +69,6 @@ target_include_directories(core-linux-audio PUBLIC
 target_link_libraries(core-linux-audio PUBLIC
         ${AUDIO_LINK_LIBS}
         config-struct
-        core-audio-base
+        core-common-audio
         core-linux-thread
 )

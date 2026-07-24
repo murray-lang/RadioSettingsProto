@@ -1,5 +1,5 @@
 #pragma once
-#include "SampleTypes.h"
+#include <samples/SampleTypes.h>
 
 class AudioSink
 {

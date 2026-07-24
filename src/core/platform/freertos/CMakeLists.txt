@@ -6,5 +6,6 @@ project(core-freertos)
 add_compile_definitions(ETL_TARGET_OS_FREERTOS=1)
 
 add_subdirectory(gpio)
+add_subdirectory(third-party)
 add_subdirectory(thread)
 add_subdirectory(usb)

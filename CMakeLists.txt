@@ -96,6 +96,7 @@ set(LVGL_DIR ${THIRD_PARTY_DIR}/lvgl)
 set(TINYUSB_DIR ${THIRD_PARTY_DIR}/tinyusb_src/src)
 set(FREERTOS_DIR ${THIRD_PARTY_DIR}/FreeRTOS-Kernel)
 set(WEBSOCKETS_DIR ${THIRD_PARTY_DIR}/libwebsockets)
+set(LIQUID_DSP_DIR ${THIRD_PARTY_DIR}/liquid-dsp)
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
@@ -107,6 +108,7 @@ add_subdirectory(${ARDUINO_JSON_DIR} arduinoJson)
 
 add_subdirectory(${ETL_DIR} etl)
 target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't throw exceptions
+
 
 add_subdirectory(src/core)
 add_subdirectory(src/settings)

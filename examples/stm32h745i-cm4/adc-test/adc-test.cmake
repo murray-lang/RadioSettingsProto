@@ -13,18 +13,14 @@ set(LD_FILE_CM4 ${CMAKE_CURRENT_LIST_DIR}/ld/STM32H745XIHX_FLASH.ld)
 
 set(ADC_TEST_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AudioInputDriver/AudioInputDriver.h
-        ${CMAKE_CURRENT_LIST_DIR}/AudioInputDriver/AudioInputDriverStm32.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/AudioSink/MyAudioSink.h
-        ${CMAKE_CURRENT_LIST_DIR}/AudioSink/MyAudioSink.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/IqSink/MyIqSink.h
+        ${CMAKE_CURRENT_LIST_DIR}/IqSink/MyIqSink.cpp
 
 )
 
 add_executable(example-cm4-adc-test
         ${ADC_TEST_SOURCES}
 )
-
-target_compile_definitions(example-cm4-adc-test PUBLIC ADC_BUFFER_SIZE=512)
 
 target_include_directories(example-cm4-adc-test PUBLIC
         ${INCLUDE_DIR}
@@ -37,10 +33,8 @@ target_link_libraries(example-cm4-adc-test PUBLIC
 #        settings-control-radio
 #        settings-control-hal-digital
 #        core-freertos-usb-host
-        core-audio-base
         core-stm32h745i-setup-setup1-cm4
-        core-freertos-thread
-        etl::etl
+        core-stm32h745i-iq-source
 )
 
 target_link_options(example-cm4-adc-test PRIVATE -Wl,-Map=example-cm4-adc-test.map,--cref)

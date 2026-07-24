@@ -19,3 +19,6 @@
 [submodule "third-party/tinyusb_src"]
 	path = third-party/tinyusb_src
 	url = https://github.com/hathach/tinyusb_src.git
+[submodule "third-party/liquid-dsp"]
+	path = third-party/liquid-dsp
+	url = https://github.com/jgaeddert/liquid-dsp.git

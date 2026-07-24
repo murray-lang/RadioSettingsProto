@@ -4,20 +4,14 @@
 #include "stm32h745i/app/support/safe_printf.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
-#include <audio/AudioDriverBase.h>
-#include "AudioSink/MyAudioSink.h"
-#include "AudioInputDriver/AudioInputDriver.h"
+#include "IqSink/MyIqSink.h"
 #include <stm32h745i/setup/AdcConfig.h>
 
-AudioDriverBase::Format g_format = {
-  .sampleRate = 96000,
-  .channelCount = 2,
-  .bytesPerFrame = 16,
-  .sampleFormat = AudioFormat::SINT16
-};
-MyAudioSink g_audioSink;
+#include <iq/source/AdcIqSource.h>
 
-AudioInputDriver g_adcDriver(g_format, &g_audioSink, getAdcConfig());
+MyIqSink g_iqSink;
+
+AdcIqSource g_iqSource(&g_iqSink);
 
 // Choose ADC mode: uncomment one
 // #define USE_ADC_DMA_MODE
@@ -36,7 +30,7 @@ extern "C" {
   {
     if (hadc->Instance == ADC1)
     {
-      g_adcDriver.onAdcConversionComplete();
+      g_iqSource.onAdcConversionComplete();
     }
   }
 
@@ -48,7 +42,7 @@ extern "C" {
   {
     if (hadc->Instance == ADC1)
     {
-      g_adcDriver.onAdcConversionHalfComplete();
+      g_iqSource.onAdcConversionHalfComplete();
     }
   }
 #endif
@@ -61,11 +55,19 @@ extern "C" {
    */
   void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   {
+    AdcConfig* adcConfig = getAdcConfig();
     // In dual simultaneous mode, read both ADC values
-    uint16_t valueI = HAL_ADC_GetValue(&getAdcConfig()->I.adc);
-    uint16_t valueQ = HAL_ADC_GetValue(&getAdcConfig()->Q.adc);
+    uint16_t valueI = HAL_ADC_GetValue(&adcConfig->I.adc);
+    uint16_t valueQ = HAL_ADC_GetValue(&adcConfig->Q.adc);
 
-    g_adcDriver.onAdcDualConversion(valueI, valueQ);
+    g_iqSource.onAdcDualConversion(valueI, valueQ);
+    // static uint32_t counter = 0;
+    // counter++;
+    // if (counter > 10000) {
+    //   BSP_LED_Toggle(LED_RED);
+    //   counter = 0;
+    // }
+
   }
 #endif
 
@@ -77,6 +79,8 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+static void prvAdcTask( void *pvParameters );
 
 extern "C" int main()
 {
@@ -119,22 +123,52 @@ extern "C" int main()
   MX_SAI2_Init();
   MX_I2C4_Init();
 
-  ResultCode rc = g_adcDriver.initialise();
+  BaseType_t taskRc = xTaskCreate( prvAdcTask, "ADC", configMINIMAL_STACK_SIZE*4, nullptr, tskIDLE_PRIORITY, nullptr );
+  if (taskRc == pdPASS) {
+    SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
+  } else {
+    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", taskRc);
+  }
+
+  vTaskStartScheduler();
+  while (1) {
+    // HAL_Delay(1000);
+  }
+
+}
+
+static void prvAdcTask( void *pvParameters )
+{
+  ResultCode rc = g_iqSource.initialise();
   if (rc == ResultCode::OK) {
-    rc = g_adcDriver.start(0);
+    rc = g_iqSource.start(0);
     if (rc == ResultCode::OK) {
       BSP_LED_On(LED_GREEN);
     } else {
       BSP_LED_On(LED_RED);
-      SAFE_PRINTF("[CM4]\t g_adcDriver.start() returned %d\r\n", static_cast<int>(rc));
+      SAFE_PRINTF("[CM4]\t g_iqSource.start() returned %d\r\n", static_cast<int>(rc));
     }
   } else {
     BSP_LED_On(LED_RED);
-    SAFE_PRINTF("[CM4]\t g_adcDriver.initialise() returned %d\r\n", static_cast<int>(rc));
+    SAFE_PRINTF("[CM4]\t g_iqSource.initialise() returned %d\r\n", static_cast<int>(rc));
   }
 
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+  const TickType_t xFrequency = pdMS_TO_TICKS(10);
   while (1) {
-    HAL_Delay(1000);
-  }
+    // vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
+    // if (rc == ResultCode::OK) {
+    //   int64_t& centerFrequency = radioSettings.body().active_bands.band_1.pipeline_a.base.rf.centre_frequency.value;
+    //   SAFE_PRINTF("[CM4]\t Centre frequency %ld\r\n", static_cast<int32_t>(centerFrequency));
+    // }
+    // BSP_LED_Toggle(LED_GREEN);
+    //if (rc == ResultCode::OK) {
+    // tuh_task_ext(xFrequency, false);
+    // tuh_task();
+    // }
 
+
+    // Wait for next cycle
+    vTaskDelayUntil(&xLastWakeTime, xFrequency);
+  }
 }

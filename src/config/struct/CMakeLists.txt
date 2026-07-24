@@ -5,6 +5,7 @@ project(config-struct)
 
 set(CONFIG_STRUCT_SOURCES
         include/config/struct/AudioConfig.h
+        include/config/struct/AdcIqSourceConfig.h
         include/config/struct/AudioIqSourceConfig.h
         include/config/struct/AudioSignalIqSourceConfig.h
         include/config/struct/IqIoConfig.h

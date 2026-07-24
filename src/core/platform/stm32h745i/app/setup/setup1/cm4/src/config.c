@@ -118,6 +118,7 @@ enum ResultCode MX_ADC1_Init(struct AdcChannelConfig* adcChannelConfig, ADC_Mult
   {
     return ERR_ADC_INIT;
   }
+  HAL_NVIC_SetPriority(ADC_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(ADC_IRQn);
   /* USER CODE BEGIN ADC1_Init 2 */
 
