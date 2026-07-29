@@ -4,11 +4,12 @@
 #include "AudioFactoryBase.h"
 #include "AudioOutput.h"
 #include "AudioOutputVariant.h"
+#include <config/struct/IqIoConfig.h>
 
 class AudioOutputFactory : public AudioFactoryBase
 {
 public:
-  static ResultCode create(const Config::Audio::Fields& config, AudioOutputVariant& output);
+  static ResultCode create(const Config::IqIo::AudioOutputConfigVariant& config, AudioOutputVariant& output);
 
   static ResultCode findOutputDevice(
     RtAudio::Api api,

@@ -12,7 +12,7 @@
 class RadioSettingsEx : public RadioSettings, public AutoComplete
 {
 public:
-  RadioSettingsEx(makesdr_RadioSettingsPb& raw, const RadioMeta& meta, BandSettingsCache& cache)
+  RadioSettingsEx(makesdr_RadioSettingsPb& raw, const RadioLookup& meta, BandSettingsCache& cache)
     : RadioSettings(raw, meta.raw(), cache)
     , m_activeBandSettings(m_payload.body.active_bands)
     , m_receiverSettings(m_payload.body.receiver)
@@ -66,6 +66,6 @@ protected:
   ReceiverSettings m_receiverSettings;
   TransmitterSettings m_transmitterSettings;
 
-  RadioMeta m_meta;
+  RadioLookup m_meta;
   BandSettingsCache m_bandSettingsCache;
 };

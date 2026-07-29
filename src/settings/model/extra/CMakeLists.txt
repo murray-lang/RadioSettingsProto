@@ -5,8 +5,6 @@ project(settings-model-extra)
 set(BASIC_SETTINGS_SOURCES
         ${PROTO_SRCS}
         ${PROTO_HDRS}
-        ../core/include/settings/model/core/StringRef.h
-        ../meta/include/settings/model/meta/RadioMeta.h
         include/settings/model/extra/ActiveBandSettings.h
         include/settings/model/extra/BandSettings.h
         include/settings/model/extra/BandSettings.h
@@ -48,6 +46,9 @@ target_include_directories(settings-model-extra PUBLIC
 
 target_link_libraries(settings-model-extra PUBLIC
         settings-model-proto
+        settings-model-base
+        settings-model-traverse
         settings-model-core
+        settings-model-meta
         etl
 )

@@ -9,6 +9,8 @@
 #include "etl/functional.h"
 #include "etl/mutex.h"
 #include "etl/math.h"
+#include "etl/char_traits.h"
+
 using etl::variant;
 using etl::holds_alternative;
 using etl::get;
@@ -38,6 +40,7 @@ using etl::in_place_type_t;
 using etl::min;
 using etl::max;
 // using etl::size_t
+using etl::strcmp;
 
 #else
 #include <variant>
@@ -47,6 +50,7 @@ using etl::max;
 #include <algorithm>
 #include <functional>
 #include <mutex>
+#include <cstring>
 
 using std::variant;
 using std::holds_alternative;
@@ -76,6 +80,7 @@ using std::atomic;
 using std::in_place_type_t;
 using std::min;
 using std::max;
+using std::strcmp;
 
 // using std::size_t;
 #endif

@@ -2,7 +2,7 @@
 #include "settings/model/core/RadioSettings.h"
 
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "settings/model/meta/generalCoverageRadioMeta.h"
+#include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 
 using RadioSettingsPb = makesdr_RadioSettingsPb;
 
@@ -15,7 +15,7 @@ BandSettingsCache bandSettingsCache;
 
 int main()
 {
-  RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
+  RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioLookup, bandSettingsCache);
 
   bool isIndirect = false;
   AutoCompleteTrigger trigger;

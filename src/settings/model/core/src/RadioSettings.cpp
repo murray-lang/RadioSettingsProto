@@ -7,32 +7,32 @@
 
 
 RadioSettings::RadioSettings(
-  const makesdr_RadioMetaPb& meta,
+  const makesdr_RadioLookupPb& meta,
   BandSettingsCache& cache
   )
   : m_assumeComplete(false)
   , m_payload(makesdr_RadioSettingsPayloadPb_init_zero)
-  , m_visitor(&m_payload.body, &makesdr_RadioSettingsPb_msg)
+  , m_traverser(&m_payload.body, &makesdr_RadioSettingsPb_msg)
   , m_meta(meta)
   , m_cache(cache)
 {
-  m_payload.header.payloadType = makesdr_RadioPayloadType_PAYLOAD_SETTINGS;
+  m_payload.header.payloadType = makesdr_RadioPayloadType_PAYLOAD_SETTINGS_RADIO;
   m_payload.has_header = true;
   m_payload.has_body = true;
 }
 
 RadioSettings::RadioSettings(
   makesdr_RadioSettingsPb& raw,
-  const makesdr_RadioMetaPb& meta,
+  const makesdr_RadioLookupPb& meta,
   BandSettingsCache& cache
   )
   : m_assumeComplete(false)
   , m_payload(makesdr_RadioSettingsPayloadPb_init_zero)
-  , m_visitor(&m_payload.body, &makesdr_RadioSettingsPb_msg)
+  , m_traverser(&m_payload.body, &makesdr_RadioSettingsPb_msg)
   , m_meta(meta)
   , m_cache(cache)
 {
-  m_payload.header.payloadType = makesdr_RadioPayloadType_PAYLOAD_SETTINGS;
+  m_payload.header.payloadType = makesdr_RadioPayloadType_PAYLOAD_SETTINGS_RADIO;
   m_payload.body = raw;
   m_payload.has_header = true;
   m_payload.has_body = true;
@@ -86,7 +86,7 @@ RadioSettings::replace(makesdr_RadioSettingsPb& update, bool assumeComplete)
 ResultCode
 RadioSettings::merge(const makesdr_RadioSettingsPb& update)
 {
-  ResultCode rc = m_visitor.mergePresentFields(&update);
+  ResultCode rc = m_traverser.mergePresentFields(&update);
   if (rc == ResultCode::OK) {
     return autoComplete();
   }
@@ -96,7 +96,7 @@ RadioSettings::merge(const makesdr_RadioSettingsPb& update)
 ResultCode
 RadioSettings::setAllFieldsPresence(bool present)
 {
-  return m_visitor.setAllFieldsPresence(present);
+  return m_traverser.setAllFieldsPresence(present);
 }
 
 void
@@ -108,7 +108,6 @@ RadioSettings::copyTo(makesdr_RadioSettingsPb& out) const
 ResultCode
 RadioSettings::applySettingUpdate(const SettingUpdate &settingUpdate)
 {
-
   ResultCode rc = ResultCode::OK;
   if (settingUpdate.isIndirect()) {
     rc = updateIndirectField(settingUpdate, 0);
@@ -116,7 +115,7 @@ RadioSettings::applySettingUpdate(const SettingUpdate &settingUpdate)
   } else {
     const SettingPath& path = settingUpdate.path();
     // printf("[CM4]\tSettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
-    rc = m_visitor.updateField(settingUpdate);
+    rc = m_traverser.updateField(settingUpdate);
     // printf("[CM4]\tapplySettingUpdate: %d\r\n", rc);
   }
   if (rc == ResultCode::OK && settingUpdate.trigger() != AutoCompleteTrigger::NONE) {
@@ -129,13 +128,13 @@ RadioSettings::applySettingUpdate(const SettingUpdate &settingUpdate)
 ResultCode
 RadioSettings::updateField(const SettingPath &path, const SettingUpdateVariant &value)
 {
-  return m_visitor.updateField(path, value);
+  return m_traverser.updateField(path, value);
 }
 
 ResultCode
 RadioSettings::getField(const SettingPath &path, SettingUpdateVariant &value) const
 {
-  return m_visitor.getField(path, value);
+  return m_traverser.getField(path, value);
 }
 
 ResultCode
@@ -147,19 +146,19 @@ RadioSettings::getField(
   bool& retrieved
 )
 {
-  return m_visitor.getField(path, value, mustHave, parentsMustHave, retrieved);
+  return m_traverser.getField(path, value, mustHave, parentsMustHave, retrieved);
 }
 
 ResultCode
 RadioSettings::setFieldPresence(const SettingPath &path, bool present)
 {
-  return m_visitor.setFieldPresence(path, present);
+  return m_traverser.setFieldPresence(path, present);
 }
 
 ResultCode
 RadioSettings::mergePresentFields(const void* pRhsMessage)
 {
-  return m_visitor.mergePresentFields(pRhsMessage);
+  return m_traverser.mergePresentFields(pRhsMessage);
 }
 
 ResultCode

@@ -3,7 +3,7 @@
 #include "settings/model/core/RadioSettings.h"
 
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "settings/model/meta/generalCoverageRadioMeta.h"
+#include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 
 
 

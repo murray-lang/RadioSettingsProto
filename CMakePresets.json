@@ -67,7 +67,7 @@
         "TARGET_EXAMPLE": "indirect-update",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -80,7 +80,7 @@
         "TARGET_EXAMPLE": "indirect-update",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {

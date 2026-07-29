@@ -12,13 +12,31 @@ PB_BIND(makesdr_RadioPayloadHeaderPb, makesdr_RadioPayloadHeaderPb, AUTO)
 PB_BIND(makesdr_RadioPayloadBasePb, makesdr_RadioPayloadBasePb, AUTO)
 
 
-PB_BIND(makesdr_RadioSettingsPayloadPb, makesdr_RadioSettingsPayloadPb, 2)
+PB_BIND(makesdr_BasicRxSettingsPayloadPb, makesdr_BasicRxSettingsPayloadPb, 2)
 
 
-PB_BIND(makesdr_RadioMetaPayloadPb, makesdr_RadioMetaPayloadPb, 4)
+PB_BIND(makesdr_BasicIqRxSettingsPayloadPb, makesdr_BasicIqRxSettingsPayloadPb, 2)
 
 
-PB_BIND(makesdr_RadioCachePayloadPb, makesdr_RadioCachePayloadPb, 4)
+PB_BIND(makesdr_BasicTxRxSettingsPayloadPb, makesdr_BasicTxRxSettingsPayloadPb, 2)
+
+
+PB_BIND(makesdr_BasicIqTxRxSettingsPayloadPb, makesdr_BasicIqTxRxSettingsPayloadPb, 2)
+
+
+PB_BIND(makesdr_RadioSettingsFullPayloadPb, makesdr_RadioSettingsFullPayloadPb, 2)
+
+
+PB_BIND(makesdr_RadioLookupPayloadPb, makesdr_RadioLookupPayloadPb, 4)
+
+
+PB_BIND(makesdr_RadioCacheBasicPayloadPb, makesdr_RadioCacheBasicPayloadPb, AUTO)
+
+
+PB_BIND(makesdr_RadioCacheBasicIqPayloadPb, makesdr_RadioCacheBasicIqPayloadPb, AUTO)
+
+
+PB_BIND(makesdr_RadioCacheFullPayloadPb, makesdr_RadioCacheFullPayloadPb, 4)
 
 
 

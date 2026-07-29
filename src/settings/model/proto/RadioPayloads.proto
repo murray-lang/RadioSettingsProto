@@ -6,9 +6,16 @@ import "RadioSettings.proto";
 
 enum RadioPayloadType {
   PAYLOAD_NONE = 0;
-  PAYLOAD_SETTINGS = 1;
-  PAYLOAD_META = 3;
-  PAYLOAD_CACHE = 4;
+  PAYLOAD_SETTINGS_BASIC_RX = 1;
+  PAYLOAD_SETTINGS_BASIC_IQ_RX = 2;
+  PAYLOAD_SETTINGS_BASIC_TX_RX = 3;
+  PAYLOAD_SETTINGS_BASIC_IQ_TX_RX = 4;
+  PAYLOAD_SETTINGS_FULL = 5;
+  PAYLOAD_META = 10;
+  PAYLOAD_CACHE_BASIC = 20;
+  PAYLOAD_CACHE_BASIC_IQ = 21;
+  PAYLOAD_CACHE_FULL = 22;
+
 }
 
 enum RadioPayloadPurpose {
@@ -25,19 +32,54 @@ message RadioPayloadBasePb {
     RadioPayloadHeaderPb header = 1;
 }
 
-message RadioSettingsPayloadPb {
+
+message BasicRxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  BasicRxSettingsPb body = 3;
+}
+
+message BasicIqRxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  BasicIqRxSettingsPb body = 3;
+}
+
+message BasicTxRxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  BasicTxRxSettingsPb body = 3;
+}
+
+message BasicIqTxRxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  BasicIqTxRxSettingsPb body = 3;
+}
+
+message RadioSettingsFullPayloadPb {
   RadioPayloadHeaderPb header = 1;
   RadioPayloadPurpose purpose = 2;
   RadioSettingsPb body = 3;
 }
 
-message RadioMetaPayloadPb {
+message RadioLookupPayloadPb {
   RadioPayloadHeaderPb header = 1;
-  RadioMetaPb body = 2;
+  RadioLookupPb body = 2;
 }
 
-message RadioCachePayloadPb {
+message RadioCacheBasicPayloadPb {
   RadioPayloadType payloadType = 1;
-  RadioMetaPb body = 2;
+  BasicBandSettingsCachePb body = 2;
+}
+
+message RadioCacheBasicIqPayloadPb {
+  RadioPayloadType payloadType = 1;
+  BasicIqBandSettingsCachePb body = 2;
+}
+
+message RadioCacheFullPayloadPb {
+  RadioPayloadType payloadType = 1;
+  BandSettingsCachePb body = 2;
 }
 

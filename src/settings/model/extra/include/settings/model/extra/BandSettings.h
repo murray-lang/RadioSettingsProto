@@ -86,7 +86,7 @@ public:
   makesdr_BandSettingsPb& raw() { return m_rawSettings; }
   [[nodiscard]] const makesdr_BandSettingsPb& raw() const { return m_rawSettings; }
 
-  void setCategories(RadioMeta* categories)
+  void setCategories(RadioLookup* categories)
   {
     m_categories = categories;
     m_pipelineA.base().setCategories(categories);
@@ -132,5 +132,5 @@ protected:
   TxPipelineSettings m_txPipeline;
   // BandVector m_bands;
 
-  RadioMeta* m_categories;
+  RadioLookup* m_categories;
 };
