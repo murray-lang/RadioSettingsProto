@@ -5,6 +5,7 @@
 #include <settings/model/basic/WithModeT.h>
 
 #include "PipelineRfSettings.h"
+#include "IqCorrectionSettings.h"
 
 class PipelineSettings :
   public WithModeT<
@@ -19,13 +20,19 @@ public:
     : WithModeT(raw)
     , m_rawSettings(raw)
     , m_rfSettings(raw.rf)
+    , m_iqCorrectionSettings(raw.iq_corrections)
   {}
 
   [[nodiscard]] bool hasRfSettings() const { return m_rawSettings.has_rf; }
   PipelineRfSettings& rfSettings() { return m_rfSettings; }
   [[nodiscard]] const PipelineRfSettings& rfSettings() const { return m_rfSettings; }
 
+  [[nodiscard]] bool hasIqCorrectionSettings() const { return m_rawSettings.has_iq_corrections; }
+  IqCorrectionSettings& iqCorrectionSettings() { return m_iqCorrectionSettings; }
+  [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
+
 protected:
   makesdr_PipelineSettingsPb& m_rawSettings;
   PipelineRfSettings m_rfSettings;
+  IqCorrectionSettings m_iqCorrectionSettings;
 };

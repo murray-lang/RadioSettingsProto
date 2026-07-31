@@ -8,7 +8,7 @@
 class Mode : public SettingsBase
 {
 public:
-  using Raw = makesdr_ModePb;
+  using Proto = makesdr_ModePb;
 
   enum Type
   {
@@ -23,48 +23,48 @@ public:
     CWU = makesdr_ModeType_MODE_CWU
   };
 
-  Mode(Raw& raw)
-    : m_rawSettings(raw)
+  Mode(Proto& raw)
+    : m_rawRef(raw)
     , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_label{raw.label, raw.label, sizeof(raw.label)}
   {}
 
   Mode(const Mode& rhs) noexcept
-    : m_rawSettings(rhs.m_rawSettings)
-    , m_name{rhs.m_rawSettings.name, rhs.m_rawSettings.name, sizeof(rhs.m_rawSettings.name)}
-  , m_label{rhs.m_rawSettings.label, rhs.m_rawSettings.label, sizeof(rhs.m_rawSettings.label)}
+    : m_rawRef(rhs.m_rawRef)
+    , m_name{rhs.m_rawRef.name, rhs.m_rawRef.name, sizeof(rhs.m_rawRef.name)}
+  , m_label{rhs.m_rawRef.label, rhs.m_rawRef.label, sizeof(rhs.m_rawRef.label)}
   {
   }
 
   Mode(const Mode&& rhs) noexcept
-    : m_rawSettings(rhs.m_rawSettings)
-    , m_name{rhs.m_rawSettings.name, rhs.m_rawSettings.name, sizeof(rhs.m_rawSettings.name)}
-    , m_label{rhs.m_rawSettings.label, rhs.m_rawSettings.label, sizeof(rhs.m_rawSettings.label)}
+    : m_rawRef(rhs.m_rawRef)
+    , m_name{rhs.m_rawRef.name, rhs.m_rawRef.name, sizeof(rhs.m_rawRef.name)}
+    , m_label{rhs.m_rawRef.label, rhs.m_rawRef.label, sizeof(rhs.m_rawRef.label)}
   {
   }
 
   Mode& operator=(const Mode& rhs) noexcept
   {
-    m_rawSettings = rhs.m_rawSettings;
-    m_name = rhs.m_rawSettings.name;
-    m_label = rhs.m_rawSettings.label;
+    m_rawRef = rhs.m_rawRef;
+    m_name = rhs.m_rawRef.name;
+    m_label = rhs.m_rawRef.label;
     return *this;
   }
 
-  Raw& raw() { return m_rawSettings; }
-  const Raw& raw() const { return m_rawSettings; }
+  Proto& raw() { return m_rawRef; }
+  [[nodiscard]] const Proto& raw() const { return m_rawRef; }
 
-  [[nodiscard]] Type type() const { return static_cast<Type>(m_rawSettings.type); }
+  [[nodiscard]] Type type() const { return static_cast<Type>(m_rawRef.type); }
 
   StringRef& name() { return m_name; }
   StringRef& label() { return m_label; }
 
-  [[nodiscard]] int32_t loCut() const { return m_rawSettings.lo_cut; }
-  [[nodiscard]] int32_t hiCut() const { return m_rawSettings.hi_cut; }
-  [[nodiscard]] int32_t offset() const { return m_rawSettings.offset; }
+  [[nodiscard]] int32_t loCut() const { return m_rawRef.lo_cut; }
+  [[nodiscard]] int32_t hiCut() const { return m_rawRef.hi_cut; }
+  [[nodiscard]] int32_t offset() const { return m_rawRef.offset; }
 
 protected:
-  Raw& m_rawSettings;
+  Proto& m_rawRef;
   StringRef m_name;
   StringRef m_label;
 };

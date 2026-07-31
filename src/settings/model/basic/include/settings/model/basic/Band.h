@@ -8,9 +8,9 @@ class Band
 {
 public:
 
-  using Raw = makesdr_BandPb;
+  using Proto = makesdr_BandPb;
 
-  Band(Raw& raw)
+  Band(Proto& raw)
     : m_rawSettings(raw)
     , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_label{raw.label, raw.label, sizeof(m_rawSettings.label)}
@@ -29,8 +29,8 @@ public:
   [[nodiscard]] int32_t defaultCoarseStep() const { return m_rawSettings.default_coarse_step; }
   [[nodiscard]] Mode::Type defaultMode() const { return static_cast<Mode::Type>(m_rawSettings.default_mode); }
 
-  Raw& raw() { return m_rawSettings; }
-  [[nodiscard]] const Raw& raw() const { return m_rawSettings; }
+  Proto& raw() { return m_rawSettings; }
+  [[nodiscard]] const Proto& raw() const { return m_rawSettings; }
 
   [[nodiscard]] bool containsFrequency(int64_t frequency) const
   {
@@ -39,7 +39,7 @@ public:
 
 protected:
 
-  Raw& m_rawSettings;
+  Proto& m_rawSettings;
   const StringRef m_name;
   const StringRef m_label;
 };

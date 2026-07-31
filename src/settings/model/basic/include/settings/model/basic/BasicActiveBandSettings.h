@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dummy.h"
+#include "BasicBandSettings.h"
 
 class BasicActiveBandSettings : public SettingsBase
 {
@@ -12,14 +12,14 @@ public:
   }
 
   [[nodiscard]] bool hasBandSettings() const { return m_rawSettings.has_band_1; }
-  dummy* bandSettings()
+  BasicBandSettings* bandSettings()
   {
     if (m_rawSettings.has_band_1) {
       return &m_bandSettings;
     }
     return nullptr;
   }
-  [[nodiscard]] const dummy* bandSettings() const
+  [[nodiscard]] const BasicBandSettings* bandSettings() const
   {
     if (m_rawSettings.has_band_1) {
       return &m_bandSettings;
@@ -30,5 +30,5 @@ public:
 
 protected:
   makesdr_BasicActiveBandSettingsPb& m_rawSettings;
-  dummy m_bandSettings;
+  BasicBandSettings m_bandSettings;
 };

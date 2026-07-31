@@ -4,4 +4,4 @@ project(core-iq)
 
 add_subdirectory(base)
 add_subdirectory(io)
-add_subdirectory(processing)
+add_subdirectory(pipeline)

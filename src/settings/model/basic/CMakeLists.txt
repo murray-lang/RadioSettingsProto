@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-model-basic)
 
 set(MODEL_BASIC_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/AgcSpeed.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/Band.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/WithBandT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/BandRfSettings.h

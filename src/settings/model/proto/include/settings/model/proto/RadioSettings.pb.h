@@ -149,15 +149,11 @@ typedef struct _makesdr_AfSettingsPb {
 } makesdr_AfSettingsPb;
 
 typedef struct _makesdr_ReceiverSettings {
-    bool has_iq_corrections;
-    makesdr_IqCorrectionSettingsPb iq_corrections;
     bool has_volume;
     makesdr_AfSettingsPb volume;
 } makesdr_ReceiverSettings;
 
 typedef struct _makesdr_TransmitterSettingsPb {
-    bool has_iq_corrections;
-    makesdr_IqCorrectionSettingsPb iq_corrections;
     bool has_mic;
     makesdr_AfSettingsPb mic;
 } makesdr_TransmitterSettingsPb;
@@ -170,6 +166,8 @@ typedef struct _makesdr_PipelineSettingsPb {
     } mode_or_request;
     bool has_rf;
     makesdr_PipelineRfSettingsPb rf;
+    bool has_iq_corrections;
+    makesdr_IqCorrectionSettingsPb iq_corrections;
 } makesdr_PipelineSettingsPb;
 
 typedef struct _makesdr_RxPipelineSettingsPb {
@@ -444,9 +442,9 @@ extern "C" {
 #define makesdr_PipelineRfSettingsPb_init_default {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_default, false, makesdr_SteppableInt64SettingPb_init_default}
 #define makesdr_IfSettingsPb_init_default        {false, 0, false, makesdr_SteppableFloatSettingPb_init_default}
 #define makesdr_AfSettingsPb_init_default        {false, makesdr_SteppableFloatSettingPb_init_default}
-#define makesdr_ReceiverSettings_init_default    {false, makesdr_IqCorrectionSettingsPb_init_default, false, makesdr_AfSettingsPb_init_default}
-#define makesdr_TransmitterSettingsPb_init_default {false, makesdr_IqCorrectionSettingsPb_init_default, false, makesdr_AfSettingsPb_init_default}
-#define makesdr_PipelineSettingsPb_init_default  {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_default}
+#define makesdr_ReceiverSettings_init_default    {false, makesdr_AfSettingsPb_init_default}
+#define makesdr_TransmitterSettingsPb_init_default {false, makesdr_AfSettingsPb_init_default}
+#define makesdr_PipelineSettingsPb_init_default  {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_default, false, makesdr_IqCorrectionSettingsPb_init_default}
 #define makesdr_RxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default}
 #define makesdr_BasicBandSettingsPb_init_default {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, _makesdr_AgcSpeed_MIN}
@@ -480,9 +478,9 @@ extern "C" {
 #define makesdr_PipelineRfSettingsPb_init_zero   {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_zero, false, makesdr_SteppableInt64SettingPb_init_zero}
 #define makesdr_IfSettingsPb_init_zero           {false, 0, false, makesdr_SteppableFloatSettingPb_init_zero}
 #define makesdr_AfSettingsPb_init_zero           {false, makesdr_SteppableFloatSettingPb_init_zero}
-#define makesdr_ReceiverSettings_init_zero       {false, makesdr_IqCorrectionSettingsPb_init_zero, false, makesdr_AfSettingsPb_init_zero}
-#define makesdr_TransmitterSettingsPb_init_zero  {false, makesdr_IqCorrectionSettingsPb_init_zero, false, makesdr_AfSettingsPb_init_zero}
-#define makesdr_PipelineSettingsPb_init_zero     {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_zero}
+#define makesdr_ReceiverSettings_init_zero       {false, makesdr_AfSettingsPb_init_zero}
+#define makesdr_TransmitterSettingsPb_init_zero  {false, makesdr_AfSettingsPb_init_zero}
+#define makesdr_PipelineSettingsPb_init_zero     {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_zero, false, makesdr_IqCorrectionSettingsPb_init_zero}
 #define makesdr_RxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero}
 #define makesdr_BasicBandSettingsPb_init_zero    {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, _makesdr_AgcSpeed_MIN}
@@ -545,13 +543,12 @@ extern "C" {
 #define makesdr_IfSettingsPb_bandwidth_tag       2
 #define makesdr_IfSettingsPb_gain_tag            1001
 #define makesdr_AfSettingsPb_gain_tag            1001
-#define makesdr_ReceiverSettings_iq_corrections_tag 1
 #define makesdr_ReceiverSettings_volume_tag      2
-#define makesdr_TransmitterSettingsPb_iq_corrections_tag 1
 #define makesdr_TransmitterSettingsPb_mic_tag    2
 #define makesdr_PipelineSettingsPb_mode_request_tag 1
 #define makesdr_PipelineSettingsPb_mode_tag      2
 #define makesdr_PipelineSettingsPb_rf_tag        3
+#define makesdr_PipelineSettingsPb_iq_corrections_tag 4
 #define makesdr_RxPipelineSettingsPb_base_tag    1
 #define makesdr_RxPipelineSettingsPb_if_tag      2
 #define makesdr_RxPipelineSettingsPb_mute_tag    3
@@ -725,29 +722,27 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  gain,            1001)
 #define makesdr_AfSettingsPb_gain_MSGTYPE makesdr_SteppableFloatSettingPb
 
 #define makesdr_ReceiverSettings_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  iq_corrections,    1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  volume,            2)
 #define makesdr_ReceiverSettings_CALLBACK NULL
 #define makesdr_ReceiverSettings_DEFAULT NULL
-#define makesdr_ReceiverSettings_iq_corrections_MSGTYPE makesdr_IqCorrectionSettingsPb
 #define makesdr_ReceiverSettings_volume_MSGTYPE makesdr_AfSettingsPb
 
 #define makesdr_TransmitterSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  iq_corrections,    1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  mic,               2)
 #define makesdr_TransmitterSettingsPb_CALLBACK NULL
 #define makesdr_TransmitterSettingsPb_DEFAULT NULL
-#define makesdr_TransmitterSettingsPb_iq_corrections_MSGTYPE makesdr_IqCorrectionSettingsPb
 #define makesdr_TransmitterSettingsPb_mic_MSGTYPE makesdr_AfSettingsPb
 
 #define makesdr_PipelineSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    UENUM,    (mode_or_request,mode_request,mode_or_request.mode_request),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (mode_or_request,mode,mode_or_request.mode),   2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  rf,                3)
+X(a, STATIC,   OPTIONAL, MESSAGE,  rf,                3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  iq_corrections,    4)
 #define makesdr_PipelineSettingsPb_CALLBACK NULL
 #define makesdr_PipelineSettingsPb_DEFAULT NULL
 #define makesdr_PipelineSettingsPb_mode_or_request_mode_MSGTYPE makesdr_ModePb
 #define makesdr_PipelineSettingsPb_rf_MSGTYPE makesdr_PipelineRfSettingsPb
+#define makesdr_PipelineSettingsPb_iq_corrections_MSGTYPE makesdr_IqCorrectionSettingsPb
 
 #define makesdr_RxPipelineSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  base,              1) \
@@ -1002,38 +997,38 @@ extern const pb_msgdesc_t makesdr_RadioSettingsPb_msg;
 /* makesdr_BasicIqBandSettingsCachePb_size depends on runtime parameters */
 /* makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_size depends on runtime parameters */
 #define MAKESDR_RADIOSETTINGS_PB_H_MAX_SIZE      makesdr_RadioLookupPb_size
-#define makesdr_ActiveBandSettingsPb_size        1220
+#define makesdr_ActiveBandSettingsPb_size        1472
 #define makesdr_AfSettingsPb_size                20
 #define makesdr_BandCategoryListPb_size          8424
 #define makesdr_BandCategoryPb_size              1050
 #define makesdr_BandListPb_size                  1027
 #define makesdr_BandPb_size                      77
 #define makesdr_BandRfSettingsPb_size            58
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_size 614
-#define makesdr_BandSettingsCachePb_size         6170
-#define makesdr_BandSettingsPb_size              602
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_size 740
+#define makesdr_BandSettingsCachePb_size         7430
+#define makesdr_BandSettingsPb_size              728
 #define makesdr_BasicActiveBandSettingsPb_size   234
 #define makesdr_BasicBandSettingsPb_size         231
-#define makesdr_BasicIqActiveBandSettingsPb_size 324
-#define makesdr_BasicIqBandSettingsPb_size       321
+#define makesdr_BasicIqActiveBandSettingsPb_size 366
+#define makesdr_BasicIqBandSettingsPb_size       363
 #define makesdr_BasicIqRxSettingsPb_size         393
-#define makesdr_BasicIqTxRxSettingsPb_size       461
-#define makesdr_BasicRxSettingsPb_size           303
-#define makesdr_BasicTxRxSettingsPb_size         371
+#define makesdr_BasicIqTxRxSettingsPb_size       419
+#define makesdr_BasicRxSettingsPb_size           261
+#define makesdr_BasicTxRxSettingsPb_size         287
 #define makesdr_IfSettingsPb_size                26
 #define makesdr_IqCorrectionSettingsPb_size      40
 #define makesdr_ModeListPb_size                  620
 #define makesdr_ModePb_size                      60
 #define makesdr_PipelineRfSettingsPb_size        80
-#define makesdr_PipelineSettingsPb_size          144
+#define makesdr_PipelineSettingsPb_size          186
 #define makesdr_RadioLookupPb_size               9050
-#define makesdr_RadioSettingsPb_size             1357
-#define makesdr_ReceiverSettings_size            64
-#define makesdr_RxPipelineSettingsPb_size        179
+#define makesdr_RadioSettingsPb_size             1525
+#define makesdr_ReceiverSettings_size            22
+#define makesdr_RxPipelineSettingsPb_size        221
 #define makesdr_SteppableFloatSettingPb_size     17
 #define makesdr_SteppableInt64SettingPb_size     35
-#define makesdr_TransmitterSettingsPb_size       64
-#define makesdr_TxPipelineSettingsPb_size        147
+#define makesdr_TransmitterSettingsPb_size       22
+#define makesdr_TxPipelineSettingsPb_size        189
 
 #ifdef __cplusplus
 } /* extern "C" */

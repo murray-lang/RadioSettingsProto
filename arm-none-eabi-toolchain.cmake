@@ -42,8 +42,8 @@ set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -x assembler-with-cpp -MMD -MP")
 # Build type specific flags
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -g")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -g")
-set(CMAKE_C_FLAGS_RELEASE "-Os")
-set(CMAKE_CXX_FLAGS_RELEASE "-Os")
+set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os  -flto")
 
 # ETL configuration for embedded targets
 add_compile_definitions(

@@ -24,6 +24,11 @@ target_compile_definitions(core-freertos-liquid-dsp PRIVATE
         free=vPortFree
 )
 
+target_include_directories(core-freertos-liquid-dsp PUBLIC
+        ${LIQUID_DSP_DIR}/include
+        ${CMAKE_BINARY_DIR}/freertos-liquid-dsp-${TARGET_PLATFORM}
+)
+
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     target_link_libraries(core-freertos-liquid-dsp PUBLIC
             core-stm32h745i-cm7-freertos

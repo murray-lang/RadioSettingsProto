@@ -14,4 +14,9 @@ add_subdirectory(${LIQUID_DSP_DIR} ${CMAKE_BINARY_DIR}/freertos-liquid-dsp-linux
 
 add_library(core-linux-liquid-dsp STATIC src/dummy.c)
 
+target_include_directories(core-linux-liquid-dsp PUBLIC
+        ${LIQUID_DSP_DIR}/include
+        ${CMAKE_BINARY_DIR}/freertos-liquid-dsp-linux
+)
+
 target_link_libraries(core-linux-liquid-dsp PUBLIC liquid)

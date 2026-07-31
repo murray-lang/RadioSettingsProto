@@ -3,8 +3,10 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-model-basic-iq)
 
 set(MODEL_BASIC_IQ_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic-iq/IqCorrectionSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic-iq/PipelineSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic-iq/PipelineRfSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic-iq/RxPipelineSettings.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/dummy.cpp
 )

@@ -4,7 +4,7 @@
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/lookup/radio/RadioLookup.h>
 #include <settings/model/base/RadioSettingsBaseT.h>
-#include <settings/model/components/BasicActiveBandSettings.h>
+#include <settings/model/basic/BasicActiveBandSettings.h>
 
 
 using BasicBandSettingsCache = BandSettingsCacheT<
@@ -13,7 +13,7 @@ using BasicBandSettingsCache = BandSettingsCacheT<
   makesdr_BasicBandSettingsCachePb_BandSettingsEntry
 >;
 
-using BaseType = RadioSettingsBaseT<
+using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxSettingsPb,
     &makesdr_BasicRxSettingsPb_msg,
     makesdr_BasicRxSettingsPayloadPb,
@@ -23,7 +23,7 @@ using BaseType = RadioSettingsBaseT<
     BasicBandSettingsCache
   >;
 
-class BasicRxSettings : public BaseType
+class BasicRxSettings : public BasicRxSettingsBaseType
 {
 public:
   BasicRxSettings(const makesdr_RadioLookupPb& meta, BasicBandSettingsCache& cache);

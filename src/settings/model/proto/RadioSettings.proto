@@ -131,12 +131,10 @@ message AfSettingsPb {
 }
 
 message ReceiverSettings {
-  IqCorrectionSettingsPb iq_corrections = 1;
   AfSettingsPb volume = 2;
 }
 
 message TransmitterSettingsPb {
-  IqCorrectionSettingsPb iq_corrections = 1;
   AfSettingsPb mic = 2;
 }
 
@@ -146,6 +144,7 @@ message PipelineSettingsPb {
     ModePb mode = 2;
   }
   PipelineRfSettingsPb rf = 3;
+  IqCorrectionSettingsPb iq_corrections = 4;
 }
 
 message RxPipelineSettingsPb {

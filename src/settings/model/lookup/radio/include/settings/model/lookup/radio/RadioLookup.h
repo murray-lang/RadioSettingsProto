@@ -28,6 +28,11 @@ public:
   ModeList& modes() { return m_modes; }
   [[nodiscard]] const ModeList& modes() const { return m_modes; }
 
+  [[nodiscard]] const makesdr_ModePb* getModeByType(makesdr_ModeType type) const
+  {
+    return m_modes.findModeByType(type);
+  }
+
 protected:
   const makesdr_RadioLookupPb& m_rawSettings;
   BandCategoryList m_bands;

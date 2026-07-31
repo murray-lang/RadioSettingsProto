@@ -6,6 +6,7 @@
 #include "BandRfSettings.h"
 #include "IfSettings.h"
 #include "Mode.h"
+#include "AgcSpeed.h"
 
 
 
@@ -42,8 +43,7 @@ public:
   [[nodiscard]] const IfSettings& ifSettings() const { return m_ifSettings; }
 
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
-  makesdr_AgcSpeed& agcSpeed() { return m_rawSettings.agc_speed; }
-  [[nodiscard]] const makesdr_AgcSpeed& agcSpeed() const { return m_rawSettings.agc_speed; }
+  [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }
 
 
 protected:
