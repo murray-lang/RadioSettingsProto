@@ -1,7 +1,7 @@
 #pragma once
 #include "ControlConfig.h"
 #include "UiConfig.h"
-#include "ReceiverConfig.h"
+#include "IqReceiverConfig.h"
 #include "TransmitterConfig.h"
 
 namespace Config::Radio

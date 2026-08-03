@@ -4,9 +4,8 @@
 #include <iq/base/IqSource.h>
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
-#include <settings/control/sink/PttSink.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/basic-iq/PipelineSettings.h>
+#include <settings/model/iq/PipelineSettings.h>
 #include <settings/model/basic/BandRfSettings.h>
 #include <settings/model/lookup/radio/RadioLookup.h>
 
@@ -19,7 +18,7 @@
 
 using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 
-class IqPipeline : public IqSink, public PttSink
+class IqPipeline : public IqSink
 {
 public:
   explicit IqPipeline(const RadioLookup& radioLookup);

@@ -31,14 +31,14 @@ target_include_directories(core-common-iq-pipeline-stage-modulation PUBLIC
 if(USE_FREERTOS)
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-basic
+            settings-model-basic-components
             core-common-iq-pipeline-stage-oscillator
             core-freertos-liquid-dsp
     )
 else()
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-basic
+            settings-model-basic-components
             core-common-iq-pipeline-stage-oscillator
             core-linux-liquid-dsp
     )

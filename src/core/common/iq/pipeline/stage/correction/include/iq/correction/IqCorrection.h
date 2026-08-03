@@ -2,7 +2,7 @@
 
 #include <samples/SampleTypes.h>
 #include <iq/pipeline/stage/IqPipelineStage.h>
-#include <settings/model/basic-iq/IqCorrectionSettings.h>
+#include <settings/model/iq/IqCorrectionSettings.h>
 
 class IqCorrection : public IqPipelineStage
 {

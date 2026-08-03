@@ -12,21 +12,19 @@
 #include "iq/modulation/AmDemodulator.h"
 #include "iq/modulation/FmDemodulator.h"
 #include "iq/modulation/SsbDemodulator.h"
-#include "settings/model/basic-iq/RxPipelineSettings.h"
+#include "settings/model/iq/RxPipelineSettings.h"
 
 
 class IqRxPipeline : public IqPipeline
 {
 public:
   IqRxPipeline(const RadioLookup& radioLookup);
-  ~IqRxPipeline() override;
+  ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
   void setOutputSampleRate(uint32_t outputSampleRate) override;
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
-
-  void ptt(bool on) override {};
 
   ResultCode apply(const BandRfSettings* bandRfSettings, const RxPipelineSettings* settings);
 
