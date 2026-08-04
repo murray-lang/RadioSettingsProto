@@ -10,7 +10,7 @@ add_subdirectory(basic)
 #add_subdirectory(core)
 #add_subdirectory(extra)
 add_subdirectory(lookup)
-#add_subdirectory(parts)
+add_subdirectory(radio)
 add_subdirectory(util)
 add_subdirectory(traverse)
 

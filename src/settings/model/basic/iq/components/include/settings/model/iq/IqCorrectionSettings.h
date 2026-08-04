@@ -7,6 +7,7 @@ class IqCorrectionSettings : public SettingsBase
 {
 public:
   using Proto = makesdr_IqCorrectionSettingsPb;
+
   IqCorrectionSettings(Proto& raw)
     : m_rawSettings(raw)
     // , m_amplitude(raw.amplitude)

@@ -84,7 +84,7 @@ public:
   }
   ResultCode set(const BandSettingsType* bandSettings)
   {
-    if (bandSettings->which_band_or_request != makesdr_BandSettingsPb_band_tag) {
+    if (bandSettings->which_band_or_request != makesdr_BasicBandSettingsPb_band_tag) {
       return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND;
     }
     if (bandSettings->band_or_request.band.name[0] == '\0') {

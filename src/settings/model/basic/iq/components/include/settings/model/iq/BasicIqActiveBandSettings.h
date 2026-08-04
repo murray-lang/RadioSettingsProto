@@ -5,7 +5,9 @@
 class BasicIqActiveBandSettings : public SettingsBase
 {
 public:
-  BasicIqActiveBandSettings(makesdr_BasicIqActiveBandSettingsPb& raw)
+  using Proto = makesdr_BasicIqActiveBandSettingsPb;
+
+  BasicIqActiveBandSettings(Proto& raw)
     : m_rawSettings(raw),
       m_band_1(raw.band_1)
   {
@@ -21,6 +23,6 @@ public:
   }
 
 protected:
-  makesdr_BasicIqActiveBandSettingsPb& m_rawSettings;
+  Proto& m_rawSettings;
   BasicIqBandSettings m_band_1;
 };

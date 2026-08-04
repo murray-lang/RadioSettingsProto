@@ -17,8 +17,7 @@ target_include_directories(settings-control-source INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-#target_link_libraries(settings-control-source PUBLIC
-#        settings-control-base
-#        settings-model-basic
-#        settings-model-mutable
-#)
+target_link_libraries(settings-control-source INTERFACE
+        settings-control-base
+        settings-model-radio
+)

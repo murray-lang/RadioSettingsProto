@@ -364,6 +364,32 @@
         "USE_GPIO": "OFF",
         "USE_ETL": "ON"
       }
+    },
+    {
+      "name": "qt-basic-iq-rx-radio-debug",
+      "displayName": "qt-basic-iq-rx-radio Debug (linux)",
+      "binaryDir": "${sourceDir}/build-qt-basic-iq-rx-radio-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "qt-basic-iq-rx-radio",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "OFF"
+      }
+    },
+    {
+      "name": "qt-basic-iq-rx-radio-release",
+      "displayName": "qt-basic-iq-rx-radio Release (linux)",
+      "binaryDir": "${sourceDir}/build-qt-basic-iq-rx-radio-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "qt-basic-iq-rx-radio",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "OFF"
+      }
     }
   ]
 }

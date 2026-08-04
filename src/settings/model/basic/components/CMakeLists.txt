@@ -3,16 +3,11 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-model-basic-components)
 
 set(MODEL_BASIC_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/AgcSpeed.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/Band.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/WithBandT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/BandRfSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/BasicActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/BasicBandSettings.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/IfSettings.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/Mode.h
+
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/WithModeT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/basic/RfSettingsT.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/dummy.cpp
 )

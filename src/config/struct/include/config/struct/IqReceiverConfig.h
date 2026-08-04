@@ -11,5 +11,3 @@ namespace Config::IqReceiver
     IqIo::Fields iqIo;
   };
 }
-
-// using ReceiverConfig = Config::Receiver::Fields;

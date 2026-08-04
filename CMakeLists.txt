@@ -10,6 +10,7 @@ set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
         "qt-gpio-input"
         "indirect-update"
         "adc-test"
+        "qt-basic-iq-rx-radio"
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -113,6 +114,7 @@ target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't
 add_subdirectory(src/core)
 add_subdirectory(src/settings)
 add_subdirectory(src/config)
+add_subdirectory(src/radio)
 
 include(${CMAKE_SOURCE_DIR}/examples/${TARGET_PLATFORM}/${TARGET_EXAMPLE}/${TARGET_EXAMPLE}.cmake)
 

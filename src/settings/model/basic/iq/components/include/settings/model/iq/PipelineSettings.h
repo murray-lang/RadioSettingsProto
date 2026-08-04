@@ -16,7 +16,10 @@ class PipelineSettings :
   , public SettingsBase
 {
 public:
-  PipelineSettings(makesdr_PipelineSettingsPb& raw)
+
+  using Proto = makesdr_PipelineSettingsPb;
+
+  PipelineSettings(Proto& raw)
     : WithModeT(raw)
     , m_rawSettings(raw)
     , m_rfSettings(raw.rf)
@@ -32,7 +35,7 @@ public:
   [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
 
 protected:
-  makesdr_PipelineSettingsPb& m_rawSettings;
+  Proto& m_rawSettings;
   PipelineRfSettings m_rfSettings;
   IqCorrectionSettings m_iqCorrectionSettings;
 };

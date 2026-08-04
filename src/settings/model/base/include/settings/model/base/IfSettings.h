@@ -12,7 +12,7 @@ public:
   [[nodiscard]] bool hasGain() const { return m_rawSettings.has_gain; }
 
   [[nodiscard]] uint32_t bandwidth() const { return m_rawSettings.bandwidth; }
-  [[nodiscard]] float gain() { return m_rawSettings.gain.value; }
+  [[nodiscard]] float gain() const { return m_rawSettings.gain.value; }
 
 protected:
   makesdr_IfSettingsPb& m_rawSettings;

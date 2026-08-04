@@ -148,10 +148,10 @@ typedef struct _makesdr_AfSettingsPb {
     makesdr_SteppableFloatSettingPb gain;
 } makesdr_AfSettingsPb;
 
-typedef struct _makesdr_ReceiverSettings {
+typedef struct _makesdr_ReceiverSettingsPb {
     bool has_volume;
     makesdr_AfSettingsPb volume;
-} makesdr_ReceiverSettings;
+} makesdr_ReceiverSettingsPb;
 
 typedef struct _makesdr_TransmitterSettingsPb {
     bool has_mic;
@@ -217,10 +217,10 @@ typedef struct _makesdr_BasicIqBandSettingsPb {
     makesdr_RxPipelineSettingsPb pipeline_a;
 } makesdr_BasicIqBandSettingsPb;
 
-typedef struct _makesdr_BandSettingsPb {
+typedef struct _makesdr_DualIqBandSettingsPb {
     pb_size_t which_band_or_request;
-    union _makesdr_BandSettingsPb_band_or_request {
-        char band_request[8];
+    union _makesdr_DualIqBandSettingsPb_band_or_request {
+        pb_callback_t band_request;
         makesdr_BandPb band;
     } band_or_request;
     bool has_pipeline_a;
@@ -238,7 +238,7 @@ typedef struct _makesdr_BandSettingsPb {
     /* This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
  It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
     makesdr_PipelineId focus_pipeline;
-} makesdr_BandSettingsPb;
+} makesdr_DualIqBandSettingsPb;
 
 typedef struct _makesdr_BasicActiveBandSettingsPb {
     bool has_band_1;
@@ -250,11 +250,16 @@ typedef struct _makesdr_BasicIqActiveBandSettingsPb {
     makesdr_BasicIqBandSettingsPb band_1;
 } makesdr_BasicIqActiveBandSettingsPb;
 
-typedef struct _makesdr_ActiveBandSettingsPb {
+typedef struct _makesdr_DualIqActiveBandSettingsPb {
     bool has_band_1;
-    makesdr_BandSettingsPb band_1;
+    makesdr_DualIqBandSettingsPb band_1;
+} makesdr_DualIqActiveBandSettingsPb;
+
+typedef struct _makesdr_SplitBandDualIqActiveBandSettingsPb {
+    bool has_band_1;
+    makesdr_DualIqBandSettingsPb band_1;
     bool has_band_2;
-    makesdr_BandSettingsPb band_2;
+    makesdr_DualIqBandSettingsPb band_2;
     bool has_focus_band_id;
     makesdr_SplitBandId focus_band_id;
     bool has_tx_band_id;
@@ -266,7 +271,7 @@ typedef struct _makesdr_ActiveBandSettingsPb {
     /* This is a pseudo band that is used to set either band_1 or Band_2 depending on focus_band_id.
  It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
     makesdr_SplitBandId focus_band;
-} makesdr_ActiveBandSettingsPb;
+} makesdr_SplitBandDualIqActiveBandSettingsPb;
 
 typedef struct _makesdr_BasicBandSettingsCachePb {
     pb_callback_t band_settings;
@@ -288,23 +293,22 @@ typedef struct _makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry {
     makesdr_BasicIqBandSettingsPb value;
 } makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry;
 
-typedef struct _makesdr_BandSettingsCachePb_BandSettingsEntry {
-    char key[8];
-    bool has_value;
-    makesdr_BandSettingsPb value;
-} makesdr_BandSettingsCachePb_BandSettingsEntry;
+typedef struct _makesdr_DualIqBandSettingsCachePb {
+    pb_callback_t band_settings;
+} makesdr_DualIqBandSettingsCachePb;
 
-typedef struct _makesdr_BandSettingsCachePb {
-    pb_size_t band_settings_count;
-    makesdr_BandSettingsCachePb_BandSettingsEntry band_settings[10];
-} makesdr_BandSettingsCachePb;
+typedef struct _makesdr_DualIqBandSettingsCachePb_BandSettingsEntry {
+    pb_callback_t key;
+    bool has_value;
+    makesdr_DualIqBandSettingsPb value;
+} makesdr_DualIqBandSettingsCachePb_BandSettingsEntry;
 
 /* No IQ, just control of a conventional receiver */
 typedef struct _makesdr_BasicRxSettingsPb {
     bool has_active_bands;
     makesdr_BasicActiveBandSettingsPb active_bands;
     bool has_receiver;
-    makesdr_ReceiverSettings receiver;
+    makesdr_ReceiverSettingsPb receiver;
 } makesdr_BasicRxSettingsPb;
 
 /* No-frills IQ receiver */
@@ -312,44 +316,62 @@ typedef struct _makesdr_BasicIqRxSettingsPb {
     bool has_active_bands;
     makesdr_BasicIqActiveBandSettingsPb active_bands;
     bool has_receiver;
-    makesdr_ReceiverSettings receiver;
+    makesdr_ReceiverSettingsPb receiver;
 } makesdr_BasicIqRxSettingsPb;
 
+typedef struct _makesdr_DualIqRxSettingsPb {
+    bool has_active_bands;
+    makesdr_DualIqActiveBandSettingsPb active_bands;
+    bool has_receiver;
+    makesdr_ReceiverSettingsPb receiver;
+} makesdr_DualIqRxSettingsPb;
+
 /* No IQ, just control of a conventional transceiver */
-typedef struct _makesdr_BasicTxRxSettingsPb {
+typedef struct _makesdr_BasicRxTxSettingsPb {
     bool has_active_bands;
     makesdr_BasicActiveBandSettingsPb active_bands;
     bool has_receiver;
-    makesdr_ReceiverSettings receiver;
+    makesdr_ReceiverSettingsPb receiver;
     bool has_transmitter;
     makesdr_TransmitterSettingsPb transmitter;
     bool has_ptt;
     bool ptt;
-} makesdr_BasicTxRxSettingsPb;
+} makesdr_BasicRxTxSettingsPb;
 
 /* No-frills IQ transceiver */
-typedef struct _makesdr_BasicIqTxRxSettingsPb {
+typedef struct _makesdr_BasicIqRxTxSettingsPb {
     bool has_active_bands;
     makesdr_BasicIqActiveBandSettingsPb active_bands;
     bool has_receiver;
-    makesdr_ReceiverSettings receiver;
+    makesdr_ReceiverSettingsPb receiver;
     bool has_transmitter;
     makesdr_TransmitterSettingsPb transmitter;
     bool has_ptt;
     bool ptt;
-} makesdr_BasicIqTxRxSettingsPb;
+} makesdr_BasicIqRxTxSettingsPb;
+
+typedef struct _makesdr_DualIqRxTxSettingsPb {
+    bool has_active_bands;
+    makesdr_DualIqActiveBandSettingsPb active_bands;
+    bool has_receiver;
+    makesdr_ReceiverSettingsPb receiver;
+    bool has_transmitter;
+    makesdr_TransmitterSettingsPb transmitter;
+    bool has_ptt;
+    bool ptt;
+} makesdr_DualIqRxTxSettingsPb;
 
 /* Splittable TX and Rx, dual pipelines */
-typedef struct _makesdr_RadioSettingsPb {
+typedef struct _makesdr_SplitBandDualIqRxTxSettingsPb {
     bool has_active_bands;
-    makesdr_ActiveBandSettingsPb active_bands;
+    makesdr_SplitBandDualIqActiveBandSettingsPb active_bands;
     bool has_receiver;
-    makesdr_ReceiverSettings receiver;
+    makesdr_ReceiverSettingsPb receiver;
     bool has_transmitter;
     makesdr_TransmitterSettingsPb transmitter;
     bool has_ptt;
     bool ptt;
-} makesdr_RadioSettingsPb;
+} makesdr_SplitBandDualIqRxTxSettingsPb;
 
 
 #ifdef __cplusplus
@@ -404,16 +426,19 @@ extern "C" {
 #define makesdr_BasicBandSettingsPb_agc_speed_ENUMTYPE makesdr_AgcSpeed
 
 
-#define makesdr_BandSettingsPb_focus_pipeline_id_ENUMTYPE makesdr_PipelineId
-#define makesdr_BandSettingsPb_tx_pipeline_id_ENUMTYPE makesdr_PipelineId
-#define makesdr_BandSettingsPb_focus_pipeline_ENUMTYPE makesdr_PipelineId
+#define makesdr_DualIqBandSettingsPb_focus_pipeline_id_ENUMTYPE makesdr_PipelineId
+#define makesdr_DualIqBandSettingsPb_tx_pipeline_id_ENUMTYPE makesdr_PipelineId
+#define makesdr_DualIqBandSettingsPb_focus_pipeline_ENUMTYPE makesdr_PipelineId
 
 
 
-#define makesdr_ActiveBandSettingsPb_focus_band_id_ENUMTYPE makesdr_SplitBandId
-#define makesdr_ActiveBandSettingsPb_tx_band_id_ENUMTYPE makesdr_SplitBandId
-#define makesdr_ActiveBandSettingsPb_rx_band_id_ENUMTYPE makesdr_SplitBandId
-#define makesdr_ActiveBandSettingsPb_focus_band_ENUMTYPE makesdr_SplitBandId
+
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_tx_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_rx_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_ENUMTYPE makesdr_SplitBandId
+
+
 
 
 
@@ -442,28 +467,31 @@ extern "C" {
 #define makesdr_PipelineRfSettingsPb_init_default {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_default, false, makesdr_SteppableInt64SettingPb_init_default}
 #define makesdr_IfSettingsPb_init_default        {false, 0, false, makesdr_SteppableFloatSettingPb_init_default}
 #define makesdr_AfSettingsPb_init_default        {false, makesdr_SteppableFloatSettingPb_init_default}
-#define makesdr_ReceiverSettings_init_default    {false, makesdr_AfSettingsPb_init_default}
+#define makesdr_ReceiverSettingsPb_init_default  {false, makesdr_AfSettingsPb_init_default}
 #define makesdr_TransmitterSettingsPb_init_default {false, makesdr_AfSettingsPb_init_default}
 #define makesdr_PipelineSettingsPb_init_default  {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_default, false, makesdr_IqCorrectionSettingsPb_init_default}
 #define makesdr_RxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default}
 #define makesdr_BasicBandSettingsPb_init_default {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_BasicIqBandSettingsPb_init_default {0, {""}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default}
-#define makesdr_BandSettingsPb_init_default      {0, {""}, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_TxPipelineSettingsPb_init_default, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
+#define makesdr_DualIqBandSettingsPb_init_default {0, {{{NULL}, NULL}}, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_TxPipelineSettingsPb_init_default, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
 #define makesdr_BasicActiveBandSettingsPb_init_default {false, makesdr_BasicBandSettingsPb_init_default}
 #define makesdr_BasicIqActiveBandSettingsPb_init_default {false, makesdr_BasicIqBandSettingsPb_init_default}
-#define makesdr_ActiveBandSettingsPb_init_default {false, makesdr_BandSettingsPb_init_default, false, makesdr_BandSettingsPb_init_default, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0, _makesdr_SplitBandId_MIN}
+#define makesdr_DualIqActiveBandSettingsPb_init_default {false, makesdr_DualIqBandSettingsPb_init_default}
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_init_default {false, makesdr_DualIqBandSettingsPb_init_default, false, makesdr_DualIqBandSettingsPb_init_default, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0, _makesdr_SplitBandId_MIN}
 #define makesdr_BasicBandSettingsCachePb_init_default {{{NULL}, NULL}}
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default {{{NULL}, NULL}, false, makesdr_BasicBandSettingsPb_init_default}
 #define makesdr_BasicIqBandSettingsCachePb_init_default {{{NULL}, NULL}}
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default {{{NULL}, NULL}, false, makesdr_BasicIqBandSettingsPb_init_default}
-#define makesdr_BandSettingsCachePb_init_default {0, {makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default}}
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_BandSettingsPb_init_default}
-#define makesdr_BasicRxSettingsPb_init_default   {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettings_init_default}
-#define makesdr_BasicIqRxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettings_init_default}
-#define makesdr_BasicTxRxSettingsPb_init_default {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettings_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
-#define makesdr_BasicIqTxRxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettings_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
-#define makesdr_RadioSettingsPb_init_default     {false, makesdr_ActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettings_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_DualIqBandSettingsCachePb_init_default {{{NULL}, NULL}}
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default {{{NULL}, NULL}, false, makesdr_DualIqBandSettingsPb_init_default}
+#define makesdr_BasicRxSettingsPb_init_default   {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default}
+#define makesdr_BasicIqRxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default}
+#define makesdr_DualIqRxSettingsPb_init_default  {false, makesdr_DualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default}
+#define makesdr_BasicRxTxSettingsPb_init_default {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_BasicIqRxTxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_DualIqRxTxSettingsPb_init_default {false, makesdr_DualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_SplitBandDualIqRxTxSettingsPb_init_default {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_ModePb_init_zero                 {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
 #define makesdr_ModeListPb_init_zero             {0, {makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero}}
 #define makesdr_BandPb_init_zero                 {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
@@ -478,28 +506,31 @@ extern "C" {
 #define makesdr_PipelineRfSettingsPb_init_zero   {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_zero, false, makesdr_SteppableInt64SettingPb_init_zero}
 #define makesdr_IfSettingsPb_init_zero           {false, 0, false, makesdr_SteppableFloatSettingPb_init_zero}
 #define makesdr_AfSettingsPb_init_zero           {false, makesdr_SteppableFloatSettingPb_init_zero}
-#define makesdr_ReceiverSettings_init_zero       {false, makesdr_AfSettingsPb_init_zero}
+#define makesdr_ReceiverSettingsPb_init_zero     {false, makesdr_AfSettingsPb_init_zero}
 #define makesdr_TransmitterSettingsPb_init_zero  {false, makesdr_AfSettingsPb_init_zero}
 #define makesdr_PipelineSettingsPb_init_zero     {0, {_makesdr_ModeType_MIN}, false, makesdr_PipelineRfSettingsPb_init_zero, false, makesdr_IqCorrectionSettingsPb_init_zero}
 #define makesdr_RxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero}
 #define makesdr_BasicBandSettingsPb_init_zero    {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_BasicIqBandSettingsPb_init_zero  {0, {""}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero}
-#define makesdr_BandSettingsPb_init_zero         {0, {""}, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_TxPipelineSettingsPb_init_zero, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
+#define makesdr_DualIqBandSettingsPb_init_zero   {0, {{{NULL}, NULL}}, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_TxPipelineSettingsPb_init_zero, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
 #define makesdr_BasicActiveBandSettingsPb_init_zero {false, makesdr_BasicBandSettingsPb_init_zero}
 #define makesdr_BasicIqActiveBandSettingsPb_init_zero {false, makesdr_BasicIqBandSettingsPb_init_zero}
-#define makesdr_ActiveBandSettingsPb_init_zero   {false, makesdr_BandSettingsPb_init_zero, false, makesdr_BandSettingsPb_init_zero, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0, _makesdr_SplitBandId_MIN}
+#define makesdr_DualIqActiveBandSettingsPb_init_zero {false, makesdr_DualIqBandSettingsPb_init_zero}
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_init_zero {false, makesdr_DualIqBandSettingsPb_init_zero, false, makesdr_DualIqBandSettingsPb_init_zero, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0, _makesdr_SplitBandId_MIN}
 #define makesdr_BasicBandSettingsCachePb_init_zero {{{NULL}, NULL}}
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero {{{NULL}, NULL}, false, makesdr_BasicBandSettingsPb_init_zero}
 #define makesdr_BasicIqBandSettingsCachePb_init_zero {{{NULL}, NULL}}
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero {{{NULL}, NULL}, false, makesdr_BasicIqBandSettingsPb_init_zero}
-#define makesdr_BandSettingsCachePb_init_zero    {0, {makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero}}
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_BandSettingsPb_init_zero}
-#define makesdr_BasicRxSettingsPb_init_zero      {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettings_init_zero}
-#define makesdr_BasicIqRxSettingsPb_init_zero    {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettings_init_zero}
-#define makesdr_BasicTxRxSettingsPb_init_zero    {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettings_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
-#define makesdr_BasicIqTxRxSettingsPb_init_zero  {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettings_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
-#define makesdr_RadioSettingsPb_init_zero        {false, makesdr_ActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettings_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_DualIqBandSettingsCachePb_init_zero {{{NULL}, NULL}}
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero {{{NULL}, NULL}, false, makesdr_DualIqBandSettingsPb_init_zero}
+#define makesdr_BasicRxSettingsPb_init_zero      {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero}
+#define makesdr_BasicIqRxSettingsPb_init_zero    {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero}
+#define makesdr_DualIqRxSettingsPb_init_zero     {false, makesdr_DualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero}
+#define makesdr_BasicRxTxSettingsPb_init_zero    {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_BasicIqRxTxSettingsPb_init_zero  {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_DualIqRxTxSettingsPb_init_zero   {false, makesdr_DualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_SplitBandDualIqRxTxSettingsPb_init_zero {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define makesdr_ModePb_type_tag                  1
@@ -543,7 +574,7 @@ extern "C" {
 #define makesdr_IfSettingsPb_bandwidth_tag       2
 #define makesdr_IfSettingsPb_gain_tag            1001
 #define makesdr_AfSettingsPb_gain_tag            1001
-#define makesdr_ReceiverSettings_volume_tag      2
+#define makesdr_ReceiverSettingsPb_volume_tag    2
 #define makesdr_TransmitterSettingsPb_mic_tag    2
 #define makesdr_PipelineSettingsPb_mode_request_tag 1
 #define makesdr_PipelineSettingsPb_mode_tag      2
@@ -565,49 +596,56 @@ extern "C" {
 #define makesdr_BasicIqBandSettingsPb_band_tag   2
 #define makesdr_BasicIqBandSettingsPb_rf_tag     3
 #define makesdr_BasicIqBandSettingsPb_pipeline_a_tag 10
-#define makesdr_BandSettingsPb_band_request_tag  1
-#define makesdr_BandSettingsPb_band_tag          2
-#define makesdr_BandSettingsPb_pipeline_a_tag    10
-#define makesdr_BandSettingsPb_pipeline_b_tag    11
-#define makesdr_BandSettingsPb_tx_pipeline_tag   12
-#define makesdr_BandSettingsPb_is_multi_pipeline_tag 13
-#define makesdr_BandSettingsPb_focus_pipeline_id_tag 14
-#define makesdr_BandSettingsPb_tx_pipeline_id_tag 15
-#define makesdr_BandSettingsPb_focus_pipeline_tag 16
+#define makesdr_DualIqBandSettingsPb_band_request_tag 1
+#define makesdr_DualIqBandSettingsPb_band_tag    2
+#define makesdr_DualIqBandSettingsPb_pipeline_a_tag 10
+#define makesdr_DualIqBandSettingsPb_pipeline_b_tag 11
+#define makesdr_DualIqBandSettingsPb_tx_pipeline_tag 12
+#define makesdr_DualIqBandSettingsPb_is_multi_pipeline_tag 13
+#define makesdr_DualIqBandSettingsPb_focus_pipeline_id_tag 14
+#define makesdr_DualIqBandSettingsPb_tx_pipeline_id_tag 15
+#define makesdr_DualIqBandSettingsPb_focus_pipeline_tag 16
 #define makesdr_BasicActiveBandSettingsPb_band_1_tag 1
 #define makesdr_BasicIqActiveBandSettingsPb_band_1_tag 1
-#define makesdr_ActiveBandSettingsPb_band_1_tag  1
-#define makesdr_ActiveBandSettingsPb_band_2_tag  2
-#define makesdr_ActiveBandSettingsPb_focus_band_id_tag 3
-#define makesdr_ActiveBandSettingsPb_tx_band_id_tag 4
-#define makesdr_ActiveBandSettingsPb_rx_band_id_tag 5
-#define makesdr_ActiveBandSettingsPb_is_split_tag 6
-#define makesdr_ActiveBandSettingsPb_focus_band_tag 7
+#define makesdr_DualIqActiveBandSettingsPb_band_1_tag 1
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_band_1_tag 1
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_band_2_tag 2
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_id_tag 3
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_tx_band_id_tag 4
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_rx_band_id_tag 5
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_is_split_tag 6
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_tag 7
 #define makesdr_BasicBandSettingsCachePb_band_settings_tag 1
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_BasicIqBandSettingsCachePb_band_settings_tag 1
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_key_tag 1
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_value_tag 2
-#define makesdr_BandSettingsCachePb_band_settings_tag 1
+#define makesdr_DualIqBandSettingsCachePb_band_settings_tag 1
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_BasicRxSettingsPb_active_bands_tag 1
 #define makesdr_BasicRxSettingsPb_receiver_tag   2
 #define makesdr_BasicIqRxSettingsPb_active_bands_tag 1
 #define makesdr_BasicIqRxSettingsPb_receiver_tag 2
-#define makesdr_BasicTxRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicTxRxSettingsPb_receiver_tag 2
-#define makesdr_BasicTxRxSettingsPb_transmitter_tag 3
-#define makesdr_BasicTxRxSettingsPb_ptt_tag      4
-#define makesdr_BasicIqTxRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicIqTxRxSettingsPb_receiver_tag 2
-#define makesdr_BasicIqTxRxSettingsPb_transmitter_tag 3
-#define makesdr_BasicIqTxRxSettingsPb_ptt_tag    4
-#define makesdr_RadioSettingsPb_active_bands_tag 1
-#define makesdr_RadioSettingsPb_receiver_tag     2
-#define makesdr_RadioSettingsPb_transmitter_tag  3
-#define makesdr_RadioSettingsPb_ptt_tag          4
+#define makesdr_DualIqRxSettingsPb_active_bands_tag 1
+#define makesdr_DualIqRxSettingsPb_receiver_tag  2
+#define makesdr_BasicRxTxSettingsPb_active_bands_tag 1
+#define makesdr_BasicRxTxSettingsPb_receiver_tag 2
+#define makesdr_BasicRxTxSettingsPb_transmitter_tag 3
+#define makesdr_BasicRxTxSettingsPb_ptt_tag      4
+#define makesdr_BasicIqRxTxSettingsPb_active_bands_tag 1
+#define makesdr_BasicIqRxTxSettingsPb_receiver_tag 2
+#define makesdr_BasicIqRxTxSettingsPb_transmitter_tag 3
+#define makesdr_BasicIqRxTxSettingsPb_ptt_tag    4
+#define makesdr_DualIqRxTxSettingsPb_active_bands_tag 1
+#define makesdr_DualIqRxTxSettingsPb_receiver_tag 2
+#define makesdr_DualIqRxTxSettingsPb_transmitter_tag 3
+#define makesdr_DualIqRxTxSettingsPb_ptt_tag     4
+#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_tag 1
+#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 2
+#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 3
+#define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 4
 
 /* Struct field encoding specification for nanopb */
 #define makesdr_ModePb_FIELDLIST(X, a) \
@@ -721,11 +759,11 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  gain,            1001)
 #define makesdr_AfSettingsPb_DEFAULT NULL
 #define makesdr_AfSettingsPb_gain_MSGTYPE makesdr_SteppableFloatSettingPb
 
-#define makesdr_ReceiverSettings_FIELDLIST(X, a) \
+#define makesdr_ReceiverSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  volume,            2)
-#define makesdr_ReceiverSettings_CALLBACK NULL
-#define makesdr_ReceiverSettings_DEFAULT NULL
-#define makesdr_ReceiverSettings_volume_MSGTYPE makesdr_AfSettingsPb
+#define makesdr_ReceiverSettingsPb_CALLBACK NULL
+#define makesdr_ReceiverSettingsPb_DEFAULT NULL
+#define makesdr_ReceiverSettingsPb_volume_MSGTYPE makesdr_AfSettingsPb
 
 #define makesdr_TransmitterSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  mic,               2)
@@ -786,8 +824,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  pipeline_a,       10)
 #define makesdr_BasicIqBandSettingsPb_rf_MSGTYPE makesdr_BandRfSettingsPb
 #define makesdr_BasicIqBandSettingsPb_pipeline_a_MSGTYPE makesdr_RxPipelineSettingsPb
 
-#define makesdr_BandSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   ONEOF,    STRING,   (band_or_request,band_request,band_or_request.band_request),   1) \
+#define makesdr_DualIqBandSettingsPb_FIELDLIST(X, a) \
+X(a, CALLBACK, ONEOF,    STRING,   (band_or_request,band_request,band_or_request.band_request),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (band_or_request,band,band_or_request.band),   2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  pipeline_a,       10) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  pipeline_b,       11) \
@@ -796,12 +834,12 @@ X(a, STATIC,   OPTIONAL, BOOL,     is_multi_pipeline,  13) \
 X(a, STATIC,   OPTIONAL, UENUM,    focus_pipeline_id,  14) \
 X(a, STATIC,   OPTIONAL, UENUM,    tx_pipeline_id,   15) \
 X(a, STATIC,   SINGULAR, UENUM,    focus_pipeline,   16)
-#define makesdr_BandSettingsPb_CALLBACK NULL
-#define makesdr_BandSettingsPb_DEFAULT NULL
-#define makesdr_BandSettingsPb_band_or_request_band_MSGTYPE makesdr_BandPb
-#define makesdr_BandSettingsPb_pipeline_a_MSGTYPE makesdr_RxPipelineSettingsPb
-#define makesdr_BandSettingsPb_pipeline_b_MSGTYPE makesdr_RxPipelineSettingsPb
-#define makesdr_BandSettingsPb_tx_pipeline_MSGTYPE makesdr_TxPipelineSettingsPb
+#define makesdr_DualIqBandSettingsPb_CALLBACK pb_default_field_callback
+#define makesdr_DualIqBandSettingsPb_DEFAULT NULL
+#define makesdr_DualIqBandSettingsPb_band_or_request_band_MSGTYPE makesdr_BandPb
+#define makesdr_DualIqBandSettingsPb_pipeline_a_MSGTYPE makesdr_RxPipelineSettingsPb
+#define makesdr_DualIqBandSettingsPb_pipeline_b_MSGTYPE makesdr_RxPipelineSettingsPb
+#define makesdr_DualIqBandSettingsPb_tx_pipeline_MSGTYPE makesdr_TxPipelineSettingsPb
 
 #define makesdr_BasicActiveBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            1)
@@ -815,7 +853,13 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            1)
 #define makesdr_BasicIqActiveBandSettingsPb_DEFAULT NULL
 #define makesdr_BasicIqActiveBandSettingsPb_band_1_MSGTYPE makesdr_BasicIqBandSettingsPb
 
-#define makesdr_ActiveBandSettingsPb_FIELDLIST(X, a) \
+#define makesdr_DualIqActiveBandSettingsPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            1)
+#define makesdr_DualIqActiveBandSettingsPb_CALLBACK NULL
+#define makesdr_DualIqActiveBandSettingsPb_DEFAULT NULL
+#define makesdr_DualIqActiveBandSettingsPb_band_1_MSGTYPE makesdr_DualIqBandSettingsPb
+
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_2,            2) \
 X(a, STATIC,   OPTIONAL, UENUM,    focus_band_id,     3) \
@@ -823,10 +867,10 @@ X(a, STATIC,   OPTIONAL, UENUM,    tx_band_id,        4) \
 X(a, STATIC,   OPTIONAL, UENUM,    rx_band_id,        5) \
 X(a, STATIC,   OPTIONAL, BOOL,     is_split,          6) \
 X(a, STATIC,   SINGULAR, UENUM,    focus_band,        7)
-#define makesdr_ActiveBandSettingsPb_CALLBACK NULL
-#define makesdr_ActiveBandSettingsPb_DEFAULT NULL
-#define makesdr_ActiveBandSettingsPb_band_1_MSGTYPE makesdr_BandSettingsPb
-#define makesdr_ActiveBandSettingsPb_band_2_MSGTYPE makesdr_BandSettingsPb
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_CALLBACK NULL
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_DEFAULT NULL
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_band_1_MSGTYPE makesdr_DualIqBandSettingsPb
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_band_2_MSGTYPE makesdr_DualIqBandSettingsPb
 
 #define makesdr_BasicBandSettingsCachePb_FIELDLIST(X, a) \
 X(a, CALLBACK, REPEATED, MESSAGE,  band_settings,     1)
@@ -854,18 +898,18 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_BasicIqBandSettingsPb
 
-#define makesdr_BandSettingsCachePb_FIELDLIST(X, a) \
-X(a, STATIC,   REPEATED, MESSAGE,  band_settings,     1)
-#define makesdr_BandSettingsCachePb_CALLBACK NULL
-#define makesdr_BandSettingsCachePb_DEFAULT NULL
-#define makesdr_BandSettingsCachePb_band_settings_MSGTYPE makesdr_BandSettingsCachePb_BandSettingsEntry
+#define makesdr_DualIqBandSettingsCachePb_FIELDLIST(X, a) \
+X(a, CALLBACK, REPEATED, MESSAGE,  band_settings,     1)
+#define makesdr_DualIqBandSettingsCachePb_CALLBACK pb_default_field_callback
+#define makesdr_DualIqBandSettingsCachePb_DEFAULT NULL
+#define makesdr_DualIqBandSettingsCachePb_band_settings_MSGTYPE makesdr_DualIqBandSettingsCachePb_BandSettingsEntry
 
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   key,               1) \
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
+X(a, CALLBACK, SINGULAR, STRING,   key,               1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_CALLBACK NULL
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_BandSettingsPb
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_CALLBACK pb_default_field_callback
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_DualIqBandSettingsPb
 
 #define makesdr_BasicRxSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
@@ -873,7 +917,7 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2)
 #define makesdr_BasicRxSettingsPb_CALLBACK NULL
 #define makesdr_BasicRxSettingsPb_DEFAULT NULL
 #define makesdr_BasicRxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
-#define makesdr_BasicRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
+#define makesdr_BasicRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_BasicIqRxSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
@@ -881,40 +925,59 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2)
 #define makesdr_BasicIqRxSettingsPb_CALLBACK NULL
 #define makesdr_BasicIqRxSettingsPb_DEFAULT NULL
 #define makesdr_BasicIqRxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
-#define makesdr_BasicIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
+#define makesdr_BasicIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
-#define makesdr_BasicTxRxSettingsPb_FIELDLIST(X, a) \
+#define makesdr_DualIqRxSettingsPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2)
+#define makesdr_DualIqRxSettingsPb_CALLBACK NULL
+#define makesdr_DualIqRxSettingsPb_DEFAULT NULL
+#define makesdr_DualIqRxSettingsPb_active_bands_MSGTYPE makesdr_DualIqActiveBandSettingsPb
+#define makesdr_DualIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+
+#define makesdr_BasicRxTxSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
 X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define makesdr_BasicTxRxSettingsPb_CALLBACK NULL
-#define makesdr_BasicTxRxSettingsPb_DEFAULT NULL
-#define makesdr_BasicTxRxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
-#define makesdr_BasicTxRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
-#define makesdr_BasicTxRxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+#define makesdr_BasicRxTxSettingsPb_CALLBACK NULL
+#define makesdr_BasicRxTxSettingsPb_DEFAULT NULL
+#define makesdr_BasicRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
+#define makesdr_BasicRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_BasicRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
-#define makesdr_BasicIqTxRxSettingsPb_FIELDLIST(X, a) \
+#define makesdr_BasicIqRxTxSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
 X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define makesdr_BasicIqTxRxSettingsPb_CALLBACK NULL
-#define makesdr_BasicIqTxRxSettingsPb_DEFAULT NULL
-#define makesdr_BasicIqTxRxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
-#define makesdr_BasicIqTxRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
-#define makesdr_BasicIqTxRxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+#define makesdr_BasicIqRxTxSettingsPb_CALLBACK NULL
+#define makesdr_BasicIqRxTxSettingsPb_DEFAULT NULL
+#define makesdr_BasicIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
+#define makesdr_BasicIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_BasicIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
-#define makesdr_RadioSettingsPb_FIELDLIST(X, a) \
+#define makesdr_DualIqRxTxSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
 X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define makesdr_RadioSettingsPb_CALLBACK NULL
-#define makesdr_RadioSettingsPb_DEFAULT NULL
-#define makesdr_RadioSettingsPb_active_bands_MSGTYPE makesdr_ActiveBandSettingsPb
-#define makesdr_RadioSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
-#define makesdr_RadioSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+#define makesdr_DualIqRxTxSettingsPb_CALLBACK NULL
+#define makesdr_DualIqRxTxSettingsPb_DEFAULT NULL
+#define makesdr_DualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_DualIqActiveBandSettingsPb
+#define makesdr_DualIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_DualIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+
+#define makesdr_SplitBandDualIqRxTxSettingsPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+#define makesdr_SplitBandDualIqRxTxSettingsPb_CALLBACK NULL
+#define makesdr_SplitBandDualIqRxTxSettingsPb_DEFAULT NULL
+#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_SplitBandDualIqActiveBandSettingsPb
+#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 extern const pb_msgdesc_t makesdr_ModePb_msg;
 extern const pb_msgdesc_t makesdr_ModeListPb_msg;
@@ -930,28 +993,31 @@ extern const pb_msgdesc_t makesdr_BandRfSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_PipelineRfSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_IfSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_AfSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_ReceiverSettings_msg;
+extern const pb_msgdesc_t makesdr_ReceiverSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_TransmitterSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_PipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_RxPipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_TxPipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqBandSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_DualIqBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqActiveBandSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_ActiveBandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_DualIqActiveBandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SplitBandDualIqActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsCachePb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsCachePb_BandSettingsEntry_msg;
 extern const pb_msgdesc_t makesdr_BasicIqBandSettingsCachePb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_msg;
-extern const pb_msgdesc_t makesdr_BandSettingsCachePb_msg;
-extern const pb_msgdesc_t makesdr_BandSettingsCachePb_BandSettingsEntry_msg;
+extern const pb_msgdesc_t makesdr_DualIqBandSettingsCachePb_msg;
+extern const pb_msgdesc_t makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_msg;
 extern const pb_msgdesc_t makesdr_BasicRxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqRxSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicTxRxSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqTxRxSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_RadioSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_DualIqRxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_BasicRxTxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_BasicIqRxTxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_DualIqRxTxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SplitBandDualIqRxTxSettingsPb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define makesdr_ModePb_fields &makesdr_ModePb_msg
@@ -968,53 +1034,60 @@ extern const pb_msgdesc_t makesdr_RadioSettingsPb_msg;
 #define makesdr_PipelineRfSettingsPb_fields &makesdr_PipelineRfSettingsPb_msg
 #define makesdr_IfSettingsPb_fields &makesdr_IfSettingsPb_msg
 #define makesdr_AfSettingsPb_fields &makesdr_AfSettingsPb_msg
-#define makesdr_ReceiverSettings_fields &makesdr_ReceiverSettings_msg
+#define makesdr_ReceiverSettingsPb_fields &makesdr_ReceiverSettingsPb_msg
 #define makesdr_TransmitterSettingsPb_fields &makesdr_TransmitterSettingsPb_msg
 #define makesdr_PipelineSettingsPb_fields &makesdr_PipelineSettingsPb_msg
 #define makesdr_RxPipelineSettingsPb_fields &makesdr_RxPipelineSettingsPb_msg
 #define makesdr_TxPipelineSettingsPb_fields &makesdr_TxPipelineSettingsPb_msg
 #define makesdr_BasicBandSettingsPb_fields &makesdr_BasicBandSettingsPb_msg
 #define makesdr_BasicIqBandSettingsPb_fields &makesdr_BasicIqBandSettingsPb_msg
-#define makesdr_BandSettingsPb_fields &makesdr_BandSettingsPb_msg
+#define makesdr_DualIqBandSettingsPb_fields &makesdr_DualIqBandSettingsPb_msg
 #define makesdr_BasicActiveBandSettingsPb_fields &makesdr_BasicActiveBandSettingsPb_msg
 #define makesdr_BasicIqActiveBandSettingsPb_fields &makesdr_BasicIqActiveBandSettingsPb_msg
-#define makesdr_ActiveBandSettingsPb_fields &makesdr_ActiveBandSettingsPb_msg
+#define makesdr_DualIqActiveBandSettingsPb_fields &makesdr_DualIqActiveBandSettingsPb_msg
+#define makesdr_SplitBandDualIqActiveBandSettingsPb_fields &makesdr_SplitBandDualIqActiveBandSettingsPb_msg
 #define makesdr_BasicBandSettingsCachePb_fields &makesdr_BasicBandSettingsCachePb_msg
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_fields &makesdr_BasicBandSettingsCachePb_BandSettingsEntry_msg
 #define makesdr_BasicIqBandSettingsCachePb_fields &makesdr_BasicIqBandSettingsCachePb_msg
 #define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_msg
-#define makesdr_BandSettingsCachePb_fields &makesdr_BandSettingsCachePb_msg
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_fields &makesdr_BandSettingsCachePb_BandSettingsEntry_msg
+#define makesdr_DualIqBandSettingsCachePb_fields &makesdr_DualIqBandSettingsCachePb_msg
+#define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_msg
 #define makesdr_BasicRxSettingsPb_fields &makesdr_BasicRxSettingsPb_msg
 #define makesdr_BasicIqRxSettingsPb_fields &makesdr_BasicIqRxSettingsPb_msg
-#define makesdr_BasicTxRxSettingsPb_fields &makesdr_BasicTxRxSettingsPb_msg
-#define makesdr_BasicIqTxRxSettingsPb_fields &makesdr_BasicIqTxRxSettingsPb_msg
-#define makesdr_RadioSettingsPb_fields &makesdr_RadioSettingsPb_msg
+#define makesdr_DualIqRxSettingsPb_fields &makesdr_DualIqRxSettingsPb_msg
+#define makesdr_BasicRxTxSettingsPb_fields &makesdr_BasicRxTxSettingsPb_msg
+#define makesdr_BasicIqRxTxSettingsPb_fields &makesdr_BasicIqRxTxSettingsPb_msg
+#define makesdr_DualIqRxTxSettingsPb_fields &makesdr_DualIqRxTxSettingsPb_msg
+#define makesdr_SplitBandDualIqRxTxSettingsPb_fields &makesdr_SplitBandDualIqRxTxSettingsPb_msg
 
 /* Maximum encoded size of messages (where known) */
+/* makesdr_DualIqBandSettingsPb_size depends on runtime parameters */
+/* makesdr_DualIqActiveBandSettingsPb_size depends on runtime parameters */
+/* makesdr_SplitBandDualIqActiveBandSettingsPb_size depends on runtime parameters */
 /* makesdr_BasicBandSettingsCachePb_size depends on runtime parameters */
 /* makesdr_BasicBandSettingsCachePb_BandSettingsEntry_size depends on runtime parameters */
 /* makesdr_BasicIqBandSettingsCachePb_size depends on runtime parameters */
 /* makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_size depends on runtime parameters */
+/* makesdr_DualIqBandSettingsCachePb_size depends on runtime parameters */
+/* makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_size depends on runtime parameters */
+/* makesdr_DualIqRxSettingsPb_size depends on runtime parameters */
+/* makesdr_DualIqRxTxSettingsPb_size depends on runtime parameters */
+/* makesdr_SplitBandDualIqRxTxSettingsPb_size depends on runtime parameters */
 #define MAKESDR_RADIOSETTINGS_PB_H_MAX_SIZE      makesdr_RadioLookupPb_size
-#define makesdr_ActiveBandSettingsPb_size        1472
 #define makesdr_AfSettingsPb_size                20
 #define makesdr_BandCategoryListPb_size          8424
 #define makesdr_BandCategoryPb_size              1050
 #define makesdr_BandListPb_size                  1027
 #define makesdr_BandPb_size                      77
 #define makesdr_BandRfSettingsPb_size            58
-#define makesdr_BandSettingsCachePb_BandSettingsEntry_size 740
-#define makesdr_BandSettingsCachePb_size         7430
-#define makesdr_BandSettingsPb_size              728
 #define makesdr_BasicActiveBandSettingsPb_size   234
 #define makesdr_BasicBandSettingsPb_size         231
 #define makesdr_BasicIqActiveBandSettingsPb_size 366
 #define makesdr_BasicIqBandSettingsPb_size       363
 #define makesdr_BasicIqRxSettingsPb_size         393
-#define makesdr_BasicIqTxRxSettingsPb_size       419
+#define makesdr_BasicIqRxTxSettingsPb_size       419
 #define makesdr_BasicRxSettingsPb_size           261
-#define makesdr_BasicTxRxSettingsPb_size         287
+#define makesdr_BasicRxTxSettingsPb_size         287
 #define makesdr_IfSettingsPb_size                26
 #define makesdr_IqCorrectionSettingsPb_size      40
 #define makesdr_ModeListPb_size                  620
@@ -1022,8 +1095,7 @@ extern const pb_msgdesc_t makesdr_RadioSettingsPb_msg;
 #define makesdr_PipelineRfSettingsPb_size        80
 #define makesdr_PipelineSettingsPb_size          186
 #define makesdr_RadioLookupPb_size               9050
-#define makesdr_RadioSettingsPb_size             1525
-#define makesdr_ReceiverSettings_size            22
+#define makesdr_ReceiverSettingsPb_size          22
 #define makesdr_RxPipelineSettingsPb_size        221
 #define makesdr_SteppableFloatSettingPb_size     17
 #define makesdr_SteppableInt64SettingPb_size     35

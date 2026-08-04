@@ -6,7 +6,10 @@
 
 
 
-RadioControl::RadioControl() : m_internalSink(this)
+RadioControl::RadioControl()
+  : m_controlSinks()
+  , m_controlSources()
+  , m_internalSink(this)
 {
 }
 
@@ -173,7 +176,7 @@ RadioControl::stop()
 void
 RadioControl::ptt(bool on)
 {
-  SettingPath path{makesdr_RadioSettingsPb_ptt_tag};
+  SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
   SettingUpdate setting(path, on, SettingUpdate::VALUE);
   applySettingUpdate(setting);
 }

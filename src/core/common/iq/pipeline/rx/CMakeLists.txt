@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 4.1)
 
 project(core-common-iq-pipeline-rx)
 
-set(PIPELINE_BASE_FILES
+set(PIPELINE_RX_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/pipeline/IqRxPipeline.h
         ${CMAKE_CURRENT_LIST_DIR}/src/IqRxPipeline.cpp
 )
 
-add_library(core-common-iq-pipeline-rx STATIC ${PIPELINE_BASE_FILES})
+add_library(core-common-iq-pipeline-rx STATIC ${PIPELINE_RX_FILES})
 
 target_include_directories(core-common-iq-pipeline-rx PUBLIC
         ${INCLUDE_DIR}

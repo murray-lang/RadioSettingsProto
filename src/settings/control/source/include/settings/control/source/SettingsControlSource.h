@@ -1,9 +1,9 @@
 #pragma once
 #include "settings/control/SettingsControlBase.h"
-#include "settings/model/core/RadioSettingsSource.h"
-#include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingUpdateSource.h"
-#include "settings/model/core/SettingUpdateSink.h"
+#include "settings/model/radio/RadioSettingsSource.h"
+#include "settings/model/radio/RadioSettingsSink.h"
+#include "settings/model/base/SettingUpdateSource.h"
+#include "settings/model/base/SettingUpdateSink.h"
 
 class SettingsControlSource :
   public SettingsControlBase,

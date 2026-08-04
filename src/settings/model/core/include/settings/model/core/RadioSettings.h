@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CORE_RADIO_SETTINGS_H
+#define CORE_RADIO_SETTINGS_H
 
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/base/SettingUpdate.h>
@@ -174,3 +175,5 @@ protected:
   RadioLookup m_meta;
   BandSettingsCache& m_cache;
 };
+
+#endif // CORE_RADIO_SETTINGS_H

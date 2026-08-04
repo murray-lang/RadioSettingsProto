@@ -1,7 +1,7 @@
-#include "config/json/TransmitterConfig.json.h"
+#include "config/json/IqTransmitterConfig.json.h"
 #include "config/json/IqIoConfig.json.h"
 
-namespace Config::Transmitter
+namespace Config::IqTransmitter
 {
   ResultCode fromJson(JsonVariantConst json, Fields& fields)
   {

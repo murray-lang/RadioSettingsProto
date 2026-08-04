@@ -8,13 +8,15 @@ enum RadioPayloadType {
   PAYLOAD_NONE = 0;
   PAYLOAD_SETTINGS_BASIC_RX = 1;
   PAYLOAD_SETTINGS_BASIC_IQ_RX = 2;
-  PAYLOAD_SETTINGS_BASIC_TX_RX = 3;
-  PAYLOAD_SETTINGS_BASIC_IQ_TX_RX = 4;
-  PAYLOAD_SETTINGS_FULL = 5;
+  PAYLOAD_SETTINGS_DUAL_IQ_RX = 3;
+  PAYLOAD_SETTINGS_BASIC_RXTX = 4;
+  PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 5;
+  PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 6;
+  PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 7;
   PAYLOAD_META = 10;
   PAYLOAD_CACHE_BASIC = 20;
   PAYLOAD_CACHE_BASIC_IQ = 21;
-  PAYLOAD_CACHE_FULL = 22;
+  PAYLOAD_CACHE_DUAL = 22;
 
 }
 
@@ -45,22 +47,34 @@ message BasicIqRxSettingsPayloadPb {
   BasicIqRxSettingsPb body = 3;
 }
 
-message BasicTxRxSettingsPayloadPb {
+message DualIqRxSettingsPayloadPb {
   RadioPayloadHeaderPb header = 1;
   RadioPayloadPurpose purpose = 2;
-  BasicTxRxSettingsPb body = 3;
+  DualIqRxSettingsPb body = 3;
 }
 
-message BasicIqTxRxSettingsPayloadPb {
+message BasicRxTxSettingsPayloadPb {
   RadioPayloadHeaderPb header = 1;
   RadioPayloadPurpose purpose = 2;
-  BasicIqTxRxSettingsPb body = 3;
+  BasicRxTxSettingsPb body = 3;
 }
 
-message RadioSettingsFullPayloadPb {
+message BasicIqRxTxSettingsPayloadPb {
   RadioPayloadHeaderPb header = 1;
   RadioPayloadPurpose purpose = 2;
-  RadioSettingsPb body = 3;
+  BasicIqRxTxSettingsPb body = 3;
+}
+
+message DualIqRxTxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  DualIqRxTxSettingsPb body = 3;
+}
+
+message SplitBandDualIqRxTxSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  SplitBandDualIqRxTxSettingsPb body = 3;
 }
 
 message RadioLookupPayloadPb {
@@ -78,8 +92,8 @@ message RadioCacheBasicIqPayloadPb {
   BasicIqBandSettingsCachePb body = 2;
 }
 
-message RadioCacheFullPayloadPb {
+message RadioCacheDualPayloadPb {
   RadioPayloadType payloadType = 1;
-  BandSettingsCachePb body = 2;
+  DualIqBandSettingsCachePb body = 2;
 }
 

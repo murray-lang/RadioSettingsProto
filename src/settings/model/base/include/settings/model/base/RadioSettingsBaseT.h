@@ -88,7 +88,7 @@ public:
   void assumeComplete(bool assumeComplete) { m_assumeComplete = assumeComplete; }
   [[nodiscard]] bool assumeComplete() const { return m_assumeComplete; }
 
-  void copyTo(makesdr_RadioSettingsPb& out) const { out = m_payload.body; }
+  void copyTo(SettingsPbType& out) const { out = m_payload.body; }
 
   ResultCode applySettingUpdate(const SettingUpdate &settingUpdate) override
   {

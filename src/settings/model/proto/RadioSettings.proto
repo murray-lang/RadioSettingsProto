@@ -130,7 +130,7 @@ message AfSettingsPb {
   SteppableFloatSettingPb gain = 1001;
 }
 
-message ReceiverSettings {
+message ReceiverSettingsPb {
   AfSettingsPb volume = 2;
 }
 
@@ -181,7 +181,7 @@ message BasicIqBandSettingsPb {
   RxPipelineSettingsPb pipeline_a = 10;
 }
 
-message BandSettingsPb {
+message DualIqBandSettingsPb {
   oneof band_or_request {
     string band_request = 1;
     BandPb band = 2;
@@ -207,9 +207,13 @@ message BasicIqActiveBandSettingsPb {
 
 }
 
-message ActiveBandSettingsPb {
-  BandSettingsPb band_1 = 1;
-  BandSettingsPb band_2 = 2;
+message DualIqActiveBandSettingsPb {
+  DualIqBandSettingsPb band_1 = 1;
+}
+
+message SplitBandDualIqActiveBandSettingsPb {
+  DualIqBandSettingsPb band_1 = 1;
+  DualIqBandSettingsPb band_2 = 2;
   optional SplitBandId focus_band_id = 3;
   optional SplitBandId tx_band_id = 4;
   optional SplitBandId rx_band_id = 5;
@@ -228,43 +232,63 @@ message BasicIqBandSettingsCachePb {
   map<string, BasicIqBandSettingsPb> band_settings = 1;
 }
 
-message BandSettingsCachePb {
-  map<string, BandSettingsPb> band_settings = 1;
+message DualIqBandSettingsCachePb {
+  map<string, DualIqBandSettingsPb> band_settings = 1;
 }
 
 // No IQ, just control of a conventional receiver
 message BasicRxSettingsPb {
   BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettings receiver = 2;
+  optional ReceiverSettingsPb receiver = 2;
 }
 
 // No-frills IQ receiver
 message BasicIqRxSettingsPb {
   BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettings receiver = 2;
+  optional ReceiverSettingsPb receiver = 2;
+}
+
+message DualIqRxSettingsPb {
+  DualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
 }
 
 
 // No IQ, just control of a conventional transceiver
-message BasicTxRxSettingsPb {
+message BasicRxTxSettingsPb {
   BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettings receiver = 2;
+  optional ReceiverSettingsPb receiver = 2;
   optional TransmitterSettingsPb transmitter = 3;
   optional bool ptt = 4;
 }
 
 // No-frills IQ transceiver
-message BasicIqTxRxSettingsPb {
+message BasicIqRxTxSettingsPb {
   BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettings receiver = 2;
+  optional ReceiverSettingsPb receiver = 2;
+  optional TransmitterSettingsPb transmitter = 3;
+  optional bool ptt = 4;
+}
+
+message DualIqRxTxSettingsPb {
+  DualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
   optional TransmitterSettingsPb transmitter = 3;
   optional bool ptt = 4;
 }
 
 // Splittable TX and Rx, dual pipelines
-message RadioSettingsPb {
-  ActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettings receiver = 2;
+message SplitBandDualIqRxTxSettingsPb {
+  SplitBandDualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
   optional TransmitterSettingsPb transmitter = 3;
   optional bool ptt = 4;
 }
+
+// Splittable TX and Rx, dual pipelines
+//message RadioSettingsPb {
+//  DualIqActiveBandSettingsPb active_bands = 1;
+//  optional ReceiverSettingsPb receiver = 2;
+//  optional TransmitterSettingsPb transmitter = 3;
+//  optional bool ptt = 4;
+//}

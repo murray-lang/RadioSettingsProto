@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Mode.h"
+#include "settings/model/base/Mode.h"
 
 template <typename protoT, int requestTag, int modeTag>
 class WithModeT

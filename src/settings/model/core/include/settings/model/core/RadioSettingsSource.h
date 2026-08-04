@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CORE_RADIO_SETTINGS_SOURCE_H
+#define CORE_RADIO_SETTINGS_SOURCE_H
+
 #include "settings/model/core/RadioSettings.h"
 #include "settings/model/core/RadioSettingsSink.h"
 
@@ -11,3 +13,5 @@ public:
 protected:
   virtual ResultCode notifySettings(const RadioSettings& settings) = 0;
 };
+
+#endif // CORE_RADIO_SETTINGS_SOURCE_H

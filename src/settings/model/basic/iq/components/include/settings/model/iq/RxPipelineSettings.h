@@ -1,13 +1,16 @@
 #pragma once
 
 #include "PipelineSettings.h"
-#include <settings/model/basic/AgcSpeed.h>
-#include <settings/model/basic/IfSettings.h>
+#include <settings/model/base/AgcSpeed.h>
+#include <settings/model/base/IfSettings.h>
 
 class RxPipelineSettings
 {
 public:
-  RxPipelineSettings(makesdr_RxPipelineSettingsPb& raw)
+
+  using Proto = makesdr_RxPipelineSettingsPb;
+
+  RxPipelineSettings(Proto& raw)
     : m_rawSettings(raw)
     , m_base(raw.base)
     , m_ifSettings(raw.if_)
@@ -26,7 +29,7 @@ public:
   [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }
 
 private:
-  makesdr_RxPipelineSettingsPb& m_rawSettings;
+  Proto& m_rawSettings;
   PipelineSettings m_base;
   IfSettings m_ifSettings;
 

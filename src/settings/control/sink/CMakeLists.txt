@@ -17,7 +17,7 @@ target_include_directories(settings-control-sink INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-#target_link_libraries(settings-control-sink PUBLIC
-#        settings-control-base
-#        settings-model-basic
-#)
+target_link_libraries(settings-control-sink INTERFACE
+        settings-control-base
+        settings-model-radio
+)

@@ -4,7 +4,16 @@ project(settings-model-base)
 
 set(CLASSES_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/AutoCompleteTrigger.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/AgcSpeed.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/Band.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/BandRfSettings.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/IfSettings.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/Mode.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/RadioSettingsBaseT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/RfSettingsT.h
+
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingPath.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingsBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingUpdate.h

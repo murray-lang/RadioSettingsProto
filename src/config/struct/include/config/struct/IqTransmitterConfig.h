@@ -3,9 +3,9 @@
 #include "ConfigBase.h"
 #include "IqIoConfig.h"
 
-namespace Config::Transmitter
+namespace Config::IqTransmitter
 {
-  static constexpr auto type = "transmitter";
+  static constexpr auto type = "iqtransmitter";
 
   struct Fields
   {

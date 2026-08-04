@@ -4,4 +4,5 @@ project(core-common-iq-pipeline)
 
 add_subdirectory(base)
 add_subdirectory(rx)
+add_subdirectory(tx)
 add_subdirectory(stage)

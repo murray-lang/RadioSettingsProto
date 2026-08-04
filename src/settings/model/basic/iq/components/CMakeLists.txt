@@ -7,6 +7,7 @@ set(MODEL_BASIC_IQ_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/iq/PipelineSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/iq/PipelineRfSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/iq/RxPipelineSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/iq/TxPipelineSettings.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/dummy.cpp
 )

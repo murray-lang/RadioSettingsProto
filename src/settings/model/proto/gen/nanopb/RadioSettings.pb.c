@@ -48,7 +48,7 @@ PB_BIND(makesdr_IfSettingsPb, makesdr_IfSettingsPb, 2)
 PB_BIND(makesdr_AfSettingsPb, makesdr_AfSettingsPb, 2)
 
 
-PB_BIND(makesdr_ReceiverSettings, makesdr_ReceiverSettings, AUTO)
+PB_BIND(makesdr_ReceiverSettingsPb, makesdr_ReceiverSettingsPb, AUTO)
 
 
 PB_BIND(makesdr_TransmitterSettingsPb, makesdr_TransmitterSettingsPb, AUTO)
@@ -69,7 +69,7 @@ PB_BIND(makesdr_BasicBandSettingsPb, makesdr_BasicBandSettingsPb, AUTO)
 PB_BIND(makesdr_BasicIqBandSettingsPb, makesdr_BasicIqBandSettingsPb, 2)
 
 
-PB_BIND(makesdr_BandSettingsPb, makesdr_BandSettingsPb, 2)
+PB_BIND(makesdr_DualIqBandSettingsPb, makesdr_DualIqBandSettingsPb, 2)
 
 
 PB_BIND(makesdr_BasicActiveBandSettingsPb, makesdr_BasicActiveBandSettingsPb, AUTO)
@@ -78,7 +78,10 @@ PB_BIND(makesdr_BasicActiveBandSettingsPb, makesdr_BasicActiveBandSettingsPb, AU
 PB_BIND(makesdr_BasicIqActiveBandSettingsPb, makesdr_BasicIqActiveBandSettingsPb, 2)
 
 
-PB_BIND(makesdr_ActiveBandSettingsPb, makesdr_ActiveBandSettingsPb, 2)
+PB_BIND(makesdr_DualIqActiveBandSettingsPb, makesdr_DualIqActiveBandSettingsPb, 2)
+
+
+PB_BIND(makesdr_SplitBandDualIqActiveBandSettingsPb, makesdr_SplitBandDualIqActiveBandSettingsPb, 2)
 
 
 PB_BIND(makesdr_BasicBandSettingsCachePb, makesdr_BasicBandSettingsCachePb, AUTO)
@@ -93,10 +96,10 @@ PB_BIND(makesdr_BasicIqBandSettingsCachePb, makesdr_BasicIqBandSettingsCachePb, 
 PB_BIND(makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry, 2)
 
 
-PB_BIND(makesdr_BandSettingsCachePb, makesdr_BandSettingsCachePb, 4)
+PB_BIND(makesdr_DualIqBandSettingsCachePb, makesdr_DualIqBandSettingsCachePb, AUTO)
 
 
-PB_BIND(makesdr_BandSettingsCachePb_BandSettingsEntry, makesdr_BandSettingsCachePb_BandSettingsEntry, 2)
+PB_BIND(makesdr_DualIqBandSettingsCachePb_BandSettingsEntry, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry, 2)
 
 
 PB_BIND(makesdr_BasicRxSettingsPb, makesdr_BasicRxSettingsPb, 2)
@@ -105,13 +108,19 @@ PB_BIND(makesdr_BasicRxSettingsPb, makesdr_BasicRxSettingsPb, 2)
 PB_BIND(makesdr_BasicIqRxSettingsPb, makesdr_BasicIqRxSettingsPb, 2)
 
 
-PB_BIND(makesdr_BasicTxRxSettingsPb, makesdr_BasicTxRxSettingsPb, 2)
+PB_BIND(makesdr_DualIqRxSettingsPb, makesdr_DualIqRxSettingsPb, 2)
 
 
-PB_BIND(makesdr_BasicIqTxRxSettingsPb, makesdr_BasicIqTxRxSettingsPb, 2)
+PB_BIND(makesdr_BasicRxTxSettingsPb, makesdr_BasicRxTxSettingsPb, 2)
 
 
-PB_BIND(makesdr_RadioSettingsPb, makesdr_RadioSettingsPb, 2)
+PB_BIND(makesdr_BasicIqRxTxSettingsPb, makesdr_BasicIqRxTxSettingsPb, 2)
+
+
+PB_BIND(makesdr_DualIqRxTxSettingsPb, makesdr_DualIqRxTxSettingsPb, 2)
+
+
+PB_BIND(makesdr_SplitBandDualIqRxTxSettingsPb, makesdr_SplitBandDualIqRxTxSettingsPb, 2)
 
 
 

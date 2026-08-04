@@ -12,7 +12,7 @@ using BasicIqBandSettingsCache = BandSettingsCacheT<
   makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry
 >;
 
-using BasicIqRxSettingsBaseType = RadioSettingsBaseT<
+using BaseType = RadioSettingsBaseT<
     makesdr_BasicIqRxSettingsPb,
     &makesdr_BasicIqRxSettingsPb_msg,
     makesdr_BasicIqRxSettingsPayloadPb,
@@ -22,7 +22,7 @@ using BasicIqRxSettingsBaseType = RadioSettingsBaseT<
     BasicIqBandSettingsCache
   >;
 
-class BasicIqRxSettings : public BasicIqRxSettingsBaseType
+class BasicIqRxSettings : public BaseType
 {
 public:
   BasicIqRxSettings(const makesdr_RadioLookupPb& meta, BasicIqBandSettingsCache& cache);

@@ -1,5 +1,5 @@
 #pragma once
-#include "Band.h"
+#include "settings/model/base/Band.h"
 
 
 template <typename protoT, int requestTag, int bandTag>

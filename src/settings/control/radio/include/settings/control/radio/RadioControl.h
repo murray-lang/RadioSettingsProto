@@ -1,7 +1,7 @@
 #pragma once
 
-#include <settings/model/core/RadioSettingsSink.h>
-#include <settings/model/core/RadioSettingsSource.h>
+#include <settings/model/radio/RadioSettingsSink.h>
+#include <settings/model/radio/RadioSettingsSource.h>
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkVariant.h>
 #include <settings/control/factory/SettingsControlSourceVariant.h>

@@ -4,3 +4,4 @@ project(settings-model-basic-iq)
 
 add_subdirectory(components)
 add_subdirectory(rx)
+add_subdirectory(rxtx)

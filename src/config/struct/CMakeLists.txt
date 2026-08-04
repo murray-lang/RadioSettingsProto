@@ -25,8 +25,9 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/GpioInputLinesConfig.h
         include/config/struct/RadioConfig.h
         include/config/struct/IqReceiverConfig.h
+        include/config/struct/IqRxTxConfig.h
+        include/config/struct/IqTransmitterConfig.h
         include/config/struct/SoftRockConfig.h
-        include/config/struct/TransmitterConfig.h
         include/config/struct/UiConfig.h
         include/config/struct/UsbControlSinksConfig.h
 )

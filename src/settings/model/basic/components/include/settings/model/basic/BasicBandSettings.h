@@ -3,10 +3,10 @@
 #include <settings/model/base/SettingsBase.h>
 #include "WithBandT.h"
 #include "WithModeT.h"
-#include "BandRfSettings.h"
-#include "IfSettings.h"
-#include "Mode.h"
-#include "AgcSpeed.h"
+#include "settings/model/base/BandRfSettings.h"
+#include "settings/model/base/IfSettings.h"
+#include "settings/model/base/AgcSpeed.h"
+#include "settings/model/base/Mode.h"
 
 
 
@@ -34,13 +34,13 @@ public:
   }
 
   [[nodiscard]] bool hasRfSettings() const { return m_rawSettings.has_rf; }
-  BandRfSettings& rfSettings() { return m_rfSettings; }
-  [[nodiscard]] const BandRfSettings& rfSettings() const { return m_rfSettings; }
+  BandRfSettings* rfSettings() { return &m_rfSettings; }
+  [[nodiscard]] const BandRfSettings* rfSettings() const { return &m_rfSettings; }
 
 
   [[nodiscard]] bool hasIfSettings() const { return m_rawSettings.has_if_; }
-  IfSettings& ifSettings() { return m_ifSettings; }
-  [[nodiscard]] const IfSettings& ifSettings() const { return m_ifSettings; }
+  IfSettings* ifSettings() { return &m_ifSettings; }
+  [[nodiscard]] const IfSettings* ifSettings() const { return &m_ifSettings; }
 
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
   [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }

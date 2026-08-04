@@ -1,12 +1,15 @@
 #pragma once
 
-#include "settings/model/basic/BandRfSettings.h"
+#include "settings/model/base/BandRfSettings.h"
 #include "settings/model/proto/RadioSettings.pb.h"
 
 class PipelineRfSettings : public RfSettingsT<makesdr_PipelineRfSettingsPb>
 {
 public:
-  PipelineRfSettings(makesdr_PipelineRfSettingsPb& raw)
+
+  using Proto = makesdr_PipelineRfSettingsPb;
+
+  PipelineRfSettings(Proto& raw)
     : RfSettingsT(raw)
   {
   }

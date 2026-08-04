@@ -3,7 +3,7 @@
 
 #include <settings/control/sink/SettingsControlSink.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/core/RadioSettings.h>
+#include <settings/model/radio/RadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 

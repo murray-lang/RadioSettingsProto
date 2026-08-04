@@ -7,12 +7,12 @@
 #include <iq/filter/FilterStage.h>
 
 
-#include "iq/modulation/Demodulator.h"
-#include "iq/modulation/CwDemodulator.h"
-#include "iq/modulation/AmDemodulator.h"
-#include "iq/modulation/FmDemodulator.h"
-#include "iq/modulation/SsbDemodulator.h"
-#include "settings/model/iq/RxPipelineSettings.h"
+#include <iq/modulation/Demodulator.h>
+#include <iq/modulation/CwDemodulator.h>
+#include <iq/modulation/AmDemodulator.h>
+#include <iq/modulation/FmDemodulator.h>
+#include <iq/modulation/SsbDemodulator.h>
+#include <settings/model/iq/RxPipelineSettings.h>
 
 
 class IqRxPipeline : public IqPipeline
