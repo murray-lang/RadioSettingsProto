@@ -20,7 +20,7 @@ set(RADIO_CONTROL_LIBS
         settings-control-sink
         settings-control-source
         settings-control-factory
-        settings-model-core
+        settings-model-radio-selected
 )
 
 if (USE_GPIO)

@@ -110,13 +110,13 @@ message IqCorrectionSettingsPb {
 }
 
 message BandRfSettingsPb {
-  SteppableFloatSettingPb gain = 1001;
-  SteppableInt64SettingPb frequency = 1002;
+  SteppableInt64SettingPb frequency = 1001;
+  SteppableFloatSettingPb gain = 1002;
+
 }
 
 message PipelineRfSettingsPb {
-  SteppableFloatSettingPb gain = 1001;
-  SteppableInt64SettingPb frequency = 1002;
+  SteppableInt64SettingPb frequency = 1001;
   optional int32 max_negative_offset = 4;
   optional int32 max_positive_offset = 5;
 }
@@ -149,9 +149,8 @@ message PipelineSettingsPb {
 
 message RxPipelineSettingsPb {
   PipelineSettingsPb base = 1;
-  IfSettingsPb if = 2;
-  optional bool mute = 3;
-  optional AgcSpeed agc_speed = 4;
+  optional bool mute = 2;
+  optional AgcSpeed agc_speed = 3;
 }
 
 message TxPipelineSettingsPb {
@@ -177,7 +176,8 @@ message BasicIqBandSettingsPb {
     string band_request = 1;
     BandPb band = 2;
   }
-  BandRfSettingsPb rf = 3;
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
   RxPipelineSettingsPb pipeline_a = 10;
 }
 
@@ -186,6 +186,8 @@ message DualIqBandSettingsPb {
     string band_request = 1;
     BandPb band = 2;
   }
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
   RxPipelineSettingsPb pipeline_a = 10;
   optional RxPipelineSettingsPb pipeline_b = 11;
   optional TxPipelineSettingsPb tx_pipeline = 12;
@@ -240,17 +242,20 @@ message DualIqBandSettingsCachePb {
 message BasicRxSettingsPb {
   BasicActiveBandSettingsPb active_bands = 1;
   optional ReceiverSettingsPb receiver = 2;
+  optional bool ptt = 4; // Receivers have ptt so that they can respond by muting.
 }
 
 // No-frills IQ receiver
 message BasicIqRxSettingsPb {
   BasicIqActiveBandSettingsPb active_bands = 1;
   optional ReceiverSettingsPb receiver = 2;
+  optional bool ptt = 4;
 }
 
 message DualIqRxSettingsPb {
   DualIqActiveBandSettingsPb active_bands = 1;
   optional ReceiverSettingsPb receiver = 2;
+  optional bool ptt = 4;
 }
 
 

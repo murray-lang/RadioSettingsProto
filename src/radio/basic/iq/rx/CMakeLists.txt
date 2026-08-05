@@ -15,6 +15,8 @@ target_include_directories(radio-basic-iq-rx PUBLIC
 )
 
 target_link_libraries(radio-basic-iq-rx PUBLIC
+        radio-base
         core-common-iq-rx-basic
         settings-control-radio
+
 )

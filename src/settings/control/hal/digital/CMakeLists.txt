@@ -29,7 +29,7 @@ set(GPIO_LIBRARIES
         settings-control-base
         settings-control-source
         settings-control-sink
-        settings-model-core
+        settings-model-radio-selected
         etl
 )
 

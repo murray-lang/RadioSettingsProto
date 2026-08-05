@@ -20,8 +20,6 @@ namespace Config::IqRxTx
     if (json[IqTransmitter::type].is<JsonVariantConst>()) {
       rc = IqTransmitter::fromJson(json[IqTransmitter::type], *fields.transmitter);
       if (rc != ResultCode::OK) return rc;
-    } else {
-      return ResultCode::ERR_CONFIG_RXTX_NO_TX;
     }
     return rc;
   }

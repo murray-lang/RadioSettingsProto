@@ -3,7 +3,7 @@
 #include <iq/rx/IqRxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqRxPipeline.h>
-#include <settings/model/iq/BasicIqRxSettings.h>
+#include <settings/model/radio/iq/BasicIqRxSettings.h>
 
 
 class BasicIqRx : public IqRxBaseT<BasicIqRxSettings>
@@ -18,6 +18,7 @@ public:
   void stop() override;
 
   ResultCode apply(const BasicIqRxSettings& settings) override;
+  // ResultCode apply(const BandSettings& bandSettings) override;
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
 

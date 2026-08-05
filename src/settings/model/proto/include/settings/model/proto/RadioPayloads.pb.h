@@ -358,9 +358,9 @@ extern const pb_msgdesc_t makesdr_RadioCacheDualPayloadPb_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define MAKESDR_RADIOPAYLOADS_PB_H_MAX_SIZE      makesdr_RadioLookupPayloadPb_size
-#define makesdr_BasicIqRxSettingsPayloadPb_size  402
-#define makesdr_BasicIqRxTxSettingsPayloadPb_size 428
-#define makesdr_BasicRxSettingsPayloadPb_size    270
+#define makesdr_BasicIqRxSettingsPayloadPb_size  384
+#define makesdr_BasicIqRxTxSettingsPayloadPb_size 408
+#define makesdr_BasicRxSettingsPayloadPb_size    272
 #define makesdr_BasicRxTxSettingsPayloadPb_size  296
 #define makesdr_RadioLookupPayloadPb_size        9057
 #define makesdr_RadioPayloadBasePb_size          4

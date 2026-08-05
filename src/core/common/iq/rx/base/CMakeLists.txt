@@ -16,6 +16,6 @@ target_include_directories(core-common-iq-rx-base INTERFACE
 target_link_libraries(core-common-iq-rx-base INTERFACE
         core-common-iq-base
         core-common-audio
-        settings-model-basic-iq-rx
+        settings-model-radio-selected
         config-struct
 )

@@ -16,6 +16,8 @@ IqRxPipeline::IqRxPipeline(const RadioLookup& radioLookup)
   appendStage(&m_oscillatorMixer);
   appendStage(&m_ifFilter);
   appendStage(&m_resampler);
+
+  m_pDemodulator = &m_ssbDemodulator; // For now TODO: Get setting updates working again.
 }
 
 void

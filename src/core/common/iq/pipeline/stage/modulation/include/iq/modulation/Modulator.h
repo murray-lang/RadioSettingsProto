@@ -1,7 +1,7 @@
 #pragma once
 
 #include <samples/SampleTypes.h>
-#include <../../../../../../../../../settings/model/base/include/settings/model/base/Mode.h>
+#include <settings/model/component/Mode.h>
 
 class Modulator
 {

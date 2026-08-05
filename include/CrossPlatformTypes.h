@@ -41,6 +41,7 @@ using etl::min;
 using etl::max;
 // using etl::size_t
 using etl::strcmp;
+using etl::shared_ptr;
 
 #else
 #include <variant>
@@ -81,6 +82,6 @@ using std::in_place_type_t;
 using std::min;
 using std::max;
 using std::strcmp;
-
+using std::shared_ptr;
 // using std::size_t;
 #endif

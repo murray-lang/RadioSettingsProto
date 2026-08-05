@@ -4,16 +4,6 @@ project(settings-model-base)
 
 set(CLASSES_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/AutoCompleteTrigger.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/AgcSpeed.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/Band.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/BandRfSettings.h
-
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/IfSettings.h
-
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/Mode.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/RadioSettingsBaseT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/RfSettingsT.h
-
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingPath.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingsBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingUpdate.h
@@ -22,20 +12,15 @@ set(CLASSES_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingUpdateVariant.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/StringRef.h
 
-        ${CMAKE_CURRENT_LIST_DIR}/src/RadioSettingsBaseT.cpp
-
 )
 
-add_library(settings-model-base STATIC ${CLASSES_BASE_FILES})
+add_library(settings-model-base INTERFACE ${CLASSES_BASE_FILES})
 
-target_include_directories(settings-model-base PUBLIC
+target_include_directories(settings-model-base INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(settings-model-base PUBLIC
-        settings-model-traverse
-        settings-model-meta
-        settings-model-classes-cache
-        settings-model-lookup-radio
+target_link_libraries(settings-model-base INTERFACE
+        etl::etl
 )

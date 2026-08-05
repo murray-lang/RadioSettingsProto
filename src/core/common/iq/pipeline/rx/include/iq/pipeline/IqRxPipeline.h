@@ -12,7 +12,7 @@
 #include <iq/modulation/AmDemodulator.h>
 #include <iq/modulation/FmDemodulator.h>
 #include <iq/modulation/SsbDemodulator.h>
-#include <settings/model/iq/RxPipelineSettings.h>
+#include <settings/model/component/RxPipelineSettings.h>
 
 
 class IqRxPipeline : public IqPipeline

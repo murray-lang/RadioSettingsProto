@@ -1,5 +1,5 @@
 #pragma once
-#include "ResultCode.h"
+#include <ResultCode.h>
 #include "SettingUpdateSink.h"
 
 class SettingUpdateSource
@@ -7,7 +7,7 @@ class SettingUpdateSource
 public:
   virtual ~SettingUpdateSource() = default;
 
-  virtual void connectSettingUpdateSink(SettingUpdateSink& sink)
+  virtual void connectSettingUpdateSink(SettingUpdateSink* sink)
   {
     // This implementation is to avoid the need for a descendant class to implement an empty
     // connect() for this base class.

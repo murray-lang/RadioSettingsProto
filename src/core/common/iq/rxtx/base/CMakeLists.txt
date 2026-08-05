@@ -15,6 +15,6 @@ target_include_directories(core-common-iq-rxtx-base INTERFACE
 
 target_link_libraries(core-common-iq-rxtx-base INTERFACE
         core-common-iq-base
-        settings-model-basic-iq-rxtx
+        settings-model-radio-iq-rxtx
         config-struct
 )

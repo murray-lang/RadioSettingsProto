@@ -1,8 +1,0 @@
-cmake_minimum_required(VERSION 4.1)
-
-project(settings-model-basic)
-
-add_subdirectory(components)
-add_subdirectory(iq)
-add_subdirectory(rx)
-

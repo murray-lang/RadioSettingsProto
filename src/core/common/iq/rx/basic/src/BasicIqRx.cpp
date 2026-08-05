@@ -51,6 +51,12 @@ BasicIqRx::apply(const BasicIqRxSettings& settings)
   return ResultCode::OK;
 }
 
+// ResultCode
+// BasicIqRx::apply(const BandSettings& bandSettings)
+// {
+//
+// }
+
 uint32_t
 BasicIqRx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
 {
