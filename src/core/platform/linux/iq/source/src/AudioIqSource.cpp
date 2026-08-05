@@ -43,19 +43,19 @@ AudioIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, ui
 
   if (m_pIqSink != nullptr) {
     uint32_t numFrames = length / numChannels;
-    // m_iqOutputBuffer.resize(numFrames);
+    // m_iqOutputBuffers.resize(numFrames);
     // uint32_t outputLength = numFrames;
-    uint32_t outputLength = m_hilbert.transform(audioSamples, length, numChannels, m_iqOutputBuffer.input());
+    uint32_t outputLength = m_hilbert.transform(audioSamples, length, numChannels, m_iqOutputBuffers.input());
     // for (int i = 0; i < numFrames; ++i) {
     //   size_t audioIndex = i * numChannels;
     //   sdrreal real = audioSamples[audioIndex] * 100; // Take first channel only for now
     //   // Hilbert transform to get imag part
-    //   // m_hilbert.transform(vsdrreal(&audioSamples[audioIndex], &audioSamples[audioIndex + 1]), 1, numChannels, m_iqOutputBuffer);
+    //   // m_hilbert.transform(vsdrreal(&audioSamples[audioIndex], &audioSamples[audioIndex + 1]), 1, numChannels, m_iqOutputBuffers);
     //   sdrreal imag = 0.0f;
-    //   m_iqOutputBuffer[i] = sdrcomplex(real, imag);
+    //   m_iqOutputBuffers[i] = sdrcomplex(real, imag);
 
     // }
-    m_pIqSink->sinkIq(m_iqOutputBuffer, outputLength);
+    m_pIqSink->sinkIq(m_iqOutputBuffers, outputLength);
     return length;
   }
   return 0;

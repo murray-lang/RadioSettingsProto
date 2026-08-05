@@ -1,6 +1,7 @@
 #include "settings/control/FunCubeDongle/FunCubeDongle.h"
 #include "settings/control/FunCubeDongle/FCDHidCmd.h"
-#include <CrossPlatformTypes.h>
+#include <settings/model/radio/ActiveBandSettings.h>
+#include <settings/model/radio/BandSettings.h>
 
 #include <cmath>
 
@@ -35,83 +36,35 @@ FunCubeDongle::operator=(FunCubeDongle&& rhs) noexcept
 ResultCode
 FunCubeDongle::applySettings(const RadioSettings& settings)
 {
-  // uint32_t bandTag = settings.getFocusBandTag();
-  // if (bandTag == 0) {
-  //   return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_BAND;
-  // }
-  // uint32_t pipelineTag = settings.getFocusPipelineTag(bandTag);
-  // if (pipelineTag == 0) {
-  //   return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
-  // }
-  // SettingPath centreFreqPath {
-  //   bandTag,
-  //   pipelineTag,
-  //   makesdr_PipelineSettingsPb_rf_tag,
-  //   makesdr_RfSettingsPb_centre_frequency_tag,
-  //   makesdr_SteppableInt64SettingPb_value_tag
-  // };
-  // SettingUpdateVariant centreFreq;
-  // ResultCode rc = settings.getField(centreFreqPath, centreFreq);
-  // if (rc != ResultCode::OK) return rc;
-  // auto centreFrequency = get<int64_t>(centreFreq);
-  // setFrequency(centreFrequency);
-  // setRfFilter(centreFrequency);
-  //
-  // SettingPath rfGainPath {
-  //   bandTag,
-  //   pipelineTag,
-  //   makesdr_PipelineSettingsPb_rf_tag,
-  //   makesdr_RfSettingsPb_gain_tag,
-  //   makesdr_SteppableFloatSettingPb_value_tag
-  // };
-  // SettingUpdateVariant rfGainVar;
-  // rc = settings.getField(rfGainPath, rfGainVar);
-  // if (rc != ResultCode::OK) return rc;
-  // auto rfGain = get<float>(rfGainVar);
-  // setLnaGain(rfGain);
-  // m_lastRfGain = rfGain;
-  //
-  // SettingPath ifGainPath {
-  //   bandTag,
-  //   pipelineTag,
-  //   makesdr_RxPipelineSettingsPb_if_tag,
-  //   makesdr_IfSettingsPb_gain_tag,
-  //   makesdr_SteppableFloatSettingPb_value_tag
-  // };
-  // SettingUpdateVariant ifGainVar;
-  // rc = settings.getField(ifGainPath, ifGainVar);
-  // if (rc != ResultCode::OK) return rc;
-  // auto ifGain = get<float>(ifGainVar);
-  // setIfGain(ifGain);
-  // m_lastIfGain = ifGain;
-
-  const makesdr_RxPipelineSettingsPb* pipelineSettings = settings.getFocusBandFocusRxPipelineSettings();
-  if (pipelineSettings == nullptr) {
-    return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
+  if (!settings.hasActiveBands()) {
+    return ResultCode:: OK;
   }
-  m_lastRfGain = 1;
-  if (pipelineSettings->base.has_rf) {
-    const makesdr_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
-    if (rfSettings.has_centre_frequency) {
-      uint32_t centreFrequency = rfSettings.centre_frequency.value;
+
+  const ActiveBandSettings& activeBandSettings = settings.activeBandSettings();
+  if (!activeBandSettings.hasFocusBand()) {
+    return ResultCode:: OK;
+  }
+  const BandSettings* bandSettings = activeBandSettings.focusBand();
+  if (bandSettings->hasRfSettings()) {
+    const BandRfSettings& rfSettings = bandSettings->rfSettings();
+    if (rfSettings.hasFrequency()) {
+      int64_t centreFrequency = rfSettings.frequency();
       setFrequency(centreFrequency);
       setRfFilter(centreFrequency);
     }
-    if (rfSettings.has_gain) {
-      float gain = rfSettings.gain.value;
+    if (rfSettings.hasGain()) {
+      float gain = rfSettings.gain();
       setLnaGain(gain);
       m_lastRfGain = gain;
     }
   }
-
-  if (pipelineSettings->has_if_) {
-    const makesdr_IfSettingsPb& ifSettings = pipelineSettings->if_;
-
-    if (ifSettings.has_bandwidth) {
-      setIfFilter(ifSettings.bandwidth);
+  if (bandSettings->hasIfSettings()) {
+    const IfSettings* ifSettings = bandSettings->ifSettings();
+    if (ifSettings->hasBandwidth()) {
+      setIfFilter(ifSettings->bandwidth());
     }
-    if (ifSettings.has_gain) {
-      float gain = ifSettings.gain.value;
+    if (ifSettings->hasGain()) {
+      float gain = ifSettings->gain();
       setIfGain(gain);
       m_lastIfGain = gain;
     }

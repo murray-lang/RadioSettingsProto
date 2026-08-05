@@ -83,7 +83,7 @@ message BandCategoryListPb {
   repeated BandCategoryPb categories = 1;
 }
 
-message RadioMetaPb {
+message RadioLookupPb {
   BandCategoryListPb bands = 1;
   ModeListPb modes = 2;
 }
@@ -109,12 +109,16 @@ message IqCorrectionSettingsPb {
   SteppableFloatSettingPb phase = 1002;
 }
 
-message RfSettingsPb {
-  SteppableFloatSettingPb gain = 1001;
-  SteppableInt64SettingPb centre_frequency = 1002;
-  SteppableInt64SettingPb vfo = 1003;
-  optional int32 max_negative_vfo_offset = 4;
-  optional int32 max_positive_vfo_offset = 5;
+message BandRfSettingsPb {
+  SteppableInt64SettingPb frequency = 1001;
+  SteppableFloatSettingPb gain = 1002;
+
+}
+
+message PipelineRfSettingsPb {
+  SteppableInt64SettingPb frequency = 1001;
+  optional int32 max_negative_offset = 4;
+  optional int32 max_positive_offset = 5;
 }
 
 message IfSettingsPb {
@@ -122,18 +126,16 @@ message IfSettingsPb {
   optional uint32 bandwidth = 2;
 }
 
-message MicrophoneSettingsPb {
+message AfSettingsPb {
   SteppableFloatSettingPb gain = 1001;
 }
 
-message ReceiverSettings {
-  IqCorrectionSettingsPb iq_corrections = 1;
-
+message ReceiverSettingsPb {
+  AfSettingsPb volume = 2;
 }
 
 message TransmitterSettingsPb {
-  IqCorrectionSettingsPb iq_corrections = 1;
-  MicrophoneSettingsPb mic = 2;
+  AfSettingsPb mic = 2;
 }
 
 message PipelineSettingsPb {
@@ -141,56 +143,157 @@ message PipelineSettingsPb {
     ModeType mode_request = 1;
     ModePb mode = 2;
   }
-  RfSettingsPb rf = 3;
+  PipelineRfSettingsPb rf = 3;
+  IqCorrectionSettingsPb iq_corrections = 4;
 }
 
 message RxPipelineSettingsPb {
   PipelineSettingsPb base = 1;
-  IfSettingsPb if = 2;
-  optional bool mute = 3;
-  optional AgcSpeed agc_speed = 4;
+  optional bool mute = 2;
+  optional AgcSpeed agc_speed = 3;
 }
 
 message TxPipelineSettingsPb {
   PipelineSettingsPb base = 1;
 }
 
-message BandSettingsPb {
+message BasicBandSettingsPb {
   oneof band_or_request {
     string band_request = 1;
     BandPb band = 2;
   }
-  RxPipelineSettingsPb pipeline_a = 3;
-  optional RxPipelineSettingsPb pipeline_b = 4;
-  optional TxPipelineSettingsPb tx_pipeline = 5;
-  optional bool is_multi_pipeline = 6;
-  optional PipelineId focus_pipeline_id = 7;
-  optional PipelineId tx_pipeline_id = 8;
-  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
-  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
-  PipelineId focus_pipeline = 9;
+  oneof mode_or_request {
+    ModeType mode_request = 3;
+    ModePb mode = 4;
+  }
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
+  optional AgcSpeed agc_speed = 7;
 }
 
-message ActiveBandSettingsPb {
-  optional SplitBandId focus_band_id = 1;
-  optional SplitBandId tx_band_id = 2;
-  optional SplitBandId rx_band_id = 3;
-  BandSettingsPb band_1 = 4;
-  BandSettingsPb band_2 = 5;
+message BasicIqBandSettingsPb {
+  oneof band_or_request {
+    string band_request = 1;
+    BandPb band = 2;
+  }
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
+  RxPipelineSettingsPb pipeline_a = 10;
+}
+
+message DualIqBandSettingsPb {
+  oneof band_or_request {
+    string band_request = 1;
+    BandPb band = 2;
+  }
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
+  RxPipelineSettingsPb pipeline_a = 10;
+  optional RxPipelineSettingsPb pipeline_b = 11;
+  optional TxPipelineSettingsPb tx_pipeline = 12;
+  optional bool is_multi_pipeline = 13;
+  optional PipelineId focus_pipeline_id = 14;
+  optional PipelineId tx_pipeline_id = 15;
+  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
+  PipelineId focus_pipeline = 16;
+}
+
+message BasicActiveBandSettingsPb {
+  BasicBandSettingsPb band_1 = 1;
+
+}
+
+message BasicIqActiveBandSettingsPb {
+  BasicIqBandSettingsPb band_1 = 1;
+
+}
+
+message DualIqActiveBandSettingsPb {
+  DualIqBandSettingsPb band_1 = 1;
+}
+
+message SplitBandDualIqActiveBandSettingsPb {
+  DualIqBandSettingsPb band_1 = 1;
+  DualIqBandSettingsPb band_2 = 2;
+  optional SplitBandId focus_band_id = 3;
+  optional SplitBandId tx_band_id = 4;
+  optional SplitBandId rx_band_id = 5;
   optional bool is_split = 6;
-  // This is a dummy band that is used to set either band_1 or Band_2 depending on focus_band_id.
+  // This is a pseudo band that is used to set either band_1 or Band_2 depending on focus_band_id.
   // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
   SplitBandId focus_band = 7;
 
 }
 
-message BandSettingsCachePb {
-  map<string, BandSettingsPb> band_settings = 1;
+message BasicBandSettingsCachePb {
+  map<string, BasicBandSettingsPb> band_settings = 1;
 }
 
-message RadioSettingsPb {
-  optional ReceiverSettings receiver = 1;
-  optional TransmitterSettingsPb transmitter = 2;
-  ActiveBandSettingsPb active_bands = 3;
+message BasicIqBandSettingsCachePb {
+  map<string, BasicIqBandSettingsPb> band_settings = 1;
+}
+
+message DualIqBandSettingsCachePb {
+  map<string, DualIqBandSettingsPb> band_settings = 1;
+}
+
+// No IQ, just control of a conventional receiver
+message BasicRxSettingsPb {
+  BasicActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional bool ptt = 4; // Receivers have ptt so that they can respond by muting.
+}
+
+// No-frills IQ receiver
+message BasicIqRxSettingsPb {
+  BasicIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
   optional bool ptt = 4;
 }
+
+message DualIqRxSettingsPb {
+  DualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional bool ptt = 4;
+}
+
+
+// No IQ, just control of a conventional transceiver
+message BasicRxTxSettingsPb {
+  BasicActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional TransmitterSettingsPb transmitter = 3;
+  optional bool ptt = 4;
+}
+
+// No-frills IQ transceiver
+message BasicIqRxTxSettingsPb {
+  BasicIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional TransmitterSettingsPb transmitter = 3;
+  optional bool ptt = 4;
+}
+
+message DualIqRxTxSettingsPb {
+  DualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional TransmitterSettingsPb transmitter = 3;
+  optional bool ptt = 4;
+}
+
+// Splittable TX and Rx, dual pipelines
+message SplitBandDualIqRxTxSettingsPb {
+  SplitBandDualIqActiveBandSettingsPb active_bands = 1;
+  optional ReceiverSettingsPb receiver = 2;
+  optional TransmitterSettingsPb transmitter = 3;
+  optional bool ptt = 4;
+}
+
+// Splittable TX and Rx, dual pipelines
+//message RadioSettingsPb {
+//  DualIqActiveBandSettingsPb active_bands = 1;
+//  optional ReceiverSettingsPb receiver = 2;
+//  optional TransmitterSettingsPb transmitter = 3;
+//  optional bool ptt = 4;
+//}

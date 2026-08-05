@@ -21,9 +21,10 @@ set(CONFIG_SOURCES
         include/config/json/QtControlSinkConfig.json.h
         include/config/json/QtControlSourceConfig.json.h
         include/config/json/RadioConfig.json.h
-        include/config/json/ReceiverConfig.json.h
+        include/config/json/IqReceiverConfig.json.h
+        include/config/json/IqRxTxConfig.json.h
+        include/config/json/IqTransmitterConfig.json.h
         include/config/json/SoftRockConfig.json.h
-        include/config/json/TransmitterConfig.json.h
         include/config/json/TypedJson.h
         include/config/json/UiConfig.json.h
         include/config/json/UsbControlSinksConfig.json.h
@@ -52,8 +53,9 @@ set(CONFIG_SOURCES
         src/control/UsbControlSinksConfig.json.cpp
 
         src/radio/RadioConfig.json.cpp
-        src/radio/ReceiverConfig.json.cpp
-        src/radio/TransmitterConfig.json.cpp
+        src/radio/IqReceiverConfig.json.cpp
+        src/radio/IqRxTxConfig.json.cpp
+        src/radio/IqTransmitterConfig.json.cpp
         src/ui/UiConfig.json.cpp
 )
 

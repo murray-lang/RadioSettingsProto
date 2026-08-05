@@ -2,7 +2,7 @@
 
 #include <settings/control/sink/SettingsControlSink.h>
 #include <usb/host/UsbHost.h>
-#include <settings/model/core/RadioSettings.h>
+#include <settings/model/radio/RadioSettings.h>
 #include <config/struct/SoftRockConfig.h>
 
 #define SOFTROCK_CMD_BUFFER_SIZE 4

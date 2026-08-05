@@ -46,6 +46,15 @@ endif()
 list(APPEND AUDIO_INCL_DIRS ${ALSA_INCLUDE_DIR})
 list(APPEND AUDIO_LINK_LIBS ${ALSA_LIBRARIES})
 
+# RtAudio
+find_library(RTAUDIO_LIB rtaudio)
+if(RTAUDIO_LIB)
+    message(STATUS "RtAudio found")
+    list(APPEND AUDIO_LINK_LIBS ${RTAUDIO_LIB})
+else()
+    message(FATAL_ERROR "RtAudio library not found")
+endif()
+
 set(LINUX_AUDIO_DRIVER_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioFactoryBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputFactory.h

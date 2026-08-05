@@ -8,7 +8,7 @@
 #include "settings/control/digital/DigitalInputs.h"
 
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "settings/model/meta/generalCoverageRadioMeta.h"
+#include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 #include "../../data/exampleRadioSettings.h"
 
 
@@ -64,7 +64,7 @@ using RadioSettingsPb = makesdr_RadioSettingsPb;
 RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
 BandSettingsCache bandSettingsCache;
 
-RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
+RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioLookup, bandSettingsCache);
 
 Gpio& gpio = Gpio::getInstance();
 

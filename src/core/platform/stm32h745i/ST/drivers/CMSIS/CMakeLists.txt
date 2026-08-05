@@ -46,6 +46,7 @@ add_library(core-stm32h745i-drivers-cmsis INTERFACE EXCLUDE_FROM_ALL
 
 target_include_directories(core-stm32h745i-drivers-cmsis INTERFACE
         include
+        include/stm32h745i/drivers/cmsis
         # Also expose device headers directly for libraries expecting standard ST layout
         include/stm32h745i/drivers/cmsis/device
 )

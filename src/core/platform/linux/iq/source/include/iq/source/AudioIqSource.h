@@ -8,7 +8,7 @@
 #include <config/struct/AudioIqSourceConfig.h>
 #include <samples/SampleTypes.h>
 #include <iq/base/IqSource.h>
-#include <dsp/transforms/HilbertTransform.h>
+#include <dsp/transforms/hilbert/HilbertTransform.h>
 #include <chrono>
 
 class AudioIqSource : public IqSource, private AudioSink
@@ -32,7 +32,7 @@ public:
 protected:
   AudioInput m_audioInput;
   HilbertTransform m_hilbert;
-  ComplexPingPongBuffers m_iqOutputBuffer;
+  ComplexPingPongBuffers m_iqOutputBuffers;
   // std::chrono::steady_clock::time_point m_lastTime;
 };
 

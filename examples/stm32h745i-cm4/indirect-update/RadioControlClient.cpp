@@ -4,7 +4,7 @@
 
 #include "settings/model/core/RadioSettings.h"
 
-#include "settings/model/meta/generalCoverageRadioMeta.h"
+#include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 
 #include <settings/model/proto/ProtobufIo.h>
 #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
@@ -20,7 +20,7 @@ using RadioSettingsPayloadPb = makesdr_RadioSettingsPayloadPb;
 BandSettingsCache bandSettingsCache;
 
 RadioControlClient::RadioControlClient()
-  : m_radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache)
+  : m_radioSettings(exampleRadioSettingsPb, generalCoverageRadioLookup, bandSettingsCache)
 {
 
 }

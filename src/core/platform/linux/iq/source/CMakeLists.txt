@@ -21,7 +21,8 @@ target_include_directories(core-linux-iq-source PUBLIC
 )
 
 target_link_libraries(core-linux-iq-source PUBLIC
-        core-common-dsp-transforms
+        core-common-dsp-transforms-hilbert
+        core-common-samples
         core-common-audio
         core-linux-audio
         core-common-iq-base

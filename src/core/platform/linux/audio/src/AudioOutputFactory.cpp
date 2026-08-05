@@ -2,28 +2,33 @@
 #include "audio/RtAudioOutputT.h"
 
 ResultCode
-AudioOutputFactory::create(const Config::Audio::Fields& config, AudioOutputVariant& output)
+AudioOutputFactory::create(const Config::IqIo::AudioOutputConfigVariant& configVariant, AudioOutputVariant& output)
 {
-  const RtAudio::Api api = apiFromConfig(config);
-  RtAudio::DeviceInfo deviceInfo;
-  ResultCode rc = findOutputDevice(api, config.searchExpression, &deviceInfo);
-  if (rc != ResultCode::OK) return rc;
-  AudioBase::Format format{};
-  getOutputFormat(config, deviceInfo, format);
-  if (format.sampleFormat == AudioFormat::FLOAT32) {
-    output.emplace<RtAudioOutputFloat>(deviceInfo, format);
-  }
-  else if (format.sampleFormat == AudioFormat::SINT32 || format.sampleFormat == AudioFormat::SINT24) {
-    output.emplace<RtAudioOutput32>(deviceInfo, format);
-  }
-  else if (format.sampleFormat == AudioFormat::SINT16) {
-    output.emplace<RtAudioOutput16>(deviceInfo, format);
-  }
-  else if (format.sampleFormat == AudioFormat::SINT8) {
-    output.emplace<RtAudioOutput8>(deviceInfo, format);
-  }
-  else {
-    return ResultCode::ERR_AUDIO_UNKNOWN_FORMAT;
+  if (holds_alternative<Config::Audio::Fields>(configVariant)) {
+    const auto& config = get<Config::Audio::Fields>(configVariant);
+    const RtAudio::Api api = apiFromConfig(config);
+    RtAudio::DeviceInfo deviceInfo;
+    ResultCode rc = findOutputDevice(api, config.searchExpression, &deviceInfo);
+    if (rc != ResultCode::OK) return rc;
+    AudioBase::Format format{};
+    getOutputFormat(config, deviceInfo, format);
+    if (format.sampleFormat == AudioFormat::FLOAT32) {
+      output.emplace<RtAudioOutputFloat>(deviceInfo, format);
+    }
+    else if (format.sampleFormat == AudioFormat::SINT32 || format.sampleFormat == AudioFormat::SINT24) {
+      output.emplace<RtAudioOutput32>(deviceInfo, format);
+    }
+    else if (format.sampleFormat == AudioFormat::SINT16) {
+      output.emplace<RtAudioOutput16>(deviceInfo, format);
+    }
+    else if (format.sampleFormat == AudioFormat::SINT8) {
+      output.emplace<RtAudioOutput8>(deviceInfo, format);
+    }
+    else {
+      return ResultCode::ERR_AUDIO_UNKNOWN_FORMAT;
+    }
+  } else {
+    return ResultCode::ERR_AUDIO_OUTPUT_UNKNOWN_TYPE;
   }
   return ResultCode::OK;
 }

@@ -1,8 +1,9 @@
 #pragma once
 #include <QObject>
 
-#include "config/struct/QtControlSinkConfig.h"
-#include "settings/control/sink/SettingsControlSink.h"
+#include <config/struct/QtControlSinkConfig.h>
+#include <settings/control/sink/SettingsControlSink.h>
+#include <settings/model/radio/RadioSettings.h>
 
 class QtSettingsControlSink : public QObject, public SettingsControlSink, public SettingUpdateSink
 {

@@ -2,7 +2,8 @@
 
 
 AudioInput::AudioInput()
-  : m_running(false)
+  : m_thread(*this)
+  , m_running(false)
   , m_pSink(nullptr)
   , m_maxPacketFrames(0)
   , m_numCurrentFrames(0)
@@ -10,7 +11,8 @@ AudioInput::AudioInput()
 }
 
 AudioInput::AudioInput(AudioSink* pSink)
-  : m_running(false)
+  : m_thread(*this)
+  , m_running(false)
   , m_pSink(pSink)
   , m_maxPacketFrames(0)
   , m_numCurrentFrames(0)
@@ -35,7 +37,9 @@ AudioInput::AudioInput(const RtAudio::DeviceInfo& deviceInfo, const Format& form
 AudioInput::AudioInput(AudioInput&& other) noexcept
   : AudioInputBase(std::move(other))
   , RtAudioDriver(std::move(other))
+  , m_thread(*this)
   , m_running(false)
+  , m_params(other.m_params)
   , m_pSink(other.m_pSink)
   , m_maxPacketFrames(other.m_maxPacketFrames)
   , m_numCurrentFrames(0)
@@ -53,6 +57,7 @@ AudioInput& AudioInput::operator=(AudioInput&& other) noexcept
   AudioInputBase::operator=(std::move(other));
   RtAudioDriver::operator=(std::move(other));
   m_running = false;
+  m_params = other.m_params;
   m_pSink = other.m_pSink;
   m_maxPacketFrames = other.m_maxPacketFrames;
   m_numCurrentFrames = 0;
@@ -65,6 +70,11 @@ AudioInput::start(uint32_t maxPacketFrames)
   m_maxPacketFrames = maxPacketFrames;
   if (!m_running) {
     // unsigned int bufferFrames = DEFAULT_BUFFER_SIZE;
+
+    // Close any existing stream before opening a new one
+    if (m_rtAudio.isStreamOpen()) {
+      m_rtAudio.closeStream();
+    }
 
     RtAudioErrorType rc = m_rtAudio.openStream(
       nullptr, // no output

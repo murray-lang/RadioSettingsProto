@@ -1,9 +1,9 @@
 #pragma once
 #include "settings/control/SettingsControlBase.h"
-#include "settings/model/core/RadioSettingsSource.h"
-#include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingUpdateSource.h"
-#include "settings/model/core/SettingUpdateSink.h"
+#include "settings/model/radio/RadioSettingsSource.h"
+#include "settings/model/radio/RadioSettingsSink.h"
+#include "settings/model/base/SettingUpdateSource.h"
+#include "settings/model/base/SettingUpdateSink.h"
 
 class SettingsControlSource :
   public SettingsControlBase,
@@ -19,20 +19,20 @@ public:
   ~SettingsControlSource() override = default;
   SettingsControlSource& operator=(SettingsControlSource&& rhs) noexcept = default;
 
-  void connectRadioSettingsSink(RadioSettingsSink& sink) override
+  void connectRadioSettingsSink(RadioSettingsSink* sink) override
   {
-    m_pSettingsSink.emplace(sink);
+    m_pSettingsSink.reset(sink);
   }
 
-  void connectSettingUpdateSink(SettingUpdateSink& sink) override
+  void connectSettingUpdateSink(SettingUpdateSink* sink) override
   {
-    m_pFieldUpdateSink.emplace(sink);
+    m_pFieldUpdateSink.reset(sink);
   }
 protected:
   ResultCode notifySettings(const RadioSettings& radioSettings) override
   {
     if (m_pSettingsSink) {
-      return m_pSettingsSink->get().applySettings(radioSettings);
+      return m_pSettingsSink->applySettings(radioSettings);
     }
     return ResultCode::OK;
   }
@@ -41,12 +41,12 @@ protected:
   ResultCode notifySettingUpdate(const SettingUpdate& update) override
   {
     if (m_pFieldUpdateSink) {
-      m_pFieldUpdateSink->get().applySettingUpdate(update);
+      m_pFieldUpdateSink->applySettingUpdate(update);
     }
     return ResultCode::OK;
   }
 
 protected:
-  optional<reference_wrapper<RadioSettingsSink>> m_pSettingsSink;
-  optional<reference_wrapper<SettingUpdateSink>> m_pFieldUpdateSink;
+  shared_ptr<RadioSettingsSink> m_pSettingsSink;
+  shared_ptr<SettingUpdateSink> m_pFieldUpdateSink;
 };

@@ -101,7 +101,7 @@ int main()
 
   // __enable_irq();
 
-  // RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
+  // RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioLookup, bandSettingsCache);
   //
   // ResultCode rc = indirectUpdate(radioSettings);
 

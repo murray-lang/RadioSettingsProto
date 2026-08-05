@@ -3,3 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(core-iq)
 
 add_subdirectory(base)
+add_subdirectory(io)
+add_subdirectory(pipeline)
+add_subdirectory(rx)
+add_subdirectory(rxtx)

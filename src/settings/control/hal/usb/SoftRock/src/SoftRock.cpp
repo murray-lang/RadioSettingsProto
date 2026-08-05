@@ -1,8 +1,10 @@
 #include "settings/control/SoftRock/SoftRock.h"
 #include <CrossPlatformTypes.h>
+#include <settings/model/radio/ActiveBandSettings.h>
+#include <settings/model/radio/BandSettings.h>
 
 #include <cmath>
-#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+// #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #define SOFTROCK_VENDOR_ID    0x16C0
 #define SOFTROCK_PRODUCT_ID   0x05DC
@@ -31,14 +33,19 @@ SoftRock::operator=(SoftRock&& rhs) noexcept
 ResultCode
 SoftRock::applySettings(const RadioSettings& settings)
 {
-  const makesdr_RxPipelineSettingsPb* pipelineSettings = settings.getFocusBandFocusRxPipelineSettings();
-  if (pipelineSettings == nullptr) {
-    return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
+  if (!settings.hasActiveBands()) {
+    return ResultCode:: OK;
   }
-  if (pipelineSettings->base.has_rf) {
-    const makesdr_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
-    if (rfSettings.has_centre_frequency) {
-      auto centreFrequency = static_cast<uint32_t>(rfSettings.centre_frequency.value);
+
+  const ActiveBandSettings& activeBandSettings = settings.activeBandSettings();
+  if (!activeBandSettings.hasFocusBand()) {
+    return ResultCode:: OK;
+  }
+  const BandSettings* bandSettings = activeBandSettings.focusBand();
+  if (bandSettings->hasRfSettings()) {
+    const BandRfSettings& rfSettings = bandSettings->rfSettings();
+    if (rfSettings.hasFrequency()) {
+      int64_t centreFrequency = rfSettings.frequency();
       setFrequency(centreFrequency);
     }
   }

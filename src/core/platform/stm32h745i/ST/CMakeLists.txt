@@ -4,3 +4,4 @@ project(core-stm32h745i-st)
 
 add_subdirectory(drivers)
 add_subdirectory(middlewares/third-party/FatFs)
+add_subdirectory(math)

@@ -1,7 +1,6 @@
 #include "config/json/RadioConfig.json.h"
 #include "config/json/ControlConfig.json.h"
-#include "config/json/ReceiverConfig.json.h"
-#include "config/json/TransmitterConfig.json.h"
+#include "config/json/IqRxTxConfig.json.h"
 #include "config/json/UiConfig.json.h"
 
 
@@ -22,16 +21,9 @@ ResultCode fromJson(const JsonVariantConst& json, Fields& fields)
 
   if (result != ResultCode::OK) return result;
 
-  if (json[Receiver::type].is<JsonVariantConst>()) {
-    fields.receiver.emplace();
-    result = Receiver::fromJson(json[Receiver::type], *fields.receiver);
-  }
-
-  if (result != ResultCode::OK) return result;
-
-  if (json[Transmitter::type].is<JsonVariantConst>()) {
-    fields.transmitter.emplace();
-    result = Transmitter::fromJson(json[Transmitter::type], *fields.transmitter);
+  if (json[IqRxTx::type].is<JsonVariantConst>()) {
+    fields.iqrxtx.emplace();
+    result = IqRxTx::fromJson(json[IqRxTx::type], *fields.iqrxtx);
   }
 
   if (result != ResultCode::OK) return result;

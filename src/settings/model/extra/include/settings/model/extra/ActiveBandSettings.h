@@ -64,7 +64,7 @@ public:
   [[nodiscard]] const BandSettings& bandOneSettings() const { return m_bandOneSettings; }
   [[nodiscard]] const BandSettings& bandTwoSettings() const { return m_bandTwoSettings; }
 
-  void setCategories(RadioMeta* categories)
+  void setCategories(RadioLookup* categories)
   {
     m_bandOneSettings.setCategories(categories);
     m_bandTwoSettings.setCategories(categories);

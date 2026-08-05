@@ -7,7 +7,7 @@
 
 #include "settings/model/proto/RadioSettings.pb.h"
 #include <../../../src/settings/model/core/include/settings/model/core/BandSettingsCache.h>
-#include <settings/model/meta/generalCoverageRadioMeta.h>
+#include <settings/model/lookup/radio/generalCoverageRadioLookup.h>
 // #include "../settings/util/ResolvedFieldPaths.h"
 
 using RadioSettingsPb = makesdr_RadioSettingsPb;
@@ -26,9 +26,9 @@ int main()
   // generateResolvedPathSourceFiles(active_bands_fields, "ResolvedActiveBandsFieldPaths");
 
 
-  RadioMeta radioMeta(generalCoverageRadioMeta);
+  RadioLookup radioLookup(generalCoverageRadioLookup);
 
-  RadioSettingsEx radioSettings(exampleRadioSettingsPb, radioMeta);
+  RadioSettingsEx radioSettings(exampleRadioSettingsPb, radioLookup);
   // radioSettings.setBands(&availableBandsPb);
   // radioSettings.setModes(&availableModesPb);
 

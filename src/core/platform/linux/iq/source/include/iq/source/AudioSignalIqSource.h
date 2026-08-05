@@ -5,8 +5,8 @@
 #include <config/struct/AudioSignalIqSourceConfig.h>
 #include <audio/AudioInput.h>
 #include <audio/AudioSink.h>
-
-#include "audio/AudioInputFactory.h"
+#include <audio/AudioInputFactory.h>
+#include <samples/PingPongBuffers.h>
 
 class AudioSignalIqSource : public IqSource, private AudioSink
 {
@@ -31,7 +31,7 @@ private:
 
 protected:
   AudioInput m_audioInput;
-  ComplexPingPongBuffers m_iqOutputBuffer;
+  ComplexPingPongBuffers m_iqOutputBuffers;
   bool m_reverse;
 
 };

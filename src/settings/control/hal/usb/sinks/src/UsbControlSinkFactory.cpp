@@ -8,7 +8,7 @@ UsbControlSinkFactory::create(const  Config::UsbControlSinks::UsbControlSinkConf
     FunCubeDongle fcd;
     result = fcd.configure(get<Config::FunCube::Fields>(config));
     if (result == ResultCode::OK) {
-      output.emplace<FunCubeDongle>(std::move(fcd));
+      output.emplace<FunCubeDongle>(move(fcd));
     }
     return result;
   }
@@ -16,7 +16,7 @@ UsbControlSinkFactory::create(const  Config::UsbControlSinks::UsbControlSinkConf
     SoftRock sr;
     result = sr.configure(get<Config::SoftRock::Fields>(config));
     if (result == ResultCode::OK) {
-      output.emplace<SoftRock>(std::move(sr));
+      output.emplace<SoftRock>(move(sr));
     }
     return result;
   }

@@ -1,12 +1,15 @@
 #pragma once
 
-#include <settings/model/core/RadioSettingsSink.h>
-#include <settings/model/core/RadioSettingsSource.h>
+#include <CrossPlatformTypes.h>
+#include <settings/model/radio/RadioSettingsSink.h>
+#include <settings/model/radio/RadioSettingsSource.h>
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkVariant.h>
 #include <settings/control/factory/SettingsControlSourceVariant.h>
 
 #include <config/struct/ControlConfig.h>
+
+#include <memory>
 
 #ifdef USE_ETL
 #include <etl/vector.h>
@@ -39,8 +42,8 @@ public:
   ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
 
 
-  void connectRadioSettingsSink(RadioSettingsSink& sink) override;
-  void connectSettingUpdateSink(SettingUpdateSink& sink) override;
+  void connectRadioSettingsSink(RadioSettingsSink* sink) override;
+  void connectSettingUpdateSink(SettingUpdateSink* sink) override;
 
   ResultCode notifySettings(const RadioSettings& settings) override;
   ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate) override;
@@ -79,6 +82,6 @@ protected:
   ControlSinkVector m_controlSinks;
   ControlSourceVector m_controlSources;
   InternalSink m_internalSink;
-  optional<reference_wrapper<RadioSettingsSink>> m_externalSettingsSink;
-  optional<reference_wrapper<SettingUpdateSink>> m_externalFieldUpdateSink;
+  shared_ptr<RadioSettingsSink> m_externalSettingsSink;
+  shared_ptr<SettingUpdateSink> m_externalFieldUpdateSink;
 };

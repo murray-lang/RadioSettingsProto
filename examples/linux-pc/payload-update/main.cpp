@@ -5,7 +5,7 @@
 
 #include "settings/model/core/RadioSettings.h"
 
-#include "settings/model/meta/generalCoverageRadioMeta.h"
+#include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 
 #include <settings/model/proto/ProtobufIo.h>
 #include "../../data/exampleRadioSettings.h"
@@ -23,7 +23,7 @@ int main()
 {
   RadioControl radioControl;
   ResultCode rc = ResultCode::OK;
-  RadioSettings clientRadioSettings(generalCoverageRadioMeta, bandSettingsCache);
+  RadioSettings clientRadioSettings(generalCoverageRadioLookup, bandSettingsCache);
 
   bool isIndirect = false;
   AutoCompleteTrigger trigger;
@@ -58,11 +58,11 @@ int main()
   }
 
   // Deserialise
-  RadioSettings radioSettingsIn(generalCoverageRadioMeta, bandSettingsCache);
+  RadioSettings radioSettingsIn(generalCoverageRadioLookup, bandSettingsCache);
   rc = radioSettingsIn.readProtobuf(buffer, written);
   if (rc != ResultCode::OK) return -1;
 
-  RadioSettings radioSettings(generalCoverageRadioMeta, bandSettingsCache);
+  RadioSettings radioSettings(generalCoverageRadioLookup, bandSettingsCache);
     switch (radioSettingsIn.purpose()) {
     case makesdr_RadioPayloadPurpose_PURPOSE_REPLACE:
       radioSettings.replace(radioSettingsIn.body(), true);
@@ -78,7 +78,7 @@ int main()
     }
   if (rc != ResultCode::OK) return -1;
 
-  RadioSettings update(radioSettings.body(),generalCoverageRadioMeta, bandSettingsCache );
+  RadioSettings update(radioSettings.body(),generalCoverageRadioLookup, bandSettingsCache );
   radioSettings.setAllFieldsPresence(false);
 
   return 0;

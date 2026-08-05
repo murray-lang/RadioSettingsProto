@@ -1,0 +1,48 @@
+#pragma once
+#include <settings/model/component/BandSettingsCacheT.h>
+#include <settings/model/proto/RadioSettings.pb.h>
+#include <settings/model/proto/RadioPayloads.pb.h>
+#include <settings/model/lookup/radio/RadioLookup.h>
+#include <settings/model/radio/base/RadioSettingsBaseT.h>
+#include <settings/model/component/BasicActiveBandSettings.h>
+
+
+using BasicBandSettingsCache = BandSettingsCacheT<
+  makesdr_BasicBandSettingsPb,
+  makesdr_BasicBandSettingsCachePb,
+  makesdr_BasicBandSettingsCachePb_BandSettingsEntry
+>;
+
+using BaseType = RadioSettingsBaseT<
+    makesdr_BasicRxSettingsPb,
+    &makesdr_BasicRxSettingsPb_msg,
+    makesdr_BasicRxSettingsPayloadPb,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX,
+    makesdr_BasicRxSettingsPayloadPb_size,
+    makesdr_BasicBandSettingsPb,
+    BasicBandSettingsCache
+  >;
+
+class BasicRxSettings : public BaseType
+{
+public:
+  BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache)
+  : BaseType(lookup,  cache)
+    , m_activeBandSettings(m_payload.body.active_bands)
+  {}
+
+  [[nodiscard]] const makesdr_BasicBandSettingsPb* getBandSettings() const override
+  {
+    return &m_payload.body.active_bands.band_1;
+  }
+
+  [[nodiscard]] bool hasActiveBands() const { return m_payload.body.has_active_bands;}
+  BasicActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
+  [[nodiscard]] const BasicActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
+
+  [[nodiscard]] bool hasPtt() const { return m_payload.body.has_ptt; }
+  [[nodiscard]] bool ptt() const { return m_payload.body.ptt; }
+
+protected:
+  BasicActiveBandSettings m_activeBandSettings;
+};

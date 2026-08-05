@@ -11,7 +11,7 @@ set(SOFTROCK_LIBS
         config-struct
         settings-control-base
         settings-control-sink
-        settings-model-core
+        settings-model-radio-selected
 )
 
 if (PLATFORM_FAMILY STREQUAL "linux")

@@ -1,25 +1,28 @@
-#pragma once
+#ifndef CORE_RADIO_SETTINGS_H
+#define CORE_RADIO_SETTINGS_H
 
-#include "BandSettingsCache.h"
-#include "SettingUpdateVariant.h"
-#include "MessageVisitor.h"
+#include <settings/model/proto/RadioPayloads.pb.h>
+#include <settings/model/base/SettingUpdate.h>
+#include <settings/model/base/SettingUpdateVariant.h>
+#include <settings/model/base/SettingUpdateSink.h>
+#include <settings/model/traverse/MessageTraverser.h>
+#include <settings/model/meta/RadioLookup.h>
+
 #include "SplitBandId.h"
 #include "PipelineId.h"
-#include "SettingUpdateSink.h"
-#include "settings/model/meta/RadioMeta.h"
-#include "settings/model/proto/RadioPayloads.pb.h"
+#include "BandSettingsCache.h"
 
 class RadioSettings : public SettingUpdateSink
 {
 public:
   RadioSettings(
-    const makesdr_RadioMetaPb& meta,
+    const makesdr_RadioLookupPb& meta,
     BandSettingsCache& cache
   );
 
   RadioSettings(
     makesdr_RadioSettingsPb& raw,
-    const makesdr_RadioMetaPb& meta,
+    const makesdr_RadioLookupPb& meta,
     BandSettingsCache& cache
   );
 
@@ -165,10 +168,12 @@ protected:
 
 protected:
   bool m_assumeComplete;
-  makesdr_RadioSettingsPayloadPb m_payload;
+  makesdr_RadioSettingsFullPayloadPb m_payload;
 
-  MessageVisitor m_visitor;
+  MessageTraverser m_traverser;
 
-  RadioMeta m_meta;
+  RadioLookup m_meta;
   BandSettingsCache& m_cache;
 };
+
+#endif // CORE_RADIO_SETTINGS_H

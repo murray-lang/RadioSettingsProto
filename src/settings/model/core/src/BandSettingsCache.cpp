@@ -34,7 +34,7 @@ BandSettingsCache::Entry::bandSettings()
 }
 
 BandSettingsCache::BandSettingsCache()
-  : m_rawSettings(makesdr_BandSettingsCachePb_init_zero)
+  : m_rawSettings{}
 {
   for (pb_size_t i = 0; i < m_rawSettings.band_settings_count; i++) {
     m_entries.emplace_back(m_rawSettings.band_settings[i]);
@@ -54,7 +54,7 @@ BandSettingsCache::get(makesdr_BandSettingsPb* bandSettings)
   }
   *bandSettings = m_rawSettings.band_settings[index].value;
   return ResultCode::OK;
- }
+}
 
 ResultCode
 BandSettingsCache::set(const makesdr_BandSettingsPb* bandSettings)

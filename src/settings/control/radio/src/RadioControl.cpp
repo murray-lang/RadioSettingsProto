@@ -6,7 +6,10 @@
 
 
 
-RadioControl::RadioControl() : m_internalSink(this)
+RadioControl::RadioControl()
+  : m_controlSinks()
+  , m_controlSources()
+  , m_internalSink(this)
 {
 }
 
@@ -56,22 +59,22 @@ RadioControl::configure(const Config::Control::Fields& config)
 }
 
 void
-RadioControl::connectRadioSettingsSink(RadioSettingsSink& sink)
+RadioControl::connectRadioSettingsSink(RadioSettingsSink* sink)
 {
-  m_externalSettingsSink.emplace(sink);
+  m_externalSettingsSink.reset(sink);
 }
 
 void
-RadioControl::connectSettingUpdateSink(SettingUpdateSink& sink)
+RadioControl::connectSettingUpdateSink(SettingUpdateSink* sink)
 {
-  m_externalFieldUpdateSink.emplace(sink);
+  m_externalFieldUpdateSink.reset(sink);
 }
 
 ResultCode
 RadioControl::notifySettings(const RadioSettings& radioSettings)
 {
   if (m_externalSettingsSink) {
-    return m_externalSettingsSink->get().applySettings(radioSettings);
+    return m_externalSettingsSink->applySettings(radioSettings);
   }
   return ResultCode::OK;
 }
@@ -80,7 +83,7 @@ ResultCode
 RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta)
 {
   if (m_externalFieldUpdateSink) {
-    return m_externalFieldUpdateSink->get().applySettingUpdate(settingDelta);
+    return m_externalFieldUpdateSink->applySettingUpdate(settingDelta);
   }
   return ResultCode::OK;
 }
@@ -173,7 +176,7 @@ RadioControl::stop()
 void
 RadioControl::ptt(bool on)
 {
-  SettingPath path{makesdr_RadioSettingsPb_ptt_tag};
+  SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
   SettingUpdate setting(path, on, SettingUpdate::VALUE);
   applySettingUpdate(setting);
 }

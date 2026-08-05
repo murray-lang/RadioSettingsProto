@@ -28,6 +28,6 @@ target_link_libraries(settings-control-qt PUBLIC
         settings-control-base
         settings-control-sink
         settings-control-source
-        settings-model-core
+        settings-model-radio-selected
         Qt${QT_VERSION_MAJOR}::Core
 )
