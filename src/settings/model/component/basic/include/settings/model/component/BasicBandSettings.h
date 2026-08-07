@@ -1,12 +1,12 @@
 #pragma once
 
 #include <settings/model/base/SettingsBase.h>
-#include <settings/model/base/WithBandT.h>
-#include <settings/model/base/WithModeT.h>
-#include <settings/model/base/BandRfSettings.h>
-#include <settings/model/base/IfSettings.h>
-#include <settings/model/base/AgcSpeed.h>
-#include <settings/model/base/Mode.h>
+#include <settings/model/component/WithBandT.h>
+#include <settings/model/component/WithModeT.h>
+#include <settings/model/component/BandRfSettings.h>
+#include <settings/model/component/IfSettings.h>
+#include <settings/model/component/AgcSpeed.h>
+#include <settings/model/component/Mode.h>
 
 
 class BasicBandSettings :
@@ -23,14 +23,7 @@ class BasicBandSettings :
   , public SettingsBase
 {
 public:
-  BasicBandSettings(makesdr_BasicBandSettingsPb& rawSettings)
-    : WithBandT(rawSettings)
-    , WithModeT(rawSettings)
-    , m_rawSettings(rawSettings)
-    , m_rfSettings(rawSettings.rf)
-    , m_ifSettings(rawSettings.if_)
-  {
-  }
+  BasicBandSettings(makesdr_BasicBandSettingsPb& rawSettings);
 
   [[nodiscard]] bool hasRfSettings() const { return m_rawSettings.has_rf; }
   BandRfSettings* rfSettings() { return &m_rfSettings; }

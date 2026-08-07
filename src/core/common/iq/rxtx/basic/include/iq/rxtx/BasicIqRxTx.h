@@ -15,7 +15,7 @@ public:
   BasicIqRxTx(const RadioLookup& radioLookup);
   ~BasicIqRxTx() override = default;
 
-  ResultCode configure(const Config::IqRxTx::Fields& iqRxTxConfig) override;
+  ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;
 
   ResultCode start() override;
   void stop() override;

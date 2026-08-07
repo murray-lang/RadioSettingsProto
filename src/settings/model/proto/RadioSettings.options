@@ -7,10 +7,17 @@ makesdr.BandPb.label max_size: 10
 
 makesdr.BasicBandSettingsPb.band_request max_size: 8
 makesdr.BasicIqBandSettingsPb.band_request max_size: 8
-makesdr.BandSettingsPb.band_request max_size: 8
+makesdr.DualIqBandSettingsPb.band_request max_size: 8
+makesdr.RxTxDualIqBandSettingsPb.band_request max_size: 8
 
-makesdr.BandSettingsCachePb.band_settings max_count: 10
-makesdr.BandSettingsCachePb.BandSettingsEntry.key max_size: 8
+makesdr.BasicBandSettingsCachePb.band_settings max_count: 10
+makesdr.BasicBandSettingsCachePb.BandSettingsEntry.key max_size: 8
+
+makesdr.BasicIqBandSettingsCachePb.band_settings max_count: 10
+makesdr.BasicIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
+
+makesdr.DualIqBandSettingsCachePb.band_settings max_count: 10
+makesdr.DualIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
 
 makesdr.BandListPb.bands max_count: 13

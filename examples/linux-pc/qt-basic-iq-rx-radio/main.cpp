@@ -1,5 +1,6 @@
 #include <radio/iq/rx/BasicIqRxRadio.h>
 #include <settings/model/lookup/radio/generalCoverageRadioLookup.h>
+#include <settings/model/radio/BandSettingsCache.h>
 #include <config/json/RadioConfig.json.h>
 
 #include <fstream>
@@ -8,6 +9,8 @@
 #include <QDir>
 #include <QFile>
 #include <ArduinoJson.h>
+
+#include "settings/model/radio/BandSettingsCache.h"
 
 
 ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& radioConfig)
@@ -42,7 +45,7 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
   return rc;
 }
 
-
+BandSettingsCache bandSettingsCache;
 RadioLookup radioLookup(generalCoverageRadioLookup);
 
 int main(int argc, char *argv[])
@@ -56,7 +59,7 @@ int main(int argc, char *argv[])
   if (rc != ResultCode::OK) {
     return -1;
   }
-  BasicIqRxRadio radio(radioLookup);
+  BasicIqRxRadio radio(radioLookup, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
     return -1;

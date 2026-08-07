@@ -5,27 +5,11 @@
 class BasicActiveBandSettings : public SettingsBase
 {
 public:
-  BasicActiveBandSettings(makesdr_BasicActiveBandSettingsPb& raw)
-    : m_rawSettings(raw),
-      m_bandSettings(raw.band_1)
-  {
-  }
+  BasicActiveBandSettings(makesdr_BasicActiveBandSettingsPb& raw);
 
-  [[nodiscard]] bool hasBandSettings() const { return m_rawSettings.has_band_1; }
-  BasicBandSettings* bandSettings()
-  {
-    if (m_rawSettings.has_band_1) {
-      return &m_bandSettings;
-    }
-    return nullptr;
-  }
-  [[nodiscard]] const BasicBandSettings* bandSettings() const
-  {
-    if (m_rawSettings.has_band_1) {
-      return &m_bandSettings;
-    }
-    return nullptr;
-  }
+  [[nodiscard]] bool hasFocusBand() const { return m_rawSettings.has_band_1; }
+  [[nodiscard]] BasicBandSettings* focusBand();
+  [[nodiscard]] const BasicBandSettings* focusBand() const;
 
 
 protected:

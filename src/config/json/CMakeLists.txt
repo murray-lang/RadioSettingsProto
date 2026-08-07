@@ -22,7 +22,7 @@ set(CONFIG_SOURCES
         include/config/json/QtControlSourceConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/IqReceiverConfig.json.h
-        include/config/json/IqRxTxConfig.json.h
+        include/config/json/SdrConfig.json.h
         include/config/json/IqTransmitterConfig.json.h
         include/config/json/SoftRockConfig.json.h
         include/config/json/TypedJson.h
@@ -54,7 +54,7 @@ set(CONFIG_SOURCES
 
         src/radio/RadioConfig.json.cpp
         src/radio/IqReceiverConfig.json.cpp
-        src/radio/IqRxTxConfig.json.cpp
+        src/radio/SdrConfig.json.cpp
         src/radio/IqTransmitterConfig.json.cpp
         src/ui/UiConfig.json.cpp
 )

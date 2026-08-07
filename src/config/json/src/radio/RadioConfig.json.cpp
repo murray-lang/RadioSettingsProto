@@ -1,6 +1,6 @@
 #include "config/json/RadioConfig.json.h"
 #include "config/json/ControlConfig.json.h"
-#include "config/json/IqRxTxConfig.json.h"
+#include "config/json/SdrConfig.json.h"
 #include "config/json/UiConfig.json.h"
 
 
@@ -21,9 +21,9 @@ ResultCode fromJson(const JsonVariantConst& json, Fields& fields)
 
   if (result != ResultCode::OK) return result;
 
-  if (json[IqRxTx::type].is<JsonVariantConst>()) {
+  if (json[Sdr::type].is<JsonVariantConst>()) {
     fields.iqrxtx.emplace();
-    result = IqRxTx::fromJson(json[IqRxTx::type], *fields.iqrxtx);
+    result = Sdr::fromJson(json[Sdr::type], *fields.iqrxtx);
   }
 
   if (result != ResultCode::OK) return result;

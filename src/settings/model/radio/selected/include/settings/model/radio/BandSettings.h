@@ -1,4 +1,4 @@
 #pragma once
-#include <settings/model/component/BasicIqBandSettings.h>
+#include <settings/model/component/RxTxDualIqBandSettings.h>
 
-using BandSettings = BasicIqBandSettings;
+using BandSettings = RxTxDualIqBandSettings;

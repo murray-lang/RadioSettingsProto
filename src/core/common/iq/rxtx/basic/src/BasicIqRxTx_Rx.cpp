@@ -6,10 +6,10 @@ BasicIqRxTx_Rx::BasicIqRxTx_Rx(const RadioLookup& radioLookup)
 }
 
 ResultCode
-BasicIqRxTx_Rx::configure(const Config::IqRxTx::Fields& iqRxTxConfig)
+BasicIqRxTx_Rx::configure(const Config::Sdr::Fields& sdrConfig)
 {
-  if (iqRxTxConfig.receiver) {
-    const Config::IqReceiver::Fields& rxConfig = iqRxTxConfig.receiver.value();
+  if (sdrConfig.receiver) {
+    const Config::IqReceiver::Fields& rxConfig = sdrConfig.receiver.value();
     ResultCode rc = m_iqIo.configure(rxConfig.iqIo);
     if (rc != ResultCode::OK) return rc;
 

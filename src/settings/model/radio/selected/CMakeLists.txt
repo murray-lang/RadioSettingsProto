@@ -5,6 +5,7 @@ project(settings-model-radio-selected)
 set(RADIO_SETTINGS_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/ActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/BandSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/BandSettingsCache.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsSink.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsSource.h
@@ -18,6 +19,6 @@ target_include_directories(settings-model-radio-selected INTERFACE
 )
 
 target_link_libraries(settings-model-radio-selected INTERFACE
-        settings-model-radio-iq-rx
-#        settings-model-basic-iq-components
+#        settings-model-radio-iq-basic-rx
+        settings-model-radio-iq-dual-split
 )

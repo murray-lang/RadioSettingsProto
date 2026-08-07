@@ -1,4 +1,4 @@
 #pragma once
-#include <settings/model/radio/iq/BasicIqRxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
-using RadioSettings = BasicIqRxSettings;
+using RadioSettings = SplitBandDualIqRxTxSettings;

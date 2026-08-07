@@ -189,8 +189,24 @@ message DualIqBandSettingsPb {
   BandRfSettingsPb rf = 5;
   IfSettingsPb if = 6;
   RxPipelineSettingsPb pipeline_a = 10;
-  optional RxPipelineSettingsPb pipeline_b = 11;
-  optional TxPipelineSettingsPb tx_pipeline = 12;
+  RxPipelineSettingsPb pipeline_b = 11;
+  optional bool is_multi_pipeline = 13;
+  optional PipelineId focus_pipeline_id = 14;
+  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
+  PipelineId focus_pipeline = 16;
+}
+
+message RxTxDualIqBandSettingsPb {
+  oneof band_or_request {
+    string band_request = 1;
+    BandPb band = 2;
+  }
+  BandRfSettingsPb rf = 5;
+  IfSettingsPb if = 6;
+  RxPipelineSettingsPb pipeline_a = 10;
+  RxPipelineSettingsPb pipeline_b = 11;
+  TxPipelineSettingsPb tx_pipeline = 12;
   optional bool is_multi_pipeline = 13;
   optional PipelineId focus_pipeline_id = 14;
   optional PipelineId tx_pipeline_id = 15;
@@ -213,9 +229,13 @@ message DualIqActiveBandSettingsPb {
   DualIqBandSettingsPb band_1 = 1;
 }
 
+message RxTxDualIqActiveBandSettingsPb {
+  RxTxDualIqBandSettingsPb band_1 = 1;
+}
+
 message SplitBandDualIqActiveBandSettingsPb {
-  DualIqBandSettingsPb band_1 = 1;
-  DualIqBandSettingsPb band_2 = 2;
+  RxTxDualIqBandSettingsPb band_1 = 1;
+  RxTxDualIqBandSettingsPb band_2 = 2;
   optional SplitBandId focus_band_id = 3;
   optional SplitBandId tx_band_id = 4;
   optional SplitBandId rx_band_id = 5;
@@ -236,6 +256,10 @@ message BasicIqBandSettingsCachePb {
 
 message DualIqBandSettingsCachePb {
   map<string, DualIqBandSettingsPb> band_settings = 1;
+}
+
+message RxTxDualIqBandSettingsCachePb {
+  map<string, RxTxDualIqBandSettingsPb> band_settings = 1;
 }
 
 // No IQ, just control of a conventional receiver
@@ -276,7 +300,7 @@ message BasicIqRxTxSettingsPb {
 }
 
 message DualIqRxTxSettingsPb {
-  DualIqActiveBandSettingsPb active_bands = 1;
+  RxTxDualIqActiveBandSettingsPb active_bands = 1;
   optional ReceiverSettingsPb receiver = 2;
   optional TransmitterSettingsPb transmitter = 3;
   optional bool ptt = 4;

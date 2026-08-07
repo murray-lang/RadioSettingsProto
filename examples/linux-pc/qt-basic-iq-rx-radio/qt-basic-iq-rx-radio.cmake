@@ -19,6 +19,7 @@ target_include_directories(example-qt-basic-iq-rx-radio PUBLIC
 
 target_link_libraries(example-qt-basic-iq-rx-radio PUBLIC
         config-json
+        settings-model-radio-selected
         radio-basic-iq-rx
         core-linux-audio
         etl::etl

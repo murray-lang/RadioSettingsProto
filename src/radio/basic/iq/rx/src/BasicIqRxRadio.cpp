@@ -1,7 +1,8 @@
 #include "radio/iq/rx/BasicIqRxRadio.h"
 
-BasicIqRxRadio::BasicIqRxRadio(const RadioLookup& radioLookup)
-  : m_receiver(radioLookup)
+BasicIqRxRadio::BasicIqRxRadio(const RadioLookup& radioLookup, BasicIqRxSettings::Cache& bandSettingsCache)
+  : m_settings(radioLookup.raw(), bandSettingsCache)
+  , m_receiver(radioLookup)
 {
 
 }
@@ -11,7 +12,7 @@ BasicIqRxRadio::configure(const Config::Radio::Fields& config)
 {
   if (!config.iqrxtx) return ResultCode::ERR_CONFIG_NO_RXTX;
 
-  const Config::IqRxTx::Fields& iqrxtx = *config.iqrxtx;
+  const Config::Sdr::Fields& iqrxtx = *config.iqrxtx;
   if (!iqrxtx.receiver) return ResultCode::ERR_CONFIG_RXTX_NO_RX;
 
   ResultCode rc = m_receiver.configure(*iqrxtx.receiver);
@@ -40,7 +41,7 @@ BasicIqRxRadio::stop()
 }
 
 ResultCode
-BasicIqRxRadio::applySettings(const RadioSettings& settings)
+BasicIqRxRadio::applySettings(const BasicIqRxSettings& settings)
 {
   if (settings.hasPtt()) {
     ptt(settings.ptt());

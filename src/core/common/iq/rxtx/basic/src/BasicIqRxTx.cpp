@@ -9,11 +9,11 @@ BasicIqRxTx::BasicIqRxTx(const RadioLookup& radioLookup)
 }
 
 ResultCode
-BasicIqRxTx::configure(const Config::IqRxTx::Fields& iqRxTxConfig)
+BasicIqRxTx::configure(const Config::Sdr::Fields& sdrConfig)
 {
-  ResultCode rc = m_rx.configure(iqRxTxConfig);
+  ResultCode rc = m_rx.configure(sdrConfig);
   if (rc != ResultCode::OK)  return rc;
-  return m_tx.configure(iqRxTxConfig);
+  return m_tx.configure(sdrConfig);
 }
 
 ResultCode
@@ -39,11 +39,11 @@ BasicIqRxTx::apply(const BasicIqRxTxSettings& settings)
     if (activeBandSettings.hasFocusBand()) {
       const BasicIqBandSettings* bandSettings = activeBandSettings.focusBand();
       if (bandSettings->hasFocusPipeline()) {
-        const RxPipelineSettings& pipelineSettings = bandSettings->focusPipeline();
+        const RxPipelineSettings* pipelineSettings = bandSettings->focusPipeline();
         const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? &bandSettings->rfSettings() : nullptr;
 
-        ResultCode rcTx = m_tx.apply(bandRfSettings, &pipelineSettings.base());
-        ResultCode rcRx = m_rx.apply(bandRfSettings, &pipelineSettings);
+        ResultCode rcTx = m_tx.apply(bandRfSettings, &pipelineSettings->base());
+        ResultCode rcRx = m_rx.apply(bandRfSettings, pipelineSettings);
         if (rcTx != ResultCode::OK) return rcTx;
       }
     }

@@ -41,10 +41,10 @@ BasicIqRx::apply(const BasicIqRxSettings& settings)
     if (activeBandSettings.hasFocusBand()) {
       const BasicIqBandSettings* bandSettings = activeBandSettings.focusBand();
       if (bandSettings->hasFocusPipeline()) {
-        const RxPipelineSettings& pipelineSettings = bandSettings->focusPipeline();
+        const RxPipelineSettings* pipelineSettings = bandSettings->focusPipeline();
         const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? &bandSettings->rfSettings() : nullptr;
 
-        return m_pipelineA.apply(bandRfSettings, &pipelineSettings);
+        return m_pipelineA.apply(bandRfSettings, pipelineSettings);
       }
     }
   }

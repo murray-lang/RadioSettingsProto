@@ -126,7 +126,10 @@ public:
     return m_traverser.mergePresentFields(pRhsMessage);
   }
 
-  [[nodiscard]] virtual const BandSettingsPbType* getBandSettings() const = 0;
+  [[nodiscard]] bool hasPtt() const { return m_payload.body.has_ptt; }
+  [[nodiscard]] bool ptt() const { return m_payload.body.ptt; }
+
+  // [[nodiscard]] virtual const BandSettingsPbType* getBandSettings() const = 0;
 
 protected:
   bool m_assumeComplete;

@@ -13,7 +13,7 @@ using BasicBandSettingsCache = BandSettingsCacheT<
   makesdr_BasicBandSettingsCachePb_BandSettingsEntry
 >;
 
-using BaseType = RadioSettingsBaseT<
+using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxSettingsPb,
     &makesdr_BasicRxSettingsPb_msg,
     makesdr_BasicRxSettingsPayloadPb,
@@ -23,25 +23,19 @@ using BaseType = RadioSettingsBaseT<
     BasicBandSettingsCache
   >;
 
-class BasicRxSettings : public BaseType
+class BasicRxSettings : public BasicRxSettingsBaseType
 {
 public:
-  BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache)
-  : BaseType(lookup,  cache)
-    , m_activeBandSettings(m_payload.body.active_bands)
-  {}
+  BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache);
 
-  [[nodiscard]] const makesdr_BasicBandSettingsPb* getBandSettings() const override
-  {
-    return &m_payload.body.active_bands.band_1;
-  }
+  // [[nodiscard]] const makesdr_BasicBandSettingsPb* getBandSettings() const override
+  // {
+  //   return &m_payload.body.active_bands.band_1;
+  // }
 
   [[nodiscard]] bool hasActiveBands() const { return m_payload.body.has_active_bands;}
   BasicActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
   [[nodiscard]] const BasicActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
-
-  [[nodiscard]] bool hasPtt() const { return m_payload.body.has_ptt; }
-  [[nodiscard]] bool ptt() const { return m_payload.body.ptt; }
 
 protected:
   BasicActiveBandSettings m_activeBandSettings;

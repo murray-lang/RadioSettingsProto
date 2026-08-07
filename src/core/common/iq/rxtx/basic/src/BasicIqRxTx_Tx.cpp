@@ -8,10 +8,10 @@ BasicIqRxTx_Tx::BasicIqRxTx_Tx(const RadioLookup& radioLookup)
 }
 
 ResultCode
-BasicIqRxTx_Tx::configure(const Config::IqRxTx::Fields& iqRxTxConfig)
+BasicIqRxTx_Tx::configure(const Config::Sdr::Fields& sdrConfig)
 {
-  if (iqRxTxConfig.transmitter) {
-    const Config::IqTransmitter::Fields txConfig = iqRxTxConfig.transmitter.value();
+  if (sdrConfig.transmitter) {
+    const Config::IqTransmitter::Fields txConfig = sdrConfig.transmitter.value();
     ResultCode rc = m_iqIo.configure(txConfig.iqIo);
     if (rc != ResultCode::OK) return rc;
     // The AudioSink provided here could be m_pPipelineIo, but...

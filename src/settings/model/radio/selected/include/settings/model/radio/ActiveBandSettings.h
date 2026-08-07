@@ -1,4 +1,4 @@
 #pragma once
-#include <settings/model/component/BasicIqActiveBandSettings.h>
+#include <settings/model/component/SplitBandDualIqActiveBandSettings.h>
 
-using ActiveBandSettings = BasicIqActiveBandSettings;
+using ActiveBandSettings = SplitBandDualIqActiveBandSettings;
