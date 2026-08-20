@@ -34,7 +34,7 @@ BandStopFirKernel::configureComplex(int32_t freqLoPass, int32_t freqHiPass, int3
         z * sin(localOsc * x)
     );
   }
-  m_fft.transform(m_complexSincPulse, m_complexCoefficients, true, true);
+  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
   clampCoefficientsToZero(m_complexCoefficients);
   return m_complexCoefficients;
 }

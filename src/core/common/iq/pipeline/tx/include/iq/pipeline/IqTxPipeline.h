@@ -11,7 +11,7 @@
 // #include <iq/modulation/AmModulator.h>
 #include <iq/modulation/FmModulator.h>
 #include <iq/modulation/SsbModulator.h>
-#include <settings/model/iq/TxPipelineSettings.h>
+#include <settings/model/radios/component/TxPipelineSettings.h>
 
 
 class IqTxPipeline : public IqPipeline
@@ -25,7 +25,7 @@ public:
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
 
-  ResultCode apply(const BandRfSettings* bandRfSettings, const PipelineSettings* settings);
+  ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings) override;
 
   [[nodiscard]] uint32_t getMaxFramesPerInputPacket() const override;
   [[nodiscard]] uint32_t getMaxFramesPerOutputPacket() const override;

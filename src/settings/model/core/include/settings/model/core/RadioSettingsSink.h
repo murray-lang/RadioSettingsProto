@@ -3,7 +3,8 @@
 
 #include "RadioSettings.h"
 
-class RadioSettingsSink{
+class RadioSettingsSink
+{
 public:
   virtual ~RadioSettingsSink() = default;
   virtual ResultCode applySettings(const RadioSettings& settings) = 0;

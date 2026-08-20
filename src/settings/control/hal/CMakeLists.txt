@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 4.1)
 
 project(settings-control-hal)
 
-if (USE_GPIO)
+#if (USE_GPIO)
     add_subdirectory(digital)
-endif()
+#endif()
 
 add_subdirectory(usb)
 

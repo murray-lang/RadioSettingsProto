@@ -1,7 +1,7 @@
 #include "settings/control/SoftRock/SoftRock.h"
 #include <CrossPlatformTypes.h>
-#include <settings/model/radio/ActiveBandSettings.h>
-#include <settings/model/radio/BandSettings.h>
+#include <settings/model/radios/selected/ActiveBandSettings.h>
+#include <settings/model/radios/selected/BandSettings.h>
 
 #include <cmath>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
@@ -17,7 +17,7 @@ SoftRock::SoftRock()
 }
 
 SoftRock::SoftRock(SoftRock&& rhs) noexcept
-  : m_usbHost(move(rhs.m_usbHost))
+  : m_usbHost(::move(rhs.m_usbHost))
   , m_cmdBuffer{0}
 {
 
@@ -26,26 +26,26 @@ SoftRock::SoftRock(SoftRock&& rhs) noexcept
 SoftRock&
 SoftRock::operator=(SoftRock&& rhs) noexcept
 {
-    m_usbHost = move(rhs.m_usbHost);
+    m_usbHost = ::move(rhs.m_usbHost);
     return *this;
 }
 
 ResultCode
-SoftRock::applySettings(const RadioSettings& settings)
+SoftRock::applySettings(IRadioSettings& settings)
 {
   if (!settings.hasActiveBands()) {
     return ResultCode:: OK;
   }
 
-  const ActiveBandSettings& activeBandSettings = settings.activeBandSettings();
-  if (!activeBandSettings.hasFocusBand()) {
+  const IActiveBandSettings* activeBandSettings = settings.activeBands();
+  if (activeBandSettings == nullptr || !activeBandSettings->hasFocusBand()) {
     return ResultCode:: OK;
   }
-  const BandSettings* bandSettings = activeBandSettings.focusBand();
-  if (bandSettings->hasRfSettings()) {
-    const BandRfSettings& rfSettings = bandSettings->rfSettings();
-    if (rfSettings.hasFrequency()) {
-      int64_t centreFrequency = rfSettings.frequency();
+  const IBandSettings* bandSettings = activeBandSettings->focusBand();
+  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+    if (rfSettings != nullptr && rfSettings->hasFrequency()) {
+      int64_t centreFrequency = rfSettings->frequency();
       setFrequency(centreFrequency);
     }
   }

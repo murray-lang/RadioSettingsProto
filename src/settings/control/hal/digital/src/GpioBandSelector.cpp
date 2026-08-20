@@ -1,6 +1,9 @@
 #include <gpio/service/Gpio.h>
-#include "settings/model/core/RadioSettings.h"
+#include "settings/model/radios/selected/RadioSettings.h"
 #include "settings/control/digital/GpioBandSelector.h"
+
+#include "settings/model/radios/selected/ActiveBandSettings.h"
+#include "settings/model/radios/selected/BandSettings.h"
 
 
 GpioBandSelector::GpioBandSelector() :
@@ -21,18 +24,17 @@ GpioBandSelector::configure(const Config::BandSelector::Fields& config)
 }
 
 ResultCode
-GpioBandSelector::applySettings(const RadioSettings& settings)
+GpioBandSelector::applySettings(IRadioSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    const makesdr_RxPipelineSettingsPb* txPipelineSettings = settings.getTxPipelineSettings();
-    if (txPipelineSettings != nullptr) {
-      if (txPipelineSettings->base.has_rf) {
-        const makesdr_RfSettingsPb& rfSettings = txPipelineSettings->base.rf;
-        if (rfSettings.has_vfo) {
-          uint32_t frequency = rfSettings.vfo.value;
-          uint32_t output = getBandOutput(frequency);
-          applyOutput(output);
-        }
+    const IActiveBandSettings* activeBandSettings = settings.activeBands();
+    const IBandSettings* bandSettings = activeBandSettings->txBand();
+    if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+      const BandRfSettings* rfSettings = bandSettings->rfSettings();
+      if (rfSettings->hasFrequency()) {
+        uint32_t frequency = rfSettings->frequency();
+        uint32_t output = getBandOutput(frequency);
+        applyOutput(output);
       }
     }
   }
@@ -40,9 +42,9 @@ GpioBandSelector::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-GpioBandSelector::applySettingUpdate(const SettingUpdate& setting)
+GpioBandSelector::applySettingUpdate(const SettingUpdate& setting, bool final)
 {
-  if (setting.path() == m_settingPath) {
+  if (setting.path() == m_settingDescriptor.getPath()) {
     uint32_t frequency = get<uint32_t>(setting.value());
     uint32_t output = getBandOutput(frequency);
     if (output != m_currentOut) {

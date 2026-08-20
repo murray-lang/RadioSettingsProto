@@ -1,7 +1,7 @@
 #include "config/json/IqReceiverConfig.json.h"
 #include "config/json/IqIoConfig.json.h"
 
-#include "ResultCode.h"
+#include <ResultCode.h>
 
 namespace Config::IqReceiver
 {

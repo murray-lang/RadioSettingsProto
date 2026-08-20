@@ -40,15 +40,15 @@ public:
   ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length);
 
 
-  void replace(makesdr_RadioSettingsPb& update, bool assumeComplete = false);
+  void replace(makesdr_RadioSettingsPb& update, bool deemComplete = false);
   ResultCode merge(const makesdr_RadioSettingsPb& update);
 
   ResultCode autoComplete();
 
   ResultCode setAllFieldsPresence(bool present);
 
-  void assumeComplete(bool assumeComplete) { m_assumeComplete = assumeComplete; }
-  [[nodiscard]] bool assumeComplete() const { return m_assumeComplete; }
+  void deemComplete(bool deemComplete) { m_deemComplete = deemComplete; }
+  [[nodiscard]] bool deemComplete() const { return m_deemComplete; }
 
   void copyTo(makesdr_RadioSettingsPb& out) const;
 
@@ -59,7 +59,7 @@ public:
   ResultCode getField(const SettingPath &path, SettingUpdateVariant &value) const;
   ResultCode getField(
     const SettingPath &path,
-    SettingUpdateVariant &value,
+    SettingUpdateVariant& value,
     bool mustHave,
     bool parentsMustHave,
     bool& retrieved
@@ -167,7 +167,7 @@ protected:
 
 
 protected:
-  bool m_assumeComplete;
+  bool m_deemComplete;
   makesdr_RadioSettingsFullPayloadPb m_payload;
 
   MessageTraverser m_traverser;

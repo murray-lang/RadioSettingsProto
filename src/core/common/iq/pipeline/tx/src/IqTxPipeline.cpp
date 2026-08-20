@@ -65,7 +65,7 @@ IqTxPipeline::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
 }
 
 ResultCode
-IqTxPipeline::apply(const BandRfSettings* bandRfSettings, const PipelineSettings* settings)
+IqTxPipeline::apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings)
 {
   return IqPipeline::apply(bandRfSettings, settings);
 }

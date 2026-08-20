@@ -1,0 +1,46 @@
+#pragma once
+#include <settings/model/radios/component/BandSettingsCacheT.h>
+#include <settings/model/proto/RadioSettings.pb.h>
+#include <settings/model/proto/RadioPayloads.pb.h>
+#include <settings/model/data/radio/RadioLookup.h>
+#include <settings/model/radios/base/RadioSettingsBaseT.h>
+#include <settings/model/radios/component/BasicActiveBandSettings.h>
+
+
+using BasicBandSettingsCache = BandSettingsCacheT<
+  makesdr_BasicBandSettingsPb,
+  makesdr_BasicBandSettingsCachePb,
+  makesdr_BasicBandSettingsCachePb_BandSettingsEntry
+>;
+
+using BasicRxTxSettingsBaseType = RadioSettingsBaseT<
+    makesdr_BasicRxTxSettingsPb,
+    &makesdr_BasicRxTxSettingsPb_msg,
+    makesdr_BasicRxTxSettingsPayloadPb,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX,
+    makesdr_BasicRxTxSettingsPayloadPb_size,
+    makesdr_BasicBandSettingsPb,
+    BasicBandSettingsCache
+  >;
+
+class BasicRxTxSettings : public BasicRxTxSettingsBaseType
+{
+public:
+  BasicRxTxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache);
+
+  [[nodiscard]] bool hasActiveBands() const override { return m_payload.body.has_active_bands;}
+  IActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
+  [[nodiscard]] const IActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
+
+  [[nodiscard]] bool hasTransmitter() const override { return m_payload.body.has_transmitter; }
+  TransmitterSettings* transmitter() override { return &m_transmitterSettings; }
+  [[nodiscard]] const TransmitterSettings* transmitter() const override { return &m_transmitterSettings; }
+
+#ifdef USE_DOTTED_STRING_PATHS
+  ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
+#endif
+
+protected:
+  BasicActiveBandSettings m_activeBandSettings;
+  TransmitterSettings m_transmitterSettings;
+};

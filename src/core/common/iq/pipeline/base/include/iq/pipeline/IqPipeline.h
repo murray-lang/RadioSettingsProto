@@ -5,9 +5,9 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/component/PipelineSettings.h>
-#include <settings/model/component/BandRfSettings.h>
-#include <settings/model/lookup/radio/RadioLookup.h>
+#include <settings/model/radios/component/PipelineSettings.h>
+#include <settings/model/radios/component/BandRfSettings.h>
+#include <settings/model/data/radio/RadioLookup.h>
 
 // #include <qcoreevent.h>
 
@@ -42,15 +42,14 @@ public:
     m_mode = mode.raw();
   }
 
-  bool applyNyquistLimits(PipelineRfSettings& rfSettings) const
+  void applyNyquistLimits(const BandRfSettings* bandRfSettings, PipelineRfSettings* rfSettings) const
   {
     int32_t maxNegative, maxPositive;
     calcNyquistOffsetsLimits(&maxNegative, &maxPositive);
-    rfSettings.setNyquistLimits(maxNegative, maxPositive);
-    return true;
+    rfSettings->clampToNyquistLimits(*bandRfSettings, maxNegative, maxPositive);
   }
 
-  virtual ResultCode apply(const BandRfSettings* bandRfSettings, const PipelineSettings* settings);
+  virtual ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
 protected:
   void appendStage(IqPipelineStage* pStage)
@@ -67,6 +66,8 @@ protected:
   {
     m_stages.erase(m_stages.begin());
   }
+
+  void setOscillatorMixerFrequency(const BandRfSettings* bandRfSettings, const PipelineRfSettings* rfSettings);
 
 protected:
   const RadioLookup& m_radioLookup;

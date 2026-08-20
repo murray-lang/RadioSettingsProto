@@ -3,7 +3,7 @@
 
 #include <config/struct/QtControlSinkConfig.h>
 #include <settings/control/sink/SettingsControlSink.h>
-#include <settings/model/radio/RadioSettings.h>
+#include <settings/model/radios/base/IRadioSettings.h>
 
 class QtSettingsControlSink : public QObject, public SettingsControlSink, public SettingUpdateSink
 {
@@ -22,8 +22,8 @@ public:
   void close() override;
   void exit() override;
 
-  ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& settingUpdate) override;
+  ResultCode applySettings(IRadioSettings& settings) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingUpdate, bool final) override;
 
   void ptt(bool on) override {}
 

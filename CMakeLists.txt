@@ -35,12 +35,7 @@ elseif(TARGET_PLATFORM STREQUAL "rpi")
     set(PLATFORM_FAMILY "linux")
     set(PLATFORM_VARIANT "rpi")
 
-    add_definitions(
-            -DIS_LINUX
-            -DMAX_GPIO=27
-            -DGPIO_EVENT_QUEUE_CAPACITY=64
-            -DMAX_GPIO_CONTEXT_LENGTH=16
-    )
+
 
 elseif(TARGET_PLATFORM STREQUAL "linux-pc")
     set(PLATFORM_FAMILY "linux")
@@ -48,9 +43,25 @@ elseif(TARGET_PLATFORM STREQUAL "linux-pc")
     add_definitions(-DIS_LINUX)
 endif()
 
-if(NOT PLATFORM_FAMILY STREQUAL "linux")
+if(PLATFORM_FAMILY STREQUAL "linux")
+    if(USE_GPIO)
+        add_definitions(
+            -DMAX_GPIO=27
+            -DGPIO_EVENT_QUEUE_CAPACITY=64
+            -DMAX_GPIO_CONTEXT_LENGTH=16
+        )
+    endif()
+    set (USE_DOTTED_STRING_PATHS ON)
+else()
     set(USE_FREERTOS ON)
     add_definitions(-DUSE_FREERTOS)
+endif()
+
+if(USE_DOTTED_STRING_PATHS)
+    add_definitions(
+            -DUSE_DOTTED_STRING_PATHS
+
+    )
 endif()
 
 add_definitions(
@@ -114,7 +125,8 @@ target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't
 add_subdirectory(src/core)
 add_subdirectory(src/settings)
 add_subdirectory(src/config)
-add_subdirectory(src/radio)
+add_subdirectory(src/radios)
+add_subdirectory(src/ui)
 
 include(${CMAKE_SOURCE_DIR}/examples/${TARGET_PLATFORM}/${TARGET_EXAMPLE}/${TARGET_EXAMPLE}.cmake)
 

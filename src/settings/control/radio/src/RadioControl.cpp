@@ -1,4 +1,4 @@
-#include "../include/settings/control//radio/RadioControl.h"
+#include "settings/control/radio/RadioControl.h"
 
 #include <cstdio>
 #include <settings/control/factory/SettingsControlSinkFactory.h>
@@ -39,8 +39,8 @@ RadioControl::configure(const Config::Control::Fields& config)
       rc = visit([this](auto&& s) -> ResultCode {
         using T = decay_t<decltype(s)>;
         if constexpr (!is_same_v<T, monostate>) {
-          s.connectRadioSettingsSink(m_internalSink);
-          s.connectSettingUpdateSink(m_internalSink);
+          s.connectRadioSettingsSink(&m_internalSink);
+          s.connectSettingUpdateSink(&m_internalSink);
           return ResultCode::OK;
         } else
         {
@@ -71,7 +71,7 @@ RadioControl::connectSettingUpdateSink(SettingUpdateSink* sink)
 }
 
 ResultCode
-RadioControl::notifySettings(const RadioSettings& radioSettings)
+RadioControl::notifySettings(IRadioSettings& radioSettings)
 {
   if (m_externalSettingsSink) {
     return m_externalSettingsSink->applySettings(radioSettings);
@@ -80,19 +80,19 @@ RadioControl::notifySettings(const RadioSettings& radioSettings)
 }
 
 ResultCode
-RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta)
+RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta, bool final)
 {
   if (m_externalFieldUpdateSink) {
-    return m_externalFieldUpdateSink->applySettingUpdate(settingDelta);
+    return m_externalFieldUpdateSink->applySettingUpdate(settingDelta, final);
   }
   return ResultCode::OK;
 }
 
 ResultCode
-RadioControl::applySettings(const RadioSettings& settings)
+RadioControl::applySettings(IRadioSettings& settings)
 {
   for (auto& sinkVar : m_controlSinks) {
-    const ResultCode rc = visit([&settings] (auto&& sink) -> ResultCode
+    ResultCode rc = visit([&settings] (auto&& sink) -> ResultCode
     {
       return sink.applySettings(settings);
     }, sinkVar);
@@ -104,12 +104,12 @@ RadioControl::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-RadioControl::applySettingUpdate(const SettingUpdate& setting)
+RadioControl::applySettingUpdate(const SettingUpdate& setting, bool final)
 {
   for (auto& sinkVar : m_controlSinks) {
-    const ResultCode rc = visit([&setting] (auto&& sink) -> ResultCode
+    const ResultCode rc = visit([&setting, &final] (auto&& sink) -> ResultCode
     {
-      return sink.applySettingUpdate(setting);
+      return sink.applySettingUpdate(setting, final);
     }, sinkVar);
     if (rc != ResultCode::OK) {
       return rc;
@@ -121,9 +121,9 @@ RadioControl::applySettingUpdate(const SettingUpdate& setting)
 ResultCode
 RadioControl::start()
 {
-  printf("[RadioControl]\t Entered start().\r\n");
+  // printf("[RadioControl]\t Entered start().\r\n");
   for (auto& pSink : m_controlSinks) {
-    printf("[RadioControl]\t Next sink...\r\n");
+    // printf("[RadioControl]\t Next sink...\r\n");
     ResultCode rc = visit([&pSink](auto&& sink) -> ResultCode
     {
 
@@ -132,20 +132,20 @@ RadioControl::start()
         return ResultCode::ERR_SETTINGS_CONTROL_NO_SINKS;
       } else {
         if (sink.discover()) {
-          printf("[RadioControl]\tAbout to call sink.open()\r\n");
+          // printf("[RadioControl]\tAbout to call sink.open()\r\n");
           return sink.open();
         }
       }
-      printf("[RadioControl]\tAbout to return error ERR_SETTINGS_CONTROL_SINK_DISCOVER\r\n");
+      // printf("[RadioControl]\tAbout to return error ERR_SETTINGS_CONTROL_SINK_DISCOVER\r\n");
       return ResultCode::ERR_SETTINGS_CONTROL_SINK_DISCOVER;
     }, pSink);
-    printf("[RadioControl]\t...done!\r\n");
+    // printf("[RadioControl]\t...done!\r\n");
     if (rc != ResultCode::OK) {
-      printf("[RadioControl]\t Error starting sink: %u.\r\n", static_cast<uint32_t>(rc));
+      // printf("[RadioControl]\t Error starting sink: %u.\r\n", static_cast<uint32_t>(rc));
       return rc;
     }
   }
-  printf("[RadioControl]\t Sinks started.\r\n");
+  // printf("[RadioControl]\t Sinks started.\r\n");
   for (auto& pSource : m_controlSources) {
     ResultCode rc = visit([&pSource](auto&& source) -> ResultCode
     {
@@ -178,5 +178,5 @@ RadioControl::ptt(bool on)
 {
   SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
   SettingUpdate setting(path, on, SettingUpdate::VALUE);
-  applySettingUpdate(setting);
+  applySettingUpdate(setting, true);
 }

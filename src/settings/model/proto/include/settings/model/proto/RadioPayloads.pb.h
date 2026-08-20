@@ -362,11 +362,11 @@ extern const pb_msgdesc_t makesdr_RadioCacheDualPayloadPb_msg;
 #define makesdr_BasicIqRxTxSettingsPayloadPb_size 408
 #define makesdr_BasicRxSettingsPayloadPb_size    272
 #define makesdr_BasicRxTxSettingsPayloadPb_size  296
-#define makesdr_DualIqRxSettingsPayloadPb_size   567
+#define makesdr_DualIqRxSettingsPayloadPb_size   566
 #define makesdr_DualIqRxTxSettingsPayloadPb_size 765
 #define makesdr_RadioCacheBasicIqPayloadPb_size  3585
 #define makesdr_RadioCacheBasicPayloadPb_size    2465
-#define makesdr_RadioCacheDualPayloadPb_size     5415
+#define makesdr_RadioCacheDualPayloadPb_size     5405
 #define makesdr_RadioLookupPayloadPb_size        9057
 #define makesdr_RadioPayloadBasePb_size          4
 #define makesdr_RadioPayloadHeaderPb_size        2

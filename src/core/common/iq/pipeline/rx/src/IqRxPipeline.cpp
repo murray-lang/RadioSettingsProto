@@ -56,7 +56,7 @@ IqRxPipeline::getMaxFramesPerOutputPacket() const
 }
 
 ResultCode
-IqRxPipeline::apply(const BandRfSettings* bandRfSettings, const RxPipelineSettings* settings)
+IqRxPipeline::apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* settings)
 {
   ResultCode rc = IqPipeline::apply(bandRfSettings, &settings->base());
   if (rc != ResultCode::OK) return rc;

@@ -19,6 +19,9 @@ set(MOD_FILES
         ${CMAKE_CURRENT_LIST_DIR}/src/FmDemodulator.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/FmModulator.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/SsbDemodulator.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/SsbModulator.cpp
+
+
 )
 
 add_library(core-common-iq-pipeline-stage-modulation STATIC ${MOD_FILES})
@@ -38,7 +41,7 @@ if(USE_FREERTOS)
 else()
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-component-basic
+            settings-model-radios-common-component
             core-common-iq-pipeline-stage-oscillator
             core-linux-liquid-dsp
     )

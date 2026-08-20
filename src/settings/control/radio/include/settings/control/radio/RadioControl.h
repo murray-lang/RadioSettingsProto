@@ -1,8 +1,10 @@
 #pragma once
 
 #include <CrossPlatformTypes.h>
-#include <settings/model/radio/RadioSettingsSink.h>
-#include <settings/model/radio/RadioSettingsSource.h>
+#include <settings/model/radios/base/RadioSettingsSink.h>
+#include <settings/model/radios/base/RadioSettingsSource.h>
+#include <settings/model/base/SettingUpdateSource.h>
+
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkVariant.h>
 #include <settings/control/factory/SettingsControlSourceVariant.h>
@@ -10,6 +12,7 @@
 #include <config/struct/ControlConfig.h>
 
 #include <memory>
+
 
 #ifdef USE_ETL
 #include <etl/vector.h>
@@ -38,15 +41,15 @@ public:
   ResultCode start();
   void stop();
 
-  ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
+  ResultCode applySettings(IRadioSettings& settings) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override;
 
 
   void connectRadioSettingsSink(RadioSettingsSink* sink) override;
   void connectSettingUpdateSink(SettingUpdateSink* sink) override;
 
-  ResultCode notifySettings(const RadioSettings& settings) override;
-  ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate) override;
+  ResultCode notifySettings(IRadioSettings& settings) override;
+  ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate, bool final) override;
 
   // PttSink Method
   void ptt(bool on) override;
@@ -60,17 +63,17 @@ protected:
   {
   public:
     explicit InternalSink(RadioControl* pControl) : m_pControl(pControl) {}
-    ResultCode applySettings(const RadioSettings& settings) override
+    ResultCode applySettings(IRadioSettings& settings) override
     {
       if (m_pControl) {
         return m_pControl->notifySettings(settings); // Notify external sink
       }
       return ResultCode::OK;
     }
-    ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override
+    ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
     {
       if (m_pControl) {
-        return m_pControl->notifySettingUpdate(settingDelta); // Notify external sink
+        return m_pControl->notifySettingUpdate(settingDelta, final); // Notify external sink
       }
       return ResultCode::OK;
     }

@@ -13,8 +13,8 @@ public:
 
   ResultCode configure(const Config::BandSelector::Fields& config);
 
-  ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& setting) override;
+  ResultCode applySettings(IRadioSettings& settings) override;
+  ResultCode applySettingUpdate(const SettingUpdate& setting, bool final) override;
   void ptt(bool on) override {};
 
 protected:

@@ -134,7 +134,7 @@ message ReceiverSettingsPb {
   AfSettingsPb volume = 2;
 }
 
-message TransmitterSettingsPb {
+  message TransmitterSettingsPb {
   AfSettingsPb mic = 2;
 }
 
@@ -178,7 +178,7 @@ message BasicIqBandSettingsPb {
   }
   BandRfSettingsPb rf = 5;
   IfSettingsPb if = 6;
-  RxPipelineSettingsPb pipeline_a = 10;
+  RxPipelineSettingsPb focus_pipeline = 10;
 }
 
 message DualIqBandSettingsPb {
@@ -188,13 +188,14 @@ message DualIqBandSettingsPb {
   }
   BandRfSettingsPb rf = 5;
   IfSettingsPb if = 6;
-  RxPipelineSettingsPb pipeline_a = 10;
-  RxPipelineSettingsPb pipeline_b = 11;
+  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+  // It exists for the purpose of path lookups, and is detected as such in code for the above purpose.
+  PipelineId focus_pipeline = 10;
+  RxPipelineSettingsPb pipeline_a = 11;
+  RxPipelineSettingsPb pipeline_b = 12;
   optional bool is_multi_pipeline = 13;
   optional PipelineId focus_pipeline_id = 14;
-  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
-  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
-  PipelineId focus_pipeline = 16;
+
 }
 
 message RxTxDualIqBandSettingsPb {
@@ -204,45 +205,47 @@ message RxTxDualIqBandSettingsPb {
   }
   BandRfSettingsPb rf = 5;
   IfSettingsPb if = 6;
-  RxPipelineSettingsPb pipeline_a = 10;
-  RxPipelineSettingsPb pipeline_b = 11;
-  TxPipelineSettingsPb tx_pipeline = 12;
+  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+  // It exists for the purpose of path lookups, and is detected as such in code for the above purpose.
+  PipelineId focus_pipeline = 10;
+  RxPipelineSettingsPb pipeline_a = 11;
+  RxPipelineSettingsPb pipeline_b = 12;
   optional bool is_multi_pipeline = 13;
   optional PipelineId focus_pipeline_id = 14;
-  optional PipelineId tx_pipeline_id = 15;
-  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
-  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
-  PipelineId focus_pipeline = 16;
+  TxPipelineSettingsPb tx_pipeline = 15;
+  optional PipelineId tx_pipeline_id = 16;
+
 }
 
 message BasicActiveBandSettingsPb {
-  BasicBandSettingsPb band_1 = 1;
+  BasicBandSettingsPb focus_band = 1;
 
 }
 
 message BasicIqActiveBandSettingsPb {
-  BasicIqBandSettingsPb band_1 = 1;
+  BasicIqBandSettingsPb focus_band = 1;
 
 }
 
 message DualIqActiveBandSettingsPb {
-  DualIqBandSettingsPb band_1 = 1;
+  DualIqBandSettingsPb focus_band = 1;
 }
 
 message RxTxDualIqActiveBandSettingsPb {
-  RxTxDualIqBandSettingsPb band_1 = 1;
+  RxTxDualIqBandSettingsPb focus_band = 1;
 }
 
 message SplitBandDualIqActiveBandSettingsPb {
-  RxTxDualIqBandSettingsPb band_1 = 1;
-  RxTxDualIqBandSettingsPb band_2 = 2;
-  optional SplitBandId focus_band_id = 3;
-  optional SplitBandId tx_band_id = 4;
-  optional SplitBandId rx_band_id = 5;
-  optional bool is_split = 6;
   // This is a pseudo band that is used to set either band_1 or Band_2 depending on focus_band_id.
-  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
-  SplitBandId focus_band = 7;
+  // It exists for the purpose of path lookups, and is detected as such in code for the above purpose.
+  SplitBandId focus_band = 1;
+  RxTxDualIqBandSettingsPb band_1 = 2;
+  RxTxDualIqBandSettingsPb band_2 = 3;
+  optional SplitBandId focus_band_id = 4;
+  optional SplitBandId tx_band_id = 5;
+  optional SplitBandId rx_band_id = 6;
+  optional bool is_split = 7;
+
 
 }
 

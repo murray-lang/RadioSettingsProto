@@ -1,9 +1,9 @@
 #pragma once
-#include "settings/control/SettingsControlBase.h"
-#include "settings/model/radio/RadioSettingsSource.h"
-#include "settings/model/radio/RadioSettingsSink.h"
-#include "settings/model/base/SettingUpdateSource.h"
-#include "settings/model/base/SettingUpdateSink.h"
+#include <settings/control/SettingsControlBase.h>
+#include <settings/model/radios/base/RadioSettingsSource.h>
+#include <settings/model/radios/base/RadioSettingsSink.h>
+#include <settings/model/base/SettingUpdateSource.h>
+#include <settings/model/base/SettingUpdateSink.h>
 
 class SettingsControlSource :
   public SettingsControlBase,
@@ -29,7 +29,7 @@ public:
     m_pFieldUpdateSink.reset(sink);
   }
 protected:
-  ResultCode notifySettings(const RadioSettings& radioSettings) override
+  ResultCode notifySettings(IRadioSettings& radioSettings) override
   {
     if (m_pSettingsSink) {
       return m_pSettingsSink->applySettings(radioSettings);
@@ -38,10 +38,10 @@ protected:
   }
 
 
-  ResultCode notifySettingUpdate(const SettingUpdate& update) override
+  ResultCode notifySettingUpdate(const SettingUpdate& update, bool final) override
   {
     if (m_pFieldUpdateSink) {
-      m_pFieldUpdateSink->applySettingUpdate(update);
+      m_pFieldUpdateSink->applySettingUpdate(update, final);
     }
     return ResultCode::OK;
   }

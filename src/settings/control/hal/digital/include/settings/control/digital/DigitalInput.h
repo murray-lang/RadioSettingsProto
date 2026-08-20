@@ -1,13 +1,13 @@
 #pragma once
 
-#include "gpio/input/GpioInputLines.h"
-#include "gpio/input/GpioInputLinesRequest.h"
+#include <gpio/input/GpioInputLines.h>
+#include <gpio/input/GpioInputLinesRequest.h>
 
-#include "settings/model/core/SettingUpdate.h"
-#include "config/struct/DigitalInputConfig.h"
+#include <settings/model/base/SettingUpdate.h>
+#include <config/struct/DigitalInputConfig.h>
 
-#include "settings/model/core/SettingPath.h"
-#include "settings/model/core/SettingUpdateSource.h"
+#include <settings/model/base/SettingDescriptor.h>
+#include <settings/model/base/SettingUpdateSource.h>
 
 
 #ifdef USE_ETL
@@ -34,21 +34,19 @@ public:
 
   virtual ResultCode configure(const Config::DigitalInput::Fields& config);
   [[nodiscard]] const IdString& getId() const { return m_id; }
-  [[nodiscard]] const SettingPath& getSettingPath() const { return m_settingPath; }
+  [[nodiscard]] const SettingPath& getSettingPath() const { return m_settingDescriptor.getPath(); }
 
   GpioInputLinesRequest& getLinesRequest() { return m_linesRequest; }
 
-  void connectSettingUpdateSink(SettingUpdateSink& sink) override;
+  void connectSettingUpdateSink(SettingUpdateSink* sink) override;
 protected:
   void handleGpioLineEvent(GpioLineEvent* event);
 
-  ResultCode notifySettingUpdate(const SettingUpdate& settingDelta) override;
+  ResultCode notifySettingUpdate(const SettingUpdate& settingDelta, bool final) override;
 
   IdString m_id;
   GpioLineEventCallback m_lineEventCallback;
   GpioInputLinesRequest m_linesRequest;
-  SettingPath m_settingPath;
-  bool m_isPathIndirect;
-  AutoCompleteTrigger m_autoCompleteTrigger;
-  optional<reference_wrapper<SettingUpdateSink>> m_pSink;
+  SettingDescriptor m_settingDescriptor;
+  unique_ptr<SettingUpdateSink> m_pSink;
 };

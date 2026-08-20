@@ -10,7 +10,7 @@ namespace Config::Radio
   struct Fields
   {
     Control::Fields control;
-    optional<Sdr::Fields> iqrxtx;
+    optional<Sdr::Fields> sdr;
     optional<Ui::Fields> ui;
   };
 }

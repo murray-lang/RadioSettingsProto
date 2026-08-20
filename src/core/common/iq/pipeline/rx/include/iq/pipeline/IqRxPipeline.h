@@ -12,7 +12,7 @@
 #include <iq/modulation/AmDemodulator.h>
 #include <iq/modulation/FmDemodulator.h>
 #include <iq/modulation/SsbDemodulator.h>
-#include <settings/model/component/RxPipelineSettings.h>
+#include <settings/model/radios/component/RxPipelineSettings.h>
 
 
 class IqRxPipeline : public IqPipeline
@@ -26,7 +26,7 @@ public:
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
 
-  ResultCode apply(const BandRfSettings* bandRfSettings, const RxPipelineSettings* settings);
+  ResultCode apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* settings);
 
   [[nodiscard]] uint32_t getMaxFramesPerInputPacket() const override;
   [[nodiscard]] uint32_t getMaxFramesPerOutputPacket() const override;

@@ -138,5 +138,5 @@ protected:
   ComplexSamplesFft m_complexCoefficients;
   RealSamplesFft m_realCoefficients;
   RealSamplesFir m_window;
-  Fft m_fft;
+  Fft<ComplexSamplesFft> m_fft;
 };

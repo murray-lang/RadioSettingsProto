@@ -18,6 +18,7 @@ namespace Config::Sdr
       return ResultCode::ERR_CONFIG_RXTX_NO_RX;
     }
     if (json[IqTransmitter::type].is<JsonVariantConst>()) {
+      fields.transmitter.emplace();
       rc = IqTransmitter::fromJson(json[IqTransmitter::type], *fields.transmitter);
       if (rc != ResultCode::OK) return rc;
     }

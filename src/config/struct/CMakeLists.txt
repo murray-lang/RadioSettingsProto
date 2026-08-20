@@ -27,6 +27,7 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/IqReceiverConfig.h
         include/config/struct/SdrConfig.h
         include/config/struct/IqTransmitterConfig.h
+        include/config/struct/SettingDescriptorConfig.h
         include/config/struct/SoftRockConfig.h
         include/config/struct/UiConfig.h
         include/config/struct/UsbControlSinksConfig.h

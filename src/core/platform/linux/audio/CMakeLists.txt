@@ -78,6 +78,6 @@ target_include_directories(core-linux-audio PUBLIC
 target_link_libraries(core-linux-audio PUBLIC
         ${AUDIO_LINK_LIBS}
         config-struct
-        core-common-audio
+        core-common-audio-base
         core-linux-thread
 )

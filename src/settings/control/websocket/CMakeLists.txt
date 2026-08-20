@@ -39,7 +39,7 @@ target_link_libraries(settings-control-websocket PUBLIC
         settings-control-base
         settings-control-source
         settings-control-sink
-        settings-model-radio-selected
+        settings-model-radios-selected
         websockets
         GnuTLS::GnuTLS
 )

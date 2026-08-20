@@ -108,7 +108,7 @@ PB_BIND(makesdr_DualIqBandSettingsCachePb, makesdr_DualIqBandSettingsCachePb, 4)
 PB_BIND(makesdr_DualIqBandSettingsCachePb_BandSettingsEntry, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry, 2)
 
 
-PB_BIND(makesdr_RxTxDualIqBandSettingsCachePb, makesdr_RxTxDualIqBandSettingsCachePb, AUTO)
+PB_BIND(makesdr_RxTxDualIqBandSettingsCachePb, makesdr_RxTxDualIqBandSettingsCachePb, 4)
 
 
 PB_BIND(makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry, 2)

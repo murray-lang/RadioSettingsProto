@@ -22,14 +22,14 @@ ResultCode fromJson(const JsonVariantConst& json, Fields& fields)
   if (result != ResultCode::OK) return result;
 
   if (json[Sdr::type].is<JsonVariantConst>()) {
-    fields.iqrxtx.emplace();
-    result = Sdr::fromJson(json[Sdr::type], *fields.iqrxtx);
+    fields.sdr.emplace<Config::Sdr::Fields>({});
+    result = Sdr::fromJson(json[Sdr::type], *fields.sdr);
   }
 
   if (result != ResultCode::OK) return result;
 
   if (json[Ui::type].is<JsonVariantConst>()) {
-    fields.ui.emplace();
+    fields.ui.emplace<Config::Ui::Fields>({});
     result = Ui::fromJson(json[Ui::type], *fields.ui);
   }
   return result;

@@ -1,14 +1,13 @@
-//
-// Created by murray on 25/11/25.
-//
-
 #include "CrossPlatformTypes.h"
 #include <gpio/service/Gpio.h>
-#include "settings/control/digital/DigitalOutputTypes.h"
-#include "settings/control/digital/DigitalOutput.h"
+#include <settings/control/digital/DigitalOutputTypes.h>
+#include <settings/control/digital/DigitalOutput.h>
 
-#include "config/struct/DigitalOutputConfig.h"
-#include "settings/model/core/RadioSettings.h"
+#include <config/struct/DigitalOutputConfig.h>
+#include <settings/model/radios/base/IRadioSettings.h>
+#ifdef USE_DOTTED_STRING_PATHS
+#include <settings/model/radios/selected/resolveDottedString.h>
+#endif
 
 DigitalOutput::DigitalOutput()
   : GpioLines(Direction::OUTPUT)
@@ -17,8 +16,8 @@ DigitalOutput::DigitalOutput()
 }
 
 DigitalOutput::DigitalOutput(DigitalOutput&& rhs)  noexcept
-  : GpioLines(move(rhs))
-  , m_settingPath(move(rhs.m_settingPath))
+  : GpioLines(dynamic_cast<GpioLines&&>(rhs))
+  , m_settingDescriptor(::move(rhs.m_settingDescriptor))
   , m_linesRequest(*this)
 
 {
@@ -27,8 +26,8 @@ DigitalOutput::DigitalOutput(DigitalOutput&& rhs)  noexcept
 
 DigitalOutput& DigitalOutput::operator=(DigitalOutput&& rhs)  noexcept
 {
-  GpioLines::operator=(move(rhs));
-  m_settingPath = move(rhs.m_settingPath);
+  GpioLines::operator=(::move(dynamic_cast<GpioLines&&>(rhs)));
+  m_settingDescriptor = ::move(rhs.m_settingDescriptor);
   return *this;
 }
 
@@ -37,17 +36,23 @@ DigitalOutput::configure(const Config::DigitalOutput::Fields& config)
 {
   ResultCode rc = GpioLines::configureLines(config);
   if (rc != ResultCode::OK) return rc;
-  const Config::SettingPathString& strSettingPath = config.settingPath;
-  // return RadioSettings::getSettingUpdatePath(strSettingPath, m_settingPath);
-  bool isIndirectOut;
-  AutoCompleteTrigger triggerOut;
-  return RadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
+  if (config.settingPath) {
+#ifdef USE_DOTTED_STRING_PATHS
+    return resolveDottedString(config.settingPath.value().c_str(), m_settingDescriptor);
+#else
+    return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
+#endif
+  } else if (config.settingDescriptor) {
+    return m_settingDescriptor.configure(config.settingDescriptor.value());
+  } else {
+    return ResultCode::ERR_CONFIG_MISSING_SETTING_PATH;
+  }
 }
 
 ResultCode
-DigitalOutput::applySettingUpdate(const SettingUpdate& setting)
+DigitalOutput::applySettingUpdate(const SettingUpdate& setting, bool final)
 {
-  if (setting.path() == m_settingPath) {
+  if (setting.path() == m_settingDescriptor.getPath()) {
     bool value = get<bool>(setting.value());
     setValue(value);
     return ResultCode::OK;

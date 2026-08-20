@@ -19,6 +19,9 @@ makesdr.BasicIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
 makesdr.DualIqBandSettingsCachePb.band_settings max_count: 10
 makesdr.DualIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
+makesdr.RxTxDualIqBandSettingsCachePb.band_settings max_count: 10
+makesdr.RxTxDualIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
+
 
 makesdr.BandListPb.bands max_count: 13
 
@@ -29,5 +32,3 @@ makesdr.BandCategoryPb.label max_size: 10
 makesdr.BandCategoryPb.bands max_count: 13
 
 makesdr.BandCategoryListPb.categories max_count: 8
-
-makesdr.BandSettingsPb.band_request max_size: 8

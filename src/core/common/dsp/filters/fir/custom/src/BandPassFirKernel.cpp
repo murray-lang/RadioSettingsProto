@@ -56,6 +56,6 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
         z * static_cast<sdrreal>(sin(localOsc * x))
     );
   }
-  m_fft.transform(m_complexSincPulse, m_complexCoefficients, true, true);
+  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
   return m_complexCoefficients;
 }

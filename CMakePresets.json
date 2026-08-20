@@ -297,7 +297,7 @@
         "TARGET_EXAMPLE": "play",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -310,7 +310,7 @@
         "TARGET_EXAMPLE": "play",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "ON"
+        "USE_ETL": "OFF"
       }
     },
     {
@@ -366,28 +366,30 @@
       }
     },
     {
-      "name": "qt-basic-iq-rx-radio-debug",
-      "displayName": "qt-basic-iq-rx-radio Debug (linux)",
-      "binaryDir": "${sourceDir}/build-qt-basic-iq-rx-radio-debug",
+      "name": "qt-dual-iq-split-radio-debug",
+      "displayName": "qt-dual-iq-split-radio Debug (linux)",
+      "binaryDir": "${sourceDir}/build-qt-dual-iq-split-radio-debug",
       "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "TARGET_EXAMPLE": "qt-basic-iq-rx-radio",
+        "TARGET_EXAMPLE": "qt-dual-iq-split-radio",
         "TARGET_PLATFORM": "linux-pc",
-        "USE_GPIO": "OFF",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
         "USE_ETL": "OFF"
       }
     },
     {
-      "name": "qt-basic-iq-rx-radio-release",
-      "displayName": "qt-basic-iq-rx-radio Release (linux)",
-      "binaryDir": "${sourceDir}/build-qt-basic-iq-rx-radio-release",
+      "name": "qt-dual-iq-split-radio-release",
+      "displayName": "qt-dual-iq-split-radio Release (linux)",
+      "binaryDir": "${sourceDir}/build-qt-dual-iq-split-radio-release",
       "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "TARGET_EXAMPLE": "qt-basic-iq-rx-radio",
+        "TARGET_EXAMPLE": "qt-dual-iq-split-radio",
         "TARGET_PLATFORM": "linux-pc",
-        "USE_GPIO": "OFF",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
         "USE_ETL": "OFF"
       }
     }
