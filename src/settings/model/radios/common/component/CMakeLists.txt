@@ -18,16 +18,19 @@ set(COMPONENT_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/TransmitterSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/WithBandT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/WithModeT.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/src/Band.cpp
 )
 
-add_library(settings-model-radios-common-component INTERFACE ${COMPONENT_BASE_FILES})
+add_library(settings-model-radios-common-component STATIC ${COMPONENT_BASE_FILES})
 
-target_include_directories(settings-model-radios-common-component INTERFACE
+target_include_directories(settings-model-radios-common-component PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(settings-model-radios-common-component INTERFACE
+target_link_libraries(settings-model-radios-common-component PUBLIC
         settings-model-base
         settings-model-proto
+        settings-model-data-radio
 )

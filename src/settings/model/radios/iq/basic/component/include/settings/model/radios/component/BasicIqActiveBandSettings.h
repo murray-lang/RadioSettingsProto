@@ -3,6 +3,8 @@
 #include "BasicIqBandSettings.h"
 #include <settings/model/radios/component/IActiveBandSettings.h>
 
+#include "BasicIqBandSettingsCache.h"
+
 class BasicIqActiveBandSettings : public IActiveBandSettings
 {
 public:
@@ -16,6 +18,14 @@ public:
   {
     return const_cast<BasicIqActiveBandSettings*>(this)->focusBand();
   }
+
+  ResultCode autoComplete(const RadioLookup& lookup, BasicIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    BasicIqBandSettingsCache& cache
+    );
 
 protected:
   Proto& m_rawSettings;

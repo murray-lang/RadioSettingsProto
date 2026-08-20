@@ -59,3 +59,45 @@ SplitBandDualIqActiveBandSettings::band(SplitBandId bandId)
   }
   return nullptr;
 }
+
+ResultCode
+SplitBandDualIqActiveBandSettings::autoComplete(const RadioLookup& lookup, RxTxDualIqBandSettingsCache& cache)
+{
+  ResultCode rc1 = m_band_1.autoComplete(lookup, cache);
+  ResultCode rc2 = m_band_2.autoComplete(lookup, cache);
+  if (rc1 != ResultCode::OK) {
+    return rc1;
+  }
+  if (rc2 != ResultCode::OK) {
+    return rc2;
+  }
+  return ResultCode::OK;
+}
+
+ResultCode
+SplitBandDualIqActiveBandSettings::autoComplete(
+  SettingDescriptor& setting,
+  uint32_t startIndex,
+  const RadioLookup& lookup,
+  RxTxDualIqBandSettingsCache& cache
+  )
+{
+  SettingPath& path = setting.getPath();
+  if (startIndex >= path.size()) {
+    return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
+  }
+  if (path[startIndex] == makesdr_SplitBandDualIqActiveBandSettingsPb_band_1_tag) {
+    return m_band_1.autoComplete(setting, startIndex + 1, lookup, cache);
+  }
+  if (path[startIndex] == makesdr_SplitBandDualIqActiveBandSettingsPb_band_2_tag) {
+    return m_band_2.autoComplete(setting, startIndex + 1, lookup, cache);
+  }
+  if (path[startIndex] == makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_tag) {
+    switch (focusBandId()) {
+      case SplitBandId::One: return m_band_1.autoComplete(setting, startIndex + 1, lookup, cache);
+      case SplitBandId::Two: return m_band_2.autoComplete(setting, startIndex + 1, lookup, cache);
+      default: break;
+    }
+  }
+  return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+}

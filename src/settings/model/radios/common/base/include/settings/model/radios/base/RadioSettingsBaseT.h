@@ -7,13 +7,15 @@
 #include <settings/model/base/SettingUpdateSink.h>
 #include "IRadioSettings.h"
 
+#define COMMON_ACTIVE_BANDS_TAG 1
+
 template<
   typename SettingsPbType,
   const pb_msgdesc_t* descriptor,
   typename PayloadPbType,
   makesdr_RadioPayloadType payloadTypeEnum,
   int payloadSize,
-  typename BandSettingsPbType,
+  typename ActiveBandSettingsClass,
   typename CacheClass
 >
 class RadioSettingsBaseT : public IRadioSettings //public SettingsBase, public SettingUpdateSink
@@ -22,6 +24,7 @@ public:
   RadioSettingsBaseT(const makesdr_RadioLookupPb& lookup, CacheClass& cache)
   : m_deemComplete(false)
   , m_payload{0}
+  , m_activeBandSettings(m_payload.body.active_bands)
   , m_receiver(m_payload.body.receiver)
   , m_traverser(&m_payload.body, descriptor)
   , m_lookup(lookup)
@@ -35,20 +38,27 @@ public:
 
   [[nodiscard]] makesdr_RadioPayloadType payloadType() const override { return payloadTypeEnum; }
 
-  [[nodiscard]] virtual bool hasActiveBands() const override { return m_payload.body.has_active_bands; }
+  [[nodiscard]] bool hasActiveBands() const override { return m_payload.body.has_active_bands; }
 
-  [[nodiscard]] virtual bool hasReceiver() const override { return m_payload.body.has_receiver; }
-  virtual ReceiverSettings* receiver() { return &m_receiver; }
-  [[nodiscard]] virtual const ReceiverSettings* receiver() const { return &m_receiver; }
+  [[nodiscard]] bool hasReceiver() const override { return m_payload.body.has_receiver; }
+  ReceiverSettings* receiver() override { return &m_receiver; }
+  [[nodiscard]] const ReceiverSettings* receiver() const override { return &m_receiver; }
 
   [[nodiscard]] bool hasPtt() const override { return m_payload.body.has_ptt; }
   [[nodiscard]] bool ptt() const override { return m_payload.body.ptt; }
 
-  ResultCode autoComplete() override
+  ResultCode autoComplete()
   {
-
+    return m_activeBandSettings.autoComplete(m_lookup, m_cache);
   }
-  virtual ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex) = 0;
+  ResultCode autoComplete(SettingDescriptor& setting)
+  {
+    SettingPath& path = setting.getPath();
+    if (path[0] == COMMON_ACTIVE_BANDS_TAG) {
+      return m_activeBandSettings.autoComplete(setting, 1, m_lookup, m_cache);
+    }
+    return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+  }
 
   SettingsPbType& body() { return m_payload.body; }
   [[nodiscard]] const SettingsPbType& body() const { return m_payload.body; }
@@ -169,6 +179,7 @@ public:
 protected:
   bool m_deemComplete;
   PayloadPbType m_payload;
+  ActiveBandSettingsClass m_activeBandSettings;
   ReceiverSettings m_receiver;
 
   MessageTraverser m_traverser;

@@ -1,5 +1,6 @@
 #pragma once
 #include <settings/model/base/SettingsBase.h>
+#include <settings/model/data/radio/RadioLookup.h>
 #include "SplitBandId.h"
 #include "IBandSettings.h"
 
@@ -33,7 +34,4 @@ public:
 
   [[nodiscard]] virtual bool hasIsSplit() const { return false; }
   [[nodiscard]] virtual bool isSplit() const { return false; }
-
-  virtual ResultCode autoComplete() = 0;
-  virtual ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex) = 0;
 };

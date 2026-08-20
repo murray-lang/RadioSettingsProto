@@ -5,6 +5,7 @@ project(settings-model-radios-iq-dual-component)
 set(MODEL_DUAL_IQ_COMPONENT_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/DualIqActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/DualIqBandSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/DualIqBandSettingsCache.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/RxTxDualIqActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/RxTxDualIqBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/SplitBandDualIqActiveBandSettings.h

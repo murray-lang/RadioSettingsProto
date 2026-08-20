@@ -5,10 +5,9 @@
 #endif
 
 SplitBandDualIqRxTxSettings::SplitBandDualIqRxTxSettings(
-  const makesdr_RadioLookupPb& meta, SplitBandSettingsCache& cache
+  const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache
   )
   : SplitBandDualIqRxTxSettingsBaseType(meta, cache)
-  , m_activeBandSettings(m_payload.body.active_bands)
   , m_transmitterSettings(m_payload.body.transmitter)
 {}
 

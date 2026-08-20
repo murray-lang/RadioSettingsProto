@@ -8,12 +8,15 @@
 #include "RxPipelineSettings.h"
 #include <settings/model/radios/component/IBandSettings.h>
 
+#include "BasicIqBandSettingsCache.h"
+
 
 class BasicIqBandSettings
   : public WithBandT<
     makesdr_BasicIqBandSettingsPb,
     makesdr_BasicIqBandSettingsPb_band_request_tag,
-    makesdr_BasicIqBandSettingsPb_band_tag
+    makesdr_BasicIqBandSettingsPb_band_tag,
+    BasicIqBandSettingsCache
   >
   ,public IBandSettings
 {
@@ -34,6 +37,14 @@ public:
   [[nodiscard]] bool hasFocusPipeline() const override { return m_rawSettings.has_focus_pipeline; }
   RxPipelineSettings* focusPipeline() override { return &m_focusPipeline; }
   [[nodiscard]] const RxPipelineSettings* focusPipeline() const override { return &m_focusPipeline; }
+
+  ResultCode autoComplete(const RadioLookup& lookup, BasicIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    BasicIqBandSettingsCache& cache
+    );
 
 protected:
   Proto& m_rawSettings;

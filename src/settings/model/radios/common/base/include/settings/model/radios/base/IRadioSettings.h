@@ -41,9 +41,6 @@ public:
   virtual ResultCode replace(IRadioSettings& other, bool deemComplete) = 0;
   virtual ResultCode merge(IRadioSettings& other) = 0;
 
-  virtual ResultCode autoComplete() = 0;
-  virtual ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex) = 0;
-
 #ifdef USE_DOTTED_STRING_PATHS
   virtual ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) = 0;
 #endif

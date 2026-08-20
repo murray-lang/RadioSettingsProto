@@ -1,8 +1,12 @@
 #pragma once
 #include <CrossPlatformTypes.h>
+#include <ResultCode.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/base/StringRef.h>
+#include <settings/model/base/SettingDescriptor.h>
+
 #include "Mode.h"
+#include <settings/model/data/band/BandCategoryList.h>
 
 class Band
 {
@@ -10,12 +14,7 @@ public:
 
   using Proto = makesdr_BandPb;
 
-  Band(const Proto& raw)
-    : m_rawSettings(raw)
-    , m_name{raw.name, const_cast<char*>(raw.name), sizeof(raw.name)}
-    , m_label{raw.label, const_cast<char*>(raw.label), sizeof(raw.label)}
-  {
-  }
+  Band(const Proto& raw);
 
   Band(const Band& rhs) : Band(rhs.m_rawSettings) {}
 
@@ -36,6 +35,8 @@ public:
   {
     return frequency >= lowestFrequency() && frequency <= highestFrequency();
   }
+
+
 
 protected:
 

@@ -18,7 +18,7 @@ using BasicIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicIqRxTxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RXTX,
     makesdr_BasicIqRxTxSettingsPayloadPb_size,
-    makesdr_BasicIqBandSettingsPb,
+    BasicIqActiveBandSettings,
     BasicIqBandSettingsCache
   >;
 
@@ -40,7 +40,6 @@ public:
 #endif
 
 protected:
-  BasicIqActiveBandSettings m_activeBandSettings;
   TransmitterSettings m_transmitterSettings;
 };
 

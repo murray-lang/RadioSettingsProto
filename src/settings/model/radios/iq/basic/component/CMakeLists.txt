@@ -5,6 +5,7 @@ project(settings-model-radios-iq-basic-component)
 set(MODEL_BASIC_IQ_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicIqActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicIqBandSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicIqBandSettingsCache.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/IqCorrectionSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/PipelineSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/PipelineRfSettings.h

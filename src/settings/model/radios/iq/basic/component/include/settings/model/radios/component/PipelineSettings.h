@@ -29,6 +29,9 @@ public:
   IqCorrectionSettings& iqCorrectionSettings() { return m_iqCorrectionSettings; }
   [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
 
+  ResultCode autoComplete(const ModeList& modes);
+  ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex, const ModeList& modes);
+
 protected:
   Proto& m_rawSettings;
   PipelineRfSettings m_rfSettings;

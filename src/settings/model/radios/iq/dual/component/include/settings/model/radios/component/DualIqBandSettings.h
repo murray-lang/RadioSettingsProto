@@ -10,12 +10,15 @@
 
 #include <settings/model/radios/component/IBandSettings.h>
 
+#include "DualIqBandSettingsCache.h"
+
 
 class DualIqBandSettings
   : public WithBandT<
     makesdr_DualIqBandSettingsPb,
     makesdr_DualIqBandSettingsPb_band_request_tag,
-    makesdr_DualIqBandSettingsPb_band_tag
+    makesdr_DualIqBandSettingsPb_band_tag,
+    DualIqBandSettingsCache
   >
   , public IBandSettings
 {
@@ -58,6 +61,16 @@ public:
   {
     return m_rawSettings.has_is_multi_pipeline ? m_rawSettings.is_multi_pipeline : false;
   }
+
+  ResultCode autoComplete(const RadioLookup& lookup, DualIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    DualIqBandSettingsCache& cache
+    );
+
+  ResultCode autoCompleteMultiPipeline();
 
   // [[nodiscard]] bool hasPipelineA() const { return m_rawSettings.has_pipeline_a; }
   // RxPipelineSettings& pipelineA() { return m_pipeline_a; }

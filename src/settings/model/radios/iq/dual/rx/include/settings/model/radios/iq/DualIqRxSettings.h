@@ -5,12 +5,9 @@
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/DualIqActiveBandSettings.h>
+#include <settings/model/radios/component/DualIqBandSettingsCache.h>
 
-using DualIqBandSettingsCache = BandSettingsCacheT<
-  makesdr_DualIqBandSettingsPb,
-  makesdr_DualIqBandSettingsCachePb,
-  makesdr_DualIqBandSettingsCachePb_BandSettingsEntry
->;
+
 
 using DualIqRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxSettingsPb,
@@ -18,7 +15,7 @@ using DualIqRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RX,
     makesdr_DualIqRxSettingsPayloadPb_size,
-    makesdr_DualIqBandSettingsPb,
+    DualIqActiveBandSettings,
     DualIqBandSettingsCache
   >;
 
@@ -39,6 +36,4 @@ public:
   ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
 #endif
 
-protected:
-  DualIqActiveBandSettings m_activeBandSettings;
 };

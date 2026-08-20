@@ -6,20 +6,14 @@
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/SplitBandDualIqActiveBandSettings.h>
 
-using SplitBandSettingsCache = BandSettingsCacheT<
-  makesdr_RxTxDualIqBandSettingsPb,
-  makesdr_RxTxDualIqBandSettingsCachePb,
-  makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry
->;
-
 using SplitBandDualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_SplitBandDualIqRxTxSettingsPb,
     &makesdr_SplitBandDualIqRxTxSettingsPb_msg,
     makesdr_SplitBandDualIqRxTxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX,
     makesdr_SplitBandDualIqRxTxSettingsPayloadPb_size,
-    makesdr_RxTxDualIqBandSettingsPb,
-    SplitBandSettingsCache
+    SplitBandDualIqActiveBandSettings,
+    RxTxDualIqBandSettingsCache
   >;
 
 class SplitBandDualIqRxTxSettings : public SplitBandDualIqRxTxSettingsBaseType
@@ -28,8 +22,8 @@ public:
 
   using Proto = makesdr_SplitBandDualIqRxTxSettingsPb;
   using Payload = makesdr_SplitBandDualIqRxTxSettingsPayloadPb;
-  using Cache = SplitBandSettingsCache;
-  SplitBandDualIqRxTxSettings(const makesdr_RadioLookupPb& meta, SplitBandSettingsCache& cache);
+  using Cache = RxTxDualIqBandSettingsCache;
+  SplitBandDualIqRxTxSettings(const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache);
 
   [[nodiscard]] bool hasActiveBands() const override{ return m_payload.body.has_active_bands;}
   IActiveBandSettings* activeBands() override { return &m_activeBandSettings; }
@@ -44,7 +38,6 @@ public:
 #endif
 
 protected:
-  SplitBandDualIqActiveBandSettings m_activeBandSettings;
   TransmitterSettings m_transmitterSettings;
 };
 

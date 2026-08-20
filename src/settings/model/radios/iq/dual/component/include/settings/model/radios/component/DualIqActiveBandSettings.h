@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DualIqBandSettings.h"
+#include "DualIqBandSettingsCache.h"
 #include <settings/model/radios/component/IActiveBandSettings.h>
 
 class DualIqActiveBandSettings : public IActiveBandSettings
@@ -16,6 +17,14 @@ public:
   {
     return const_cast<DualIqActiveBandSettings*>(this)->focusBand();
   }
+
+  ResultCode autoComplete(const RadioLookup& lookup, DualIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    DualIqBandSettingsCache& cache
+    );
 
 protected:
   Proto& m_rawSettings;

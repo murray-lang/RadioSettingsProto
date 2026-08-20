@@ -25,8 +25,8 @@ IqPipeline::apply(const BandRfSettings* bandRfSettings, PipelineSettings* pipeli
         setOscillatorMixerFrequency(bandRfSettings, &rfSettings);
       }
     }
-    if (pipelineSettings->hasMode()) {
-      setMode(*pipelineSettings->mode());
+    if (pipelineSettings->isMode()) {
+      setMode(pipelineSettings->mode());
     }
   }
   return ResultCode::OK;

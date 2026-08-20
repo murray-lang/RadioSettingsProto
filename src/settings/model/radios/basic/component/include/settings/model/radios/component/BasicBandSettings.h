@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ResultCode.h>
+#include <settings/model/base/SettingDescriptor.h>
 #include <settings/model/base/SettingsBase.h>
 #include <settings/model/radios/component/WithBandT.h>
 #include <settings/model/radios/component/WithModeT.h>
@@ -9,12 +11,17 @@
 #include <settings/model/radios/component/Mode.h>
 #include <settings/model/radios/component/IBandSettings.h>
 
+#include <settings/model/data/radio/RadioLookup.h>
+
+#include "BasicBandSettingsCache.h"
+
 
 class BasicBandSettings :
   public WithBandT<
     makesdr_BasicBandSettingsPb,
     makesdr_BasicBandSettingsPb_band_request_tag,
-    makesdr_BasicBandSettingsPb_band_tag
+    makesdr_BasicBandSettingsPb_band_tag,
+    BasicBandSettingsCache
   >
   , public WithModeT<
     makesdr_BasicBandSettingsPb,
@@ -37,7 +44,13 @@ public:
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
   [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }
 
-
+  ResultCode autoComplete(const RadioLookup& lookup, BasicBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    BasicBandSettingsCache& cache
+    );
 protected:
   makesdr_BasicBandSettingsPb& m_rawSettings;
 

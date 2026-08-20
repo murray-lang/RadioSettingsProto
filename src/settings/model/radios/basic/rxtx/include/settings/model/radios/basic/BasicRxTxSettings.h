@@ -5,13 +5,7 @@
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/BasicActiveBandSettings.h>
-
-
-using BasicBandSettingsCache = BandSettingsCacheT<
-  makesdr_BasicBandSettingsPb,
-  makesdr_BasicBandSettingsCachePb,
-  makesdr_BasicBandSettingsCachePb_BandSettingsEntry
->;
+#include <settings/model/radios/component/BasicBandSettingsCache.h>
 
 using BasicRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxTxSettingsPb,
@@ -19,7 +13,7 @@ using BasicRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxTxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX,
     makesdr_BasicRxTxSettingsPayloadPb_size,
-    makesdr_BasicBandSettingsPb,
+    BasicActiveBandSettings,
     BasicBandSettingsCache
   >;
 
@@ -41,6 +35,5 @@ public:
 #endif
 
 protected:
-  BasicActiveBandSettings m_activeBandSettings;
   TransmitterSettings m_transmitterSettings;
 };

@@ -5,12 +5,8 @@
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/RxTxDualIqActiveBandSettings.h>
+#include <settings/model/radios/component/RxTxDualIqBandSettingsCache.h>
 
-using DualIqRxTxBandSettingsCache = BandSettingsCacheT<
-  makesdr_RxTxDualIqBandSettingsPb,
-  makesdr_RxTxDualIqBandSettingsCachePb,
-  makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry
->;
 
 using DualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxTxSettingsPb,
@@ -18,8 +14,8 @@ using DualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxTxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX,
     makesdr_DualIqRxTxSettingsPayloadPb_size,
-    makesdr_RxTxDualIqBandSettingsPb,
-    DualIqRxTxBandSettingsCache
+    RxTxDualIqActiveBandSettings,
+    RxTxDualIqBandSettingsCache
   >;
 
 class DualIqRxTxSettings : public DualIqRxTxSettingsBaseType
@@ -28,8 +24,8 @@ public:
 
   using Proto = makesdr_DualIqRxTxSettingsPb;
   using Payload = makesdr_DualIqRxTxSettingsPayloadPb;
-  using Cache = DualIqRxTxBandSettingsCache;
-  DualIqRxTxSettings(const makesdr_RadioLookupPb& meta, DualIqRxTxBandSettingsCache& cache);
+  using Cache = RxTxDualIqBandSettingsCache;
+  DualIqRxTxSettings(const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache);
 
   [[nodiscard]] bool hasActiveBands() const override { return m_payload.body.has_active_bands;}
   IActiveBandSettings* activeBands() override { return &m_activeBandSettings; }
@@ -44,7 +40,6 @@ public:
 #endif
 
 protected:
-  RxTxDualIqActiveBandSettings m_activeBandSettings;
   TransmitterSettings m_transmitterSettings;
 };
 

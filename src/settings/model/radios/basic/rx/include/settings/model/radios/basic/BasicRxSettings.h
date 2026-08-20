@@ -5,12 +5,8 @@
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/BasicActiveBandSettings.h>
+#include <settings/model/radios/component/BasicBandSettingsCache.h>
 
-using BasicBandSettingsCache = BandSettingsCacheT<
-  makesdr_BasicBandSettingsPb,
-  makesdr_BasicBandSettingsCachePb,
-  makesdr_BasicBandSettingsCachePb_BandSettingsEntry
->;
 
 using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxSettingsPb,
@@ -18,7 +14,7 @@ using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxSettingsPayloadPb,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX,
     makesdr_BasicRxSettingsPayloadPb_size,
-    makesdr_BasicBandSettingsPb,
+    BasicActiveBandSettings,
     BasicBandSettingsCache
   >;
 
@@ -33,7 +29,4 @@ public:
 #ifdef USE_DOTTED_STRING_PATHS
   ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
 #endif
-
-protected:
-  BasicActiveBandSettings m_activeBandSettings;
 };

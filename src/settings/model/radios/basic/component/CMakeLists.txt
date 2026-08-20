@@ -5,6 +5,7 @@ project(settings-model-radios-basic-component)
 set(MODEL_BASIC_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicBandSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/component/BasicBandSettingsCache.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicActiveBandSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicBandSettings.cpp

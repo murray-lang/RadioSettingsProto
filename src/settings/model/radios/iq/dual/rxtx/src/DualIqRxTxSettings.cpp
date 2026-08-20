@@ -4,9 +4,8 @@
 #include <settings/model/path/resolveDottedString.h>
 #endif
 
-DualIqRxTxSettings::DualIqRxTxSettings(const makesdr_RadioLookupPb& meta, DualIqRxTxBandSettingsCache& cache)
+DualIqRxTxSettings::DualIqRxTxSettings(const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache)
   : DualIqRxTxSettingsBaseType(meta, cache)
-  , m_activeBandSettings(m_payload.body.active_bands)
   , m_transmitterSettings(m_payload.body.transmitter)
 {
 }

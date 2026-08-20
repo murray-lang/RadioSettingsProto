@@ -3,6 +3,9 @@
 #include "RxTxDualIqBandSettings.h"
 #include <settings/model/radios/component/IActiveBandSettings.h>
 
+#include "DualIqBandSettingsCache.h"
+#include "RxTxDualIqBandSettingsCache.h"
+
 class RxTxDualIqActiveBandSettings : public IActiveBandSettings
 {
 public:
@@ -16,6 +19,14 @@ public:
   {
     return const_cast<RxTxDualIqActiveBandSettings*>(this)->focusBand();
   }
+
+  ResultCode autoComplete(const RadioLookup& lookup, RxTxDualIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    RxTxDualIqBandSettingsCache& cache
+    );
 
 protected:
   Proto& m_rawSettings;

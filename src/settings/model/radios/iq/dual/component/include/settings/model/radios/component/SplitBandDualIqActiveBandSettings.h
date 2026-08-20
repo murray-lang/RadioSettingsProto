@@ -54,6 +54,14 @@ public:
   [[nodiscard]] bool hasIsSplit() const override { return m_rawSettings.has_is_split; }
   [[nodiscard]] bool isSplit() const override { return m_rawSettings.is_split; }
 
+  ResultCode autoComplete(const RadioLookup& lookup, RxTxDualIqBandSettingsCache& cache);
+  ResultCode autoComplete(
+    SettingDescriptor& setting,
+    uint32_t startIndex,
+    const RadioLookup& lookup,
+    RxTxDualIqBandSettingsCache& cache
+    );
+
 protected:
   Proto& m_rawSettings;
   RxTxDualIqBandSettings m_band_1;

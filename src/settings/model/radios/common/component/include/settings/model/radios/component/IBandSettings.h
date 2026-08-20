@@ -1,5 +1,7 @@
 #pragma once
+#include <ResultCode.h>
 #include <settings/model/base/SettingsBase.h>
+#include <settings/model/data/radio/RadioLookup.h>
 #include "BandRfSettings.h"
 #include "IfSettings.h"
 #include "PipelineId.h"
@@ -34,4 +36,7 @@ public:
 
   [[nodiscard]] virtual bool hasIsMultiPipeline() const { return false; }
   [[nodiscard]] virtual bool isMultiPipeline() const { return false; }
+
+  // virtual ResultCode autoComplete(const RadioLookup& lookup) = 0;
+  // virtual ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex, const RadioLookup& lookup) = 0;
 };

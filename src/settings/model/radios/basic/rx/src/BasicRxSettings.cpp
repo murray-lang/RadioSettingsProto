@@ -7,7 +7,6 @@
 
 BasicRxSettings::BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache)
   : BasicRxSettingsBaseType(lookup,  cache)
-    , m_activeBandSettings(m_payload.body.active_bands)
 {}
 
 #ifdef USE_DOTTED_STRING_PATHS
