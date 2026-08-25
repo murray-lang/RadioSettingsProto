@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(ui-qt-legacy-band-dialog VERSION 0.1 LANGUAGES CXX)
+project(ui-qt-band-dialog VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -14,14 +14,14 @@ set (QT_UTIL_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/src/QtBandDialog.ui
 )
 
-add_library(ui-qt-legacy-band-dialog STATIC ${QT_UTIL_SOURCES})
+add_library(ui-qt-band-dialog STATIC ${QT_UTIL_SOURCES})
 
-target_include_directories(ui-qt-legacy-band-dialog PUBLIC
+target_include_directories(ui-qt-band-dialog PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(ui-qt-legacy-band-dialog PUBLIC
+target_link_libraries(ui-qt-band-dialog PUBLIC
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets

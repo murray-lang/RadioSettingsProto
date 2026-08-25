@@ -2,8 +2,8 @@
 
 #define DEFAULT_SAMPLE_RATE 48000
 
-IqTxPipeline::IqTxPipeline(const RadioLookup& radioLookup)
-: IqPipeline(radioLookup)
+IqTxPipeline::IqTxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+: IqPipeline(eventTargetProvider, radioLookup)
   , m_fmnModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
   , m_fmwModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
   , m_ssbModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)

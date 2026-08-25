@@ -1,9 +1,9 @@
 #include "iq/rxtx/BasicIqRxTx.h"
 
-BasicIqRxTx::BasicIqRxTx(const RadioLookup& radioLookup)
-  : IqRxTxBase()
-  , m_rx(radioLookup)
-  , m_tx(radioLookup)
+BasicIqRxTx::BasicIqRxTx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : IqRxTxBase(eventTargetProvider)
+  , m_rx(eventTargetProvider, radioLookup)
+  , m_tx(eventTargetProvider, radioLookup)
 {
 
 }
@@ -35,14 +35,14 @@ ResultCode
 BasicIqRxTx::apply(IRadioSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    const IActiveBandSettings* activeBandSettings = settings.activeBands();
+    IActiveBandSettings* activeBandSettings = settings.activeBands();
     if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
-      const IBandSettings* bandSettings = activeBandSettings->focusBand();
+      IBandSettings* bandSettings = activeBandSettings->focusBand();
       if (bandSettings != nullptr && bandSettings->hasFocusPipeline()) {
         RxPipelineSettings* pipelineSettings = bandSettings->focusPipeline();
-        const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;
+        BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;
 
-        ResultCode rcTx = m_tx.apply(bandRfSettings, pipelineSettings->base());
+        ResultCode rcTx = m_tx.apply(bandRfSettings, &pipelineSettings->base());
         ResultCode rcRx = m_rx.apply(bandRfSettings, pipelineSettings);
         if (rcTx != ResultCode::OK) return rcTx;
       }

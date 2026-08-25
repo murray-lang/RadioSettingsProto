@@ -1,8 +1,8 @@
 #include "iq/common/IqTransmitter.h"
 
 
-IqTransmitter::IqTransmitter(const RadioLookup& radioLookup)
-  : m_txPipeline(radioLookup)
+IqTransmitter::IqTransmitter(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : m_txPipeline(eventTargetProvider, radioLookup)
 {
 }
 

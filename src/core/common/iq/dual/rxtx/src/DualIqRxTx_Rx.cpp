@@ -1,8 +1,8 @@
 #include "iq/rxtx/DualIqRxTx_Rx.h"
 
-DualIqRxTx_Rx::DualIqRxTx_Rx(const RadioLookup& radioLookup)
-  : m_rxPipelineA(radioLookup)
-  , m_rxPipelineB(radioLookup)
+DualIqRxTx_Rx::DualIqRxTx_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : m_rxPipelineA(eventTargetProvider, radioLookup)
+  , m_rxPipelineB(eventTargetProvider, radioLookup)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {
@@ -39,7 +39,7 @@ DualIqRxTx_Rx::stop()
 }
 
 ResultCode
-DualIqRxTx_Rx::apply(RxTxDualIqBandSettings* bandSettings)
+DualIqRxTx_Rx::apply(IBandSettings* bandSettings)
 {
   bool dualPipelineChanged = false;
   if (bandSettings->hasIsMultiPipeline()) {
@@ -50,16 +50,16 @@ DualIqRxTx_Rx::apply(RxTxDualIqBandSettings* bandSettings)
       m_mixer.setInputBEnabled(m_pipelineBEnabled);
     }
   }
-  const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? &bandSettings->rfSettings() : nullptr;
+  BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;
   if (dualPipelineChanged) {
-    if (bandSettings->hasPipelineA()) {
-      RxPipelineSettings& rxPipelineASettings = bandSettings->pipelineA();
-      m_rxPipelineA.apply(bandRfSettings, &rxPipelineASettings);
+    if (bandSettings->hasPipeline(PipelineId::A)) {
+      RxPipelineSettings* rxPipelineASettings = bandSettings->pipeline(PipelineId::A);
+      m_rxPipelineA.apply(bandRfSettings, rxPipelineASettings);
     }
     if (m_pipelineBEnabled) {
-      if (bandSettings->hasPipelineB()) {
-        RxPipelineSettings& rxPipelineBSettings = bandSettings->pipelineB();
-        m_rxPipelineB.apply(bandRfSettings, &rxPipelineBSettings);
+      if (bandSettings->hasPipeline(PipelineId::B)) {
+        RxPipelineSettings* rxPipelineBSettings = bandSettings->pipeline(PipelineId::B);
+        m_rxPipelineB.apply(bandRfSettings, rxPipelineBSettings);
       }
     }
   } else if (bandSettings->hasFocusPipeline()) {
@@ -91,7 +91,7 @@ DualIqRxTx_Rx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
 }
 
 IqRxPipeline*
-DualIqRxTx_Rx::focusPipeline(RxTxDualIqBandSettings* bandSettings)
+DualIqRxTx_Rx::focusPipeline(IBandSettings* bandSettings)
 {
   switch (bandSettings->focusPipelineId()) {
     case PipelineId::A: return &m_rxPipelineA;

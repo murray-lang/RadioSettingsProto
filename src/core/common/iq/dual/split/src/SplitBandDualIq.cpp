@@ -1,9 +1,9 @@
 #include "iq/split/SplitBandDualIq.h"
 
-SplitBandDualIq::SplitBandDualIq(const RadioLookup& radioLookup)
-  : IqRxTxBase()
-  , m_rx(radioLookup)
-  , m_tx(radioLookup)
+SplitBandDualIq::SplitBandDualIq(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : IqRxTxBase(eventTargetProvider)
+  , m_rx(eventTargetProvider, radioLookup)
+  , m_tx(eventTargetProvider, radioLookup)
 {
 
 }

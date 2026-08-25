@@ -11,7 +11,7 @@
 class SplitBandDualIq_Rx : public IqSink
 {
 public:
-  SplitBandDualIq_Rx(const RadioLookup& radioLookup);
+  SplitBandDualIq_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~SplitBandDualIq_Rx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);

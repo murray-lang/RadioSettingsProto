@@ -1,5 +1,5 @@
 #pragma once
 
-#include <settings/model/update/SplitBandDualIqUpdateHelpers.h>
+#include <settings/model/update/SplitBandDualIqUpdateHelper.h>
 
-using UpdateHelpers = SplitBandDualIqUpdateHelpers;
+using UpdateHelpers = SplitBandDualIqUpdateHelper;

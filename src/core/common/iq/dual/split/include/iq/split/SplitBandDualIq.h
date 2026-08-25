@@ -14,7 +14,7 @@ class SplitBandDualIqRxTxSettings;
 class SplitBandDualIq : public IqRxTxBase
 {
 public:
-  SplitBandDualIq(const RadioLookup& radioLookup);
+  SplitBandDualIq(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~SplitBandDualIq() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;

@@ -14,10 +14,23 @@ target_include_directories(core-common-iq-pipeline-rx PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(core-common-iq-pipeline-rx PUBLIC
+set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-base
         core-common-iq-pipeline-stage-correction
         core-common-iq-pipeline-stage-filter
         core-common-iq-pipeline-stage-modulation
         core-common-iq-pipeline-stage-resample
+        core-common-iq-pipeline-stage-monitor
+)
+
+if(PLATFORM_FAMILY STREQUAL "linux")
+    set(PIPELINE_RX_LIBS
+            ${PIPELINE_RX_LIBS}
+            core-linux-event-data
+    )
+endif()
+
+target_link_libraries(core-common-iq-pipeline-rx PUBLIC
+        ${PIPELINE_RX_LIBS}
+
 )

@@ -8,7 +8,7 @@
 class IqTransmitter :  public IqSink, public AudioSink
 {
 public:
-  IqTransmitter(const RadioLookup& radioLookup);
+  IqTransmitter(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~IqTransmitter() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);

@@ -17,7 +17,7 @@
 class IqTxPipeline : public IqPipeline
 {
 public:
-  IqTxPipeline(const RadioLookup& radioLookup);
+  IqTxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~IqTxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;

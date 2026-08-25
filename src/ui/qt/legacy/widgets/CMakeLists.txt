@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(ui-qt-legacy-widgets)
+project(ui-qt-widgets)
 
 add_subdirectory(BandDialog)
 add_subdirectory(Charts)

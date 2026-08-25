@@ -6,6 +6,7 @@ add_subdirectory(base)
 add_subdirectory(correction)
 add_subdirectory(filter)
 add_subdirectory(modulation)
+add_subdirectory(monitor)
 add_subdirectory(oscillator)
 add_subdirectory(resample)
 

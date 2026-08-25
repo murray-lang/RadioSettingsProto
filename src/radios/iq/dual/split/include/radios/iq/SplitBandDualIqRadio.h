@@ -11,36 +11,25 @@
 
 #include <radios/base/RadioBase.h>
 
+#include <event/EventTarget.h>
+
 class SplitBandDualIqRadio : public RadioBase
 {
-private:
-  // static_assert(MatchesRadioSettings<SplitBandDualIqRxTxSettings>,
-  //     "\n\n"
-  //     "═══════════════════════════════════════════════════════════════\n"
-  //     " BasicIqRxRadio: RADIO SETTINGS TYPE MISMATCH\n"
-  //     "═══════════════════════════════════════════════════════════════\n"
-  //     " This radio class requires: BasicIqRxSettings\n"
-  //     "\n"
-  //     " Edit: src/settings/model/radio/selected/include/\n"
-  //     "       settings/model/radio/RadioSettings.h\n"
-  //     "\n"
-  //     " Change to: using RadioSettings = BasicIqRxSettings;\n"
-  //     "\n"
-  //     " Alternatively, exclude this radio from your build.\n"
-  //     "\n"
-  //     " Note: This limitation exists because RadioControl and other\n"
-  //     " components use the RadioSettings alias. Future versions might\n"
-  //     " support multiple radio types via templates or type erasure.\n"
-  //     "═══════════════════════════════════════════════════════════════\n"
-  // );
 
 public:
-  SplitBandDualIqRadio(const RadioLookup& radioLookup, SplitBandDualIqRxTxSettings::Cache& bandSettingsCache);
+  SplitBandDualIqRadio(
+    const EventTargetProvider& eventTargetProvider,
+    const RadioLookup& radioLookup,
+    SplitBandDualIqRxTxSettings::Cache& bandSettingsCache
+    );
 
-  ResultCode configure(const Config::Radio::Fields& config);
+  ResultCode configure(const Config::Radio::Fields& config) override;
 
-  ResultCode start();
-  void stop();
+  ResultCode start() override;
+  void stop() override;
+
+  [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const RadioLookup* getLookup() const override { return &m_lookup; }
 
   ResultCode applySettings(IRadioSettings& settings) override;
   ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override;
@@ -48,6 +37,7 @@ public:
   void ptt(bool on) override;
 
 protected:
+  const RadioLookup& m_lookup;
   SplitBandDualIq m_transceiver;
   RadioControl m_control;
   SplitBandDualIqRxTxSettings m_settings;

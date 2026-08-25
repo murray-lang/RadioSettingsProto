@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(ui-qt-legacy-charts-base VERSION 0.1 LANGUAGES CXX)
+project(ui-qt-charts-base VERSION 0.1 LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Charts)
 
@@ -10,14 +10,14 @@ set (QT_CHART_BASE_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/src/QtChartBase.cpp
 )
 
-add_library(ui-qt-legacy-charts-base STATIC ${QT_CHART_BASE_SOURCES})
+add_library(ui-qt-charts-base STATIC ${QT_CHART_BASE_SOURCES})
 
-target_include_directories(ui-qt-legacy-charts-base PUBLIC
+target_include_directories(ui-qt-charts-base PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(ui-qt-legacy-charts-base PUBLIC
+target_link_libraries(ui-qt-charts-base PUBLIC
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets

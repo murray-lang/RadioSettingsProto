@@ -11,7 +11,7 @@
 class BasicIqRxTx : public IqRxTxBase
 {
 public:
-  BasicIqRxTx(const RadioLookup& radioLookup);
+  BasicIqRxTx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~BasicIqRxTx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;

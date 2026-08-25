@@ -3,8 +3,9 @@
 
 class ModeSettings;
 
-IqPipeline::IqPipeline(const RadioLookup& radioLookup)
-  : m_radioLookup(radioLookup)
+IqPipeline::IqPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : m_eventTargetProvider(eventTargetProvider)
+  , m_radioLookup(radioLookup)
   , m_mode{}
   , m_inputSampleRate(0)
   , m_outputSampleRate(0)

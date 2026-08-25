@@ -12,7 +12,7 @@ set(RADIO_SETTINGS_FILES
 
 set(RADIO_SETTINGS_LIBS
         settings-model-radios-iq-dual-split
-        settings-model-path-radios-dual-iq-split-helpers
+        settings-model-path-radios-dual-iq-split-helper
 )
 
 if (USE_DOTTED_STRING_PATHS)

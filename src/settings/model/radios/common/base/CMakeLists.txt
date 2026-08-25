@@ -5,8 +5,10 @@ project(settings-model-radios-base)
 
 set(MODEL_RADIO_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/IRadioSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/SettingUpdateHelper.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioPayloadBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsBaseT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsEventT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSink.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSource.h
 )

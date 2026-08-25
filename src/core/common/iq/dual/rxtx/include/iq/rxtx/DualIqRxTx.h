@@ -3,16 +3,15 @@
 #include <iq/base/IqRxTxBase.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqTxPipeline.h>
-#include <settings/model/radio/iq/DualIqRxTxSettings.h>
 #include <iq/common/IqTransmitter.h>
 
 #include "DualIqRxTx_Rx.h"
 
 
-class DualIqRxTx : public IqRxTxBase<DualIqRxTxSettings>
+class DualIqRxTx : public IqRxTxBase
 {
 public:
-  DualIqRxTx(const RadioLookup& radioLookup);
+  DualIqRxTx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~DualIqRxTx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;
@@ -22,7 +21,7 @@ public:
 
   void ptt(bool on) override;
 
-  ResultCode apply(DualIqRxTxSettings& settings) override;
+  ResultCode apply(IRadioSettings& settings) override;
 
 protected:
   DualIqRxTx_Rx m_rx;

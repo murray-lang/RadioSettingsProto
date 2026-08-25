@@ -9,6 +9,8 @@
 #include <settings/model/radios/component/BandRfSettings.h>
 #include <settings/model/data/radio/RadioLookup.h>
 
+#include "event/EventTarget.h"
+
 // #include <qcoreevent.h>
 
 // #include "core/radio/MeteringSource.h"
@@ -21,7 +23,7 @@ using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 class IqPipeline : public IqSink
 {
 public:
-  explicit IqPipeline(const RadioLookup& radioLookup);
+  explicit IqPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~IqPipeline() override = default;
 
   virtual void initialise(IqIo* pIo, AudioSink* pAudioOutSink)
@@ -70,6 +72,7 @@ protected:
   void setOscillatorMixerFrequency(const BandRfSettings* bandRfSettings, const PipelineRfSettings* rfSettings);
 
 protected:
+  const EventTargetProvider& m_eventTargetProvider;
   const RadioLookup& m_radioLookup;
   // MeteringSource m_meteringSource;
   // MonitorSource m_monitorSource;

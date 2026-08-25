@@ -8,7 +8,7 @@
 class BasicIqRxTx_Rx : public IqSink
 {
 public:
-  BasicIqRxTx_Rx(const RadioLookup& radioLookup);
+  BasicIqRxTx_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~BasicIqRxTx_Rx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);

@@ -8,7 +8,7 @@
 class BasicIqRx : public IqRxBase
 {
 public:
-  BasicIqRx(const RadioLookup& radioLookup);
+  BasicIqRx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~BasicIqRx() override = default;
 
   ResultCode configure(const Config::IqReceiver::Fields& iqReceiverConfig) override;

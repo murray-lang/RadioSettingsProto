@@ -14,6 +14,7 @@ target_include_directories(radios-base INTERFACE
 )
 
 target_link_libraries(radios-base INTERFACE
-        settings-model-radios-selected
+        settings-model-radios-base
         settings-control-sink
+        core-common-event
 )

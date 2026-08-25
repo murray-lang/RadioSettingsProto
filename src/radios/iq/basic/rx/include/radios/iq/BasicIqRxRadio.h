@@ -13,34 +13,13 @@
 
 class BasicIqRxRadio : public RadioBase
 {
-private:
-    static_assert(MatchesRadioSettings<BasicIqRxSettings>,
-        "\n\n"
-        "═══════════════════════════════════════════════════════════════\n"
-        " BasicIqRxRadio: RADIO SETTINGS TYPE MISMATCH\n"
-        "═══════════════════════════════════════════════════════════════\n"
-        " This radio class requires: BasicIqRxSettings\n"
-        "\n"
-        " Edit: src/settings/model/radio/selected/include/\n"
-        "       settings/model/radio/RadioSettings.h\n"
-        "\n"
-        " Change to: using RadioSettings = BasicIqRxSettings;\n"
-        "\n"
-        " Alternatively, exclude this radio from your build.\n"
-        "\n"
-        " Note: This limitation exists because RadioControl and other\n"
-        " components use the RadioSettings alias. Future versions might\n"
-        " support multiple radio types via templates or type erasure.\n"
-        "═══════════════════════════════════════════════════════════════\n"
-    );
-
 public:
   BasicIqRxRadio(const RadioLookup& radioLookup, BasicIqRxSettings::Cache& bandSettingsCache);
 
-  ResultCode configure(const Config::Radio::Fields& radioConfig);
+  ResultCode configure(const Config::Radio::Fields& radioConfig) override;
 
-  ResultCode start();
-  void stop();
+  ResultCode start() override;
+  void stop() override;
 
   ResultCode applySettings(const BasicIqRxSettings& settings) override;
   ResultCode applySettingUpdate(const SettingUpdate& update) override;

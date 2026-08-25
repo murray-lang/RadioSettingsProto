@@ -1,9 +1,9 @@
 #include "iq/split/SplitBandDualIq_Rx.h"
 
 
-SplitBandDualIq_Rx::SplitBandDualIq_Rx(const RadioLookup& radioLookup)
-  : m_rxPipelineA(radioLookup)
-  , m_rxPipelineB(radioLookup)
+SplitBandDualIq_Rx::SplitBandDualIq_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : m_rxPipelineA(eventTargetProvider, radioLookup)
+  , m_rxPipelineB(eventTargetProvider, radioLookup)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {

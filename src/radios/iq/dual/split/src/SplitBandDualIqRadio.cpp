@@ -1,14 +1,21 @@
 #include "radios/iq/SplitBandDualIqRadio.h"
 
 SplitBandDualIqRadio::SplitBandDualIqRadio(
+  const EventTargetProvider& eventTargetProvider,
   const RadioLookup& radioLookup,
   SplitBandDualIqRxTxSettings::Cache& bandSettingsCache
   )
-  : m_transceiver(radioLookup)
+  : m_lookup(radioLookup)
+  , m_transceiver(eventTargetProvider, radioLookup)
   , m_settings(radioLookup.raw(), bandSettingsCache)
 {
 
 }
+
+// SplitBandDualIqRadio::SplitBandDualIqRadio(EventTargetProvider eventTargetProvider, const RadioLookup& radioLookup,
+//   SplitBandDualIqRxTxSettings::Cache& bandSettingsCache)
+// {
+// }
 
 ResultCode
 SplitBandDualIqRadio::configure(const Config::Radio::Fields& config)

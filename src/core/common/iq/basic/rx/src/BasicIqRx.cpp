@@ -1,8 +1,8 @@
 #include "iq/rx/BasicIqRx.h"
 
 
-BasicIqRx::BasicIqRx(const RadioLookup& radioLookup)
-  : IqRxBase()
+BasicIqRx::BasicIqRx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : IqRxBase(eventTargetProvider)
   , m_pipelineA(radioLookup)
 {
 
@@ -37,9 +37,9 @@ ResultCode
 BasicIqRx::apply(IRadioSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    const IActiveBandSettings* activeBandSettings = settings.activeBands();
+    IActiveBandSettings* activeBandSettings = settings.activeBands();
     if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
-      const IBandSettings* bandSettings = activeBandSettings->focusBand();
+      IBandSettings* bandSettings = activeBandSettings->focusBand();
       if (bandSettings->hasFocusPipeline()) {
         RxPipelineSettings* pipelineSettings = bandSettings->focusPipeline();
         const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;

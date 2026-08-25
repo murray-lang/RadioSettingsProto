@@ -1,9 +1,9 @@
 #include "iq/rxtx/DualIqRxTx.h"
 
-DualIqRxTx::DualIqRxTx(const RadioLookup& radioLookup)
-  : IqRxTxBaseT()
-  , m_rx(radioLookup)
-  , m_tx(radioLookup)
+DualIqRxTx::DualIqRxTx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : IqRxTxBase(eventTargetProvider)
+  , m_rx(eventTargetProvider, radioLookup)
+  , m_tx(eventTargetProvider, radioLookup)
 {
 
 }
@@ -44,20 +44,20 @@ DualIqRxTx::ptt(bool on)
 }
 
 ResultCode
-DualIqRxTx::apply(DualIqRxTxSettings& settings)
+DualIqRxTx::apply(IRadioSettings& settings)
 {
   ResultCode rc = ResultCode::OK;
   if (settings.hasActiveBands()) {
-    RxTxDualIqActiveBandSettings& activeBandSettings = settings.activeBandSettings();
-    if (activeBandSettings.hasFocusBand()) {
-      RxTxDualIqBandSettings* bandSettings = activeBandSettings.focusBand();
+    IActiveBandSettings* activeBandSettings = settings.activeBands();
+    if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
+      IBandSettings* bandSettings = activeBandSettings->focusBand();
       rc = m_rx.apply(bandSettings);
       if (rc != ResultCode::OK) return rc;
 
-      const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? &bandSettings->rfSettings() : nullptr;
+      BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;
       if (bandSettings->hasTxPipeline()) {
-        TxPipelineSettings& txPipelineSettings = bandSettings->txPipeline();
-        rc = m_tx.apply(bandRfSettings, &txPipelineSettings.base());
+        TxPipelineSettings* txPipelineSettings = bandSettings->txPipeline();
+        rc = m_tx.apply(bandRfSettings, &txPipelineSettings->base());
       }
 
     }
