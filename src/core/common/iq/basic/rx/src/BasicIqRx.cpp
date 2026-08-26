@@ -3,7 +3,7 @@
 
 BasicIqRx::BasicIqRx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
   : IqRxBase(eventTargetProvider)
-  , m_pipelineA(radioLookup)
+  , m_pipelineA(eventTargetProvider, radioLookup)
 {
 
 }

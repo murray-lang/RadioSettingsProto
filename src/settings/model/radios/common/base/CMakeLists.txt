@@ -12,6 +12,7 @@ set(MODEL_RADIO_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSink.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSinkT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSource.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/base/RadioSettingsSourceT.h
 )
 
 add_library(settings-model-radios-base INTERFACE ${MODEL_RADIO_BASE_FILES})

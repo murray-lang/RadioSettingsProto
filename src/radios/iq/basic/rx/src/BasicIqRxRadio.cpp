@@ -1,8 +1,11 @@
-#include "radio/iq/rx/BasicIqRxRadio.h"
+#include "radios/iq/BasicIqRxRadio.h"
 
-BasicIqRxRadio::BasicIqRxRadio(const RadioLookup& radioLookup, BasicIqRxSettings::Cache& bandSettingsCache)
+BasicIqRxRadio::BasicIqRxRadio(
+const EventTargetProvider& eventTargetProvider,
+  const RadioLookup& radioLookup,
+  BasicIqRxSettings::Cache& bandSettingsCache)
   : m_settings(radioLookup.raw(), bandSettingsCache)
-  , m_receiver(radioLookup)
+  , m_receiver(eventTargetProvider, radioLookup)
 {
 
 }
@@ -41,7 +44,7 @@ BasicIqRxRadio::stop()
 }
 
 ResultCode
-BasicIqRxRadio::applySettings(const BasicIqRxSettings& settings)
+BasicIqRxRadio::applySettings(BasicIqRxSettings& settings)
 {
   m_settings.merge(settings.body());
 
@@ -56,7 +59,7 @@ BasicIqRxRadio::applySettings(const BasicIqRxSettings& settings)
 }
 
 ResultCode
-BasicIqRxRadio::applySettingUpdate(const SettingUpdate& update)
+BasicIqRxRadio::applySettingUpdate(const SettingUpdate& update, bool final)
 {
   return ResultCode::OK; // TODO: Decide how to manage locally stored settings.
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "settings/control/sink/SettingsControlSink.h"
+#include "settings/control/sink/SettingsControlSinkT.h"
 #include <libwebsockets.h>
 #include <cstdint>
 #include <vector>

@@ -4,6 +4,7 @@ project(radios-base)
 
 set(RADIO_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/radios/base/RadioBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/radios/base/RadioBaseT.h
 )
 
 add_library(radios-base INTERFACE ${RADIO_BASE_FILES})

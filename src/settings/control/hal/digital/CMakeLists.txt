@@ -6,20 +6,15 @@ set(GPIO_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInputTypes.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInput.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInputTypes.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInputs.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInputsT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalInputFactory.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutput.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/GpioBandSelector.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutputs.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutputFactory.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutputT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/GpioBandSelectorT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutputsT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/control/digital/DigitalOutputFactoryT.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/DigitalInput.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/DigitalInputs.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/DigitalInputFactory.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/DigitalOutput.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/GpioBandSelector.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/DigitalOutputs.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/DigitalOutputFactory.cpp
 
 )
 

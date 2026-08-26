@@ -12,7 +12,12 @@
 #include <ui/qt/util/QtUtil.h>
 
 
-SplitBandSettingsCache bandSettingsCache;
+EventTarget getEventTarget()
+{
+  return nullptr;
+}
+
+SplitBandDualIqRxTxSettings::Cache bandSettingsCache;
 RadioLookup radioLookup(generalCoverageRadioLookup);
 
 int main(int argc, char *argv[])
@@ -27,7 +32,7 @@ int main(int argc, char *argv[])
   if (rc != ResultCode::OK) {
     return -1;
   }
-  SplitBandDualIqRadio radio(radioLookup, bandSettingsCache);
+  SplitBandDualIqRadio radio(getEventTarget, radioLookup, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
     return -1;
