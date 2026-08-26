@@ -16,7 +16,7 @@ target_include_directories(radios-iq-basic-rx PUBLIC
 
 target_link_libraries(radios-iq-basic-rx PUBLIC
         radios-base
-        core-common-iq-rx-basic
+        core-common-iq-basic-rx
         settings-control-radio
         settings-model-radios-iq-basic-rx
 

@@ -3,7 +3,6 @@
 #include <ResultCode.h>
 #include <iq/split/SplitBandDualIq.h>
 #include <config/struct/RadioConfig.h>
-#include <settings/control/radio/RadioControlT.h>
 #include <settings/model/radios/selected/RadioSettings.h>
 // #include <settings/model/radio/BandSettingsCache.h>
 #include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
@@ -13,7 +12,10 @@
 
 #include <event/EventTarget.h>
 
-class SplitBandDualIqRadio : public RadioBase
+#include "radios/base/RadioBaseT.h"
+#include <settings/control/radio/RadioControlT.h>
+
+class SplitBandDualIqRadio : public RadioBaseT<SplitBandDualIqRxTxSettings>
 {
 
 public:
@@ -31,7 +33,7 @@ public:
   [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
   [[nodiscard]] const RadioLookup* getLookup() const override { return &m_lookup; }
 
-  ResultCode applySettings(IRadioSettings& settings) override;
+  ResultCode applySettings(SplitBandDualIqRxTxSettings& settings) override;
   ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override;
 
   void ptt(bool on) override;
@@ -39,6 +41,6 @@ public:
 protected:
   const RadioLookup& m_lookup;
   SplitBandDualIq m_transceiver;
-  RadioControlT m_control;
+  RadioControlT<SplitBandDualIqRxTxSettings> m_control;
   SplitBandDualIqRxTxSettings m_settings;
 };

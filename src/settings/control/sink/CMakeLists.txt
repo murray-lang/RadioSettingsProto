@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-control-sink)
 
 set(SETTINGS_CONTROL_SINK_SOURCES
-        include/settings/control/sink/SettingsControlSink.h
+        include/settings/control/sink/SettingsControlSinkT.h
         include/settings/control/sink/PttSink.h
 )
 

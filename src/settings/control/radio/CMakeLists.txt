@@ -3,13 +3,12 @@ cmake_minimum_required(VERSION 4.1)
 project(settings-control-radio)
 
 set(RADIO_CONTROL_SOURCES
-        include/settings/control/radio/RadioControl.h
-        ${CMAKE_CURRENT_LIST_DIR}/src/RadioControl.cpp
+        include/settings/control/radio/RadioControlT.h
 )
 
-add_library(settings-control-radio STATIC ${RADIO_CONTROL_SOURCES})
+add_library(settings-control-radio INTERFACE ${RADIO_CONTROL_SOURCES})
 
-target_include_directories(settings-control-radio PUBLIC
+target_include_directories(settings-control-radio INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
@@ -20,7 +19,6 @@ set(RADIO_CONTROL_LIBS
         settings-control-sink
         settings-control-source
         settings-control-factory
-        settings-model-radios-selected
 )
 
 if (USE_GPIO)
@@ -32,7 +30,7 @@ endif()
 
 
 
-target_link_libraries(settings-control-radio PUBLIC
+target_link_libraries(settings-control-radio INTERFACE
     ${RADIO_CONTROL_LIBS}
 )
 

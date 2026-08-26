@@ -4,7 +4,7 @@ project(settings-control-source)
 
 set(SETTINGS_CONTROL_SOURCE_SOURCES
         include/settings/control/source/PttSource.h
-        include/settings/control/source/SettingsControlSource.h
+        include/settings/control/source/SettingsControlSourceT.h
 )
 
 add_library(settings-control-source

@@ -50,7 +50,7 @@ SplitBandDualIqRadio::stop()
 }
 
 ResultCode
-SplitBandDualIqRadio::applySettings(IRadioSettings& settings)
+SplitBandDualIqRadio::applySettings(SplitBandDualIqRxTxSettings& settings)
 {
   m_settings.merge(settings);
 
