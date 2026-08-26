@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(core-linux)
 
 add_subdirectory(audio)
+add_subdirectory(event)
 add_subdirectory(iq)
 
 if(USE_GPIO)

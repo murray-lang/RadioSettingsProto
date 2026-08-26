@@ -4,6 +4,8 @@ project(core-common-iq-base)
 
 set(IQ_BASE_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqSink.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxTxBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqSource.h
 )
 
@@ -14,4 +16,8 @@ target_include_directories(core-common-iq-base INTERFACE
 )
 target_link_libraries(core-common-iq-base INTERFACE
         core-common-samples
+        core-common-event
+        config-struct
+        settings-control-sink
+        settings-model-radios-base
 )

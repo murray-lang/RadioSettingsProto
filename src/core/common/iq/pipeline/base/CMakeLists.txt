@@ -19,7 +19,7 @@ target_link_libraries(core-common-iq-pipeline-base PUBLIC
         core-common-iq-io
         core-common-iq-pipeline-stage-base
         core-common-iq-pipeline-stage-oscillator
-        core-common-audio
-        settings-model-component-iq
-        settings-model-lookup-radio
+        core-common-audio-base
+        settings-model-radios-iq-basic-component
+        settings-model-data-radio
 )

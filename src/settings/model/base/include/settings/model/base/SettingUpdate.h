@@ -1,8 +1,9 @@
 #pragma once
 #include <CrossPlatformTypes.h>
-#include "SettingPath.h"
+
+#include <utility>
+#include "SettingDescriptor.h"
 #include "SettingUpdateVariant.h"
-#include "AutoCompleteTrigger.h"
 
 #define MAX_SETTING_UPDATE_SEQUENCE 4
 
@@ -12,146 +13,68 @@ public:
 
   enum Meaning { NONE = 0, VALUE, DELTA };
 
-  SettingUpdate(
-    const SettingPath& path,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 
-  SettingUpdate(
-    const SettingPath& path,
-    const SettingUpdateVariant& value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
-    , m_value(value)
+  SettingUpdate(SettingDescriptor descriptor, SettingUpdateVariant  value, Meaning meaning )
+    : m_descriptor(::move(descriptor))
+    , m_value(std::move(value))
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 #ifdef USE_ETL
-  SettingUpdate(
-    const SettingPath& path,
-    const NameString& value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, const NameString& value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(in_place_type_t<NameString>{}, value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 
-  SettingUpdate(
-    const SettingPath& path,
-    const LabelString& value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, const LabelString& value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(in_place_type_t<LabelString>{}, value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 #else
-  SettingUpdate(
-    const SettingPath& path,
-    const std::string& value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, const std::string& value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(in_place_type_t<NameString>{}, value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 #endif
 
-  SettingUpdate(
-    const SettingPath& path,
-    int32_t value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, int32_t value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
-  SettingUpdate(
-    const SettingPath& path,
-    uint32_t value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, uint32_t value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
-  SettingUpdate(
-    const SettingPath& path,
-    int64_t value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, int64_t value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
-  SettingUpdate(
-    const SettingPath& path,
-    float value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, float value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
-  SettingUpdate(
-    const SettingPath& path,
-    bool value,
-    Meaning meaning,
-    bool isIndirect = false,
-    const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
-    )
-    : m_path(path)
+  SettingUpdate(SettingDescriptor descriptor, bool value, Meaning meaning)
+    : m_descriptor(::move(descriptor))
     , m_value(value)
     , m_meaning(meaning)
-    , m_isIndirect(isIndirect)
-    , m_trigger(trigger)
   {}
 
-  [[nodiscard]] const SettingPath& path() const { return m_path; }
+  [[nodiscard]] const SettingDescriptor& descriptor() const { return m_descriptor; }
+  [[nodiscard]] const SettingPath& path() const { return m_descriptor.getPath(); }
   [[nodiscard]] Meaning meaning() const { return m_meaning; }
   [[nodiscard]] const SettingUpdateVariant& value() const { return m_value; }
-  [[nodiscard]] bool isIndirect() const { return m_isIndirect; }
-  [[nodiscard]] AutoCompleteTrigger trigger() const { return m_trigger; }
+  [[nodiscard]] bool isIndirect() const { return m_descriptor.isIndirect(); }
+  [[nodiscard]] AutoCompleteTrigger trigger() const { return m_descriptor.getAutoCompleteTrigger(); }
 
 #ifdef USE_ETL
   void setValue(const NameString& value) { m_value = value; }
@@ -166,11 +89,9 @@ public:
   void setValue(bool value) { m_value = value; }
 
 protected:
-  SettingPath m_path;
+  SettingDescriptor m_descriptor;
   SettingUpdateVariant m_value;
   Meaning m_meaning;
-  bool m_isIndirect;
-  AutoCompleteTrigger m_trigger;
 };
 
 #ifdef USE_ETL

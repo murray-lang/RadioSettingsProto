@@ -2,6 +2,7 @@
 
 #include "ConfigBase.h"
 #include "GpioLinesConfig.h"
+#include "SettingDescriptorConfig.h"
 
 #ifdef USE_ETL
 #include <etl/string.h>
@@ -15,7 +16,8 @@ namespace Config::DigitalOutput
 
   struct Fields : Alternative, GpioLines::Fields
   {
-    SettingPathString settingPath;
+    optional<SettingPathString> settingPath;
+    optional<Config::SettingDescriptor::Fields> settingDescriptor;
   };
 }
 

@@ -5,7 +5,7 @@
 
 namespace Config::IqTransmitter
 {
-  static constexpr auto type = "iqtransmitter";
+  static constexpr auto type = "transmitter";
 
   struct Fields
   {

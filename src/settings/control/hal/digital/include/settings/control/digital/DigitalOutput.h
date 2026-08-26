@@ -5,10 +5,10 @@
 #include "gpio/base/GpioLines.h"
 #include "gpio/service/GpioOutputLinesSource.h"
 #include "settings/control/sink/SettingsControlSink.h"
-#include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingPath.h"
-#include "settings/model/core/SettingUpdate.h"
-#include "settings/model/core/SettingUpdateSink.h"
+#include "settings/model/radios/base/RadioSettingsSink.h"
+#include "settings/model/base/SettingDescriptor.h"
+#include "settings/model/base/SettingUpdate.h"
+#include "settings/model/base/SettingUpdateSink.h"
 
 #ifdef USE_ETL
 #include "etl/memory.h"
@@ -40,12 +40,12 @@ public:
   // to respond here as well would be circular.
   void ptt(bool on) override {};
 
-  ResultCode applySettingUpdate(const SettingUpdate& setting) override;
-  ResultCode applySettings(const RadioSettings& radioSettings) override { return ResultCode::OK; }
+  ResultCode applySettingUpdate(const SettingUpdate& setting, bool final) override;
+  ResultCode applySettings(IRadioSettings& radioSettings) override { return ResultCode::OK; }
 
   void setValue(bool value);
 
 protected:
-  SettingPath m_settingPath;
+  SettingDescriptor m_settingDescriptor;
   GpioOutputLinesRequest m_linesRequest;
 };

@@ -3,15 +3,17 @@
 #define DEFAULT_SAMPLE_RATE 48000
 
 
-IqRxPipeline::IqRxPipeline(const RadioLookup& radioLookup)
-  : IqPipeline(radioLookup)
+IqRxPipeline::IqRxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
+  : IqPipeline(eventTargetProvider, radioLookup)
   , m_amDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_AMN), DEFAULT_SAMPLE_RATE)
   , m_fmnDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
   , m_fmwDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
   , m_ssbDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
   , m_cwDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
   , m_pDemodulator(nullptr)
+  , m_monitorStage(m_eventTargetProvider)
 {
+  m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
   appendStage(&m_iqCorrection);
   appendStage(&m_oscillatorMixer);
   appendStage(&m_ifFilter);
@@ -56,7 +58,7 @@ IqRxPipeline::getMaxFramesPerOutputPacket() const
 }
 
 ResultCode
-IqRxPipeline::apply(const BandRfSettings* bandRfSettings, const RxPipelineSettings* settings)
+IqRxPipeline::apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* settings)
 {
   ResultCode rc = IqPipeline::apply(bandRfSettings, &settings->base());
   if (rc != ResultCode::OK) return rc;

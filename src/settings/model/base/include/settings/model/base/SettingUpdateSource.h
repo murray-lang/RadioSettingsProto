@@ -13,6 +13,6 @@ public:
     // connect() for this base class.
   }
 protected:
-  virtual ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate) = 0;
+  virtual ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate, bool final) = 0;
 
 };

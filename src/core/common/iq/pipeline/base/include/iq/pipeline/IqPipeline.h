@@ -5,9 +5,11 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/component/PipelineSettings.h>
-#include <settings/model/component/BandRfSettings.h>
-#include <settings/model/lookup/radio/RadioLookup.h>
+#include <settings/model/radios/component/PipelineSettings.h>
+#include <settings/model/radios/component/BandRfSettings.h>
+#include <settings/model/data/radio/RadioLookup.h>
+
+#include "event/EventTarget.h"
 
 // #include <qcoreevent.h>
 
@@ -21,7 +23,7 @@ using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 class IqPipeline : public IqSink
 {
 public:
-  explicit IqPipeline(const RadioLookup& radioLookup);
+  explicit IqPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~IqPipeline() override = default;
 
   virtual void initialise(IqIo* pIo, AudioSink* pAudioOutSink)
@@ -42,15 +44,14 @@ public:
     m_mode = mode.raw();
   }
 
-  bool applyNyquistLimits(PipelineRfSettings& rfSettings) const
+  void applyNyquistLimits(const BandRfSettings* bandRfSettings, PipelineRfSettings* rfSettings) const
   {
     int32_t maxNegative, maxPositive;
     calcNyquistOffsetsLimits(&maxNegative, &maxPositive);
-    rfSettings.setNyquistLimits(maxNegative, maxPositive);
-    return true;
+    rfSettings->clampToNyquistLimits(*bandRfSettings, maxNegative, maxPositive);
   }
 
-  virtual ResultCode apply(const BandRfSettings* bandRfSettings, const PipelineSettings* settings);
+  virtual ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
 protected:
   void appendStage(IqPipelineStage* pStage)
@@ -68,7 +69,10 @@ protected:
     m_stages.erase(m_stages.begin());
   }
 
+  void setOscillatorMixerFrequency(const BandRfSettings* bandRfSettings, const PipelineRfSettings* rfSettings);
+
 protected:
+  const EventTargetProvider& m_eventTargetProvider;
   const RadioLookup& m_radioLookup;
   // MeteringSource m_meteringSource;
   // MonitorSource m_monitorSource;

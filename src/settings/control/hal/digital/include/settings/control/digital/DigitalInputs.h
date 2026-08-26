@@ -2,7 +2,7 @@
 
 #include <settings/control/source/SettingsControlSource.h>
 #include <config/struct/DigitalInputsConfig.h>
-#include <settings/model/core/RadioSettings.h>
+#include <settings/model/radios/base/IRadioSettings.h>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #include <settings/control/digital//DigitalInputTypes.h>
@@ -34,7 +34,7 @@ public:
   [[nodiscard]] const DigitalInputVector& getInputs() const { return m_inputs; }
 
 protected:
-  ResultCode notifySettings(const RadioSettings& radioSettings) override
+  ResultCode notifySettings(IRadioSettings& radioSettings) override
   {
     return ResultCode::ERR_SETTING_CONTROL_NOTIFY_SETTINGS_NOT_IMPLEMENTED;
   }
@@ -48,9 +48,9 @@ protected:
   public:
     explicit InternalSink(DigitalInputs& group) : m_group(group) {}
 
-    ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override
+    ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
     {
-      return m_group.get().notifySettingUpdate(settingDelta);
+      return m_group.get().notifySettingUpdate(settingDelta, final);
     }
 
   protected:

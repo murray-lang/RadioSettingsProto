@@ -68,7 +68,7 @@ UsbControlSinks::createDevices(const Config::UsbControlSinks::Fields& config)
 }
 
 ResultCode
-UsbControlSinks::applySettings(const RadioSettings& settings)
+UsbControlSinks::applySettings(IRadioSettings& settings)
 {
   for (auto& device : m_devices) {
     const ResultCode rc = visit([&settings] (auto&& dev) -> ResultCode
@@ -83,12 +83,12 @@ UsbControlSinks::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-UsbControlSinks::applySettingUpdate(const SettingUpdate& settingDelta)
+UsbControlSinks::applySettingUpdate(const SettingUpdate& settingDelta, bool final)
 {
   for (auto& device : m_devices) {
-    const ResultCode rc = visit([&settingDelta] (auto&& dev) -> ResultCode
+    const ResultCode rc = visit([&settingDelta, &final] (auto&& dev) -> ResultCode
     {
-      return dev.applySettingUpdate(settingDelta);
+      return dev.applySettingUpdate(settingDelta, final);
     }, device);
     if (rc != ResultCode::OK) {
       return rc;

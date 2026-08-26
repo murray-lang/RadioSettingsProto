@@ -16,7 +16,7 @@ class Gpio
 {
 public:
   Gpio();
-  ~Gpio() override;
+  virtual ~Gpio();
 
   static Gpio& getInstance() {
     static Gpio instance; // Only created once, thread-safe since C++11

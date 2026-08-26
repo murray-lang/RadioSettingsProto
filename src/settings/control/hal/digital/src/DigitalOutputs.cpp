@@ -66,7 +66,7 @@ DigitalOutputs::createOutputs(const Config::DigitalOutputs::Fields& config)
 }
 
 ResultCode
-DigitalOutputs::applySettings(const RadioSettings& settings)
+DigitalOutputs::applySettings(IRadioSettings& settings)
 {
   for (auto& output : m_outputs) {
     const ResultCode rc = visit([&settings] (auto&& dov) -> ResultCode
@@ -81,12 +81,12 @@ DigitalOutputs::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-DigitalOutputs::applySettingUpdate(const SettingUpdate& settingDelta)
+DigitalOutputs::applySettingUpdate(const SettingUpdate& settingDelta, bool final)
 {
   for (auto& output : m_outputs) {
-    const ResultCode rc = visit([&settingDelta] (auto&& dov) -> ResultCode
+    const ResultCode rc = visit([&settingDelta, &final] (auto&& dov) -> ResultCode
     {
-      return dov.applySettingUpdate(settingDelta);
+      return dov.applySettingUpdate(settingDelta, final);
     }, output);
     if (rc != ResultCode::OK) {
       return rc;

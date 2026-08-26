@@ -14,10 +14,10 @@
 typedef enum _makesdr_RadioPayloadType {
     makesdr_RadioPayloadType_PAYLOAD_NONE = 0,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX = 1,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RX = 2,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RX = 3,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX = 4,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 5,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX = 2,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RX = 3,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 4,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RX = 5,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 6,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 7,
     makesdr_RadioPayloadType_PAYLOAD_META = 10,
@@ -362,27 +362,15 @@ extern const pb_msgdesc_t makesdr_RadioCacheDualPayloadPb_msg;
 #define makesdr_BasicIqRxTxSettingsPayloadPb_size 408
 #define makesdr_BasicRxSettingsPayloadPb_size    272
 #define makesdr_BasicRxTxSettingsPayloadPb_size  296
+#define makesdr_DualIqRxSettingsPayloadPb_size   566
+#define makesdr_DualIqRxTxSettingsPayloadPb_size 765
+#define makesdr_RadioCacheBasicIqPayloadPb_size  3585
+#define makesdr_RadioCacheBasicPayloadPb_size    2465
+#define makesdr_RadioCacheDualPayloadPb_size     5405
 #define makesdr_RadioLookupPayloadPb_size        9057
 #define makesdr_RadioPayloadBasePb_size          4
 #define makesdr_RadioPayloadHeaderPb_size        2
-#if defined(makesdr_DualIqRxSettingsPb_size)
-#define makesdr_DualIqRxSettingsPayloadPb_size   (12 + makesdr_DualIqRxSettingsPb_size)
-#endif
-#if defined(makesdr_DualIqRxTxSettingsPb_size)
-#define makesdr_DualIqRxTxSettingsPayloadPb_size (12 + makesdr_DualIqRxTxSettingsPb_size)
-#endif
-#if defined(makesdr_SplitBandDualIqRxTxSettingsPb_size)
-#define makesdr_SplitBandDualIqRxTxSettingsPayloadPb_size (12 + makesdr_SplitBandDualIqRxTxSettingsPb_size)
-#endif
-#if defined(makesdr_BasicBandSettingsCachePb_size)
-#define makesdr_RadioCacheBasicPayloadPb_size    (8 + makesdr_BasicBandSettingsCachePb_size)
-#endif
-#if defined(makesdr_BasicIqBandSettingsCachePb_size)
-#define makesdr_RadioCacheBasicIqPayloadPb_size  (8 + makesdr_BasicIqBandSettingsCachePb_size)
-#endif
-#if defined(makesdr_DualIqBandSettingsCachePb_size)
-#define makesdr_RadioCacheDualPayloadPb_size     (8 + makesdr_DualIqBandSettingsCachePb_size)
-#endif
+#define makesdr_SplitBandDualIqRxTxSettingsPayloadPb_size 1478
 
 #ifdef __cplusplus
 } /* extern "C" */

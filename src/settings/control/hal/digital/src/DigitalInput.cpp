@@ -1,29 +1,26 @@
 #include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
-#include "settings/model/core/RadioSettings.h"
 
-#include "settings/model/core/SettingUpdateSink.h"
+#ifdef USE_DOTTED_STRING_PATHS
+#include <settings/model/radios/selected/resolveDottedString.h>
+#endif
 
-// #include <stm32h745i/app/support/safe_printf.h>
+#include "settings/model/base/SettingUpdateSink.h"
 
 DigitalInput::DigitalInput()
   : m_lineEventCallback(
     makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this)
     )
   , m_linesRequest(*this, m_lineEventCallback)
-  , m_isPathIndirect(false)
-  , m_autoCompleteTrigger(AutoCompleteTrigger::NONE)
 {
 }
 
 DigitalInput::DigitalInput(DigitalInput&& rhs)  noexcept
- : GpioInputLines(move(rhs))
+ : GpioInputLines(::move(static_cast<GpioInputLines&&>(rhs)))
   , m_lineEventCallback(makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this))
   , m_linesRequest(*this, m_lineEventCallback)
-  , m_settingPath(move(rhs.m_settingPath))
-  , m_isPathIndirect(rhs.m_isPathIndirect)
-  , m_autoCompleteTrigger(rhs.m_autoCompleteTrigger)
-  , m_pSink(move(rhs.m_pSink))
+  , m_settingDescriptor(::move(rhs.m_settingDescriptor))
+  , m_pSink(::move(rhs.m_pSink))
 {
 
 }
@@ -32,11 +29,9 @@ DigitalInput&
 DigitalInput::operator=(DigitalInput&& rhs)  noexcept
 {
   m_lineEventCallback = makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this);
-  GpioInputLines::operator=(move(rhs));
-  m_isPathIndirect = rhs.m_isPathIndirect;
-  m_settingPath = move(rhs.m_settingPath);
-  m_autoCompleteTrigger = rhs.m_autoCompleteTrigger;
-  m_pSink = move(rhs.m_pSink);
+  GpioInputLines::operator=(::move(static_cast<GpioInputLines&&>(rhs)));
+  m_settingDescriptor = ::move(rhs.m_settingDescriptor);
+  m_pSink = ::move(rhs.m_pSink);
   return *this;
 }
 
@@ -45,18 +40,20 @@ DigitalInput::configure(const Config::DigitalInput::Fields& config)
 {
   ResultCode rc = configureLines(config);
   if (rc != ResultCode::OK) return rc;
-
-  const Config::SettingPathString& strSettingPath = config.settingPath;
-  m_id = strSettingPath;
   setEdge(Edge::BOTH);
-  rc = RadioSettings::resolveDottedPath(
-    strSettingPath.c_str(),
-    m_settingPath,
-    &m_isPathIndirect,
-    &m_autoCompleteTrigger
-    );
-  // printf("[CM4]\tDigitalInput::configure() SettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", m_settingPath[0], m_settingPath[1], m_settingPath[2], m_settingPath[3], m_settingPath[4], m_settingPath[5]);
-  return rc;
+
+  if (config.settingPath) {
+#ifdef USE_DOTTED_STRING_PATHS
+    m_id = config.settingPath.value();
+    return resolveDottedString(m_id.c_str(), m_settingDescriptor);
+#else
+    return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
+#endif
+  } else if (config.settingDescriptor) {
+    return m_settingDescriptor.configure(config.settingDescriptor.value());
+  } else {
+    return ResultCode::ERR_CONFIG_MISSING_SETTING_PATH;
+  }
 }
 
 void
@@ -64,26 +61,26 @@ DigitalInput::handleGpioLineEvent(GpioLineEvent* event)
 {
   if (isRotaryEncoder()) {
     auto value = static_cast<int32_t>(event->value);
-    SettingUpdate setting(m_settingPath, value, SettingUpdate::DELTA, m_isPathIndirect, m_autoCompleteTrigger);
-    notifySettingUpdate(setting);
+    SettingUpdate setting(m_settingDescriptor, value, SettingUpdate::DELTA);
+    notifySettingUpdate(setting, true);
   } else {
     bool value = event->value > 0;
-    SettingUpdate setting(m_settingPath, value, SettingUpdate::VALUE, m_isPathIndirect, m_autoCompleteTrigger);
-    notifySettingUpdate(setting);
+    SettingUpdate setting(m_settingDescriptor, value, SettingUpdate::VALUE);
+    notifySettingUpdate(setting, true);
   }
 }
 
 void
-DigitalInput::connectSettingUpdateSink(SettingUpdateSink& pSink)
+DigitalInput::connectSettingUpdateSink(SettingUpdateSink* pSink)
 {
-  m_pSink.emplace(pSink);
+  m_pSink.reset(pSink);
 }
 
 ResultCode
-DigitalInput::notifySettingUpdate(const SettingUpdate& settingUpdate)
+DigitalInput::notifySettingUpdate(const SettingUpdate& settingUpdate, bool final)
 {
   if (m_pSink) {
-    m_pSink->get().applySettingUpdate(settingUpdate);
+    m_pSink->applySettingUpdate(settingUpdate, final);
   }
   return ResultCode::OK;
 }

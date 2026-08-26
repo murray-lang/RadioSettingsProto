@@ -19,8 +19,8 @@ public:
   void close() override;
   void exit() override;
 
-  ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
+  ResultCode applySettings(IRadioSettings& settings) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override;
 
   void ptt(bool on) override;
 

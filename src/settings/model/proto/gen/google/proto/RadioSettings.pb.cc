@@ -3327,7 +3327,7 @@ void TransmitterSettingsPb::InternalSwap(TransmitterSettingsPb* other) {
 
 class RxPipelineSettingsPb::_Internal {
  public:
-  static const ::nexusdr::RadioSettings::RfSettingsPb& rf(const RxPipelineSettingsPb* msg);
+  static const ::nexusdr::RadioSettings::RfSettingsPb& rf(RxPipelineSettingsPb* msg);
 };
 
 const ::nexusdr::RadioSettings::RfSettingsPb&

@@ -17,6 +17,6 @@ target_include_directories(core-common-iq-pipeline-stage-filter PUBLIC
 
 target_link_libraries(core-common-iq-pipeline-stage-filter PUBLIC
         core-common-iq-pipeline-stage-base
-        settings-model-component-iq
+        settings-model-radios-iq-basic-component
         core-common-dsp-filters-fir-custom
 )

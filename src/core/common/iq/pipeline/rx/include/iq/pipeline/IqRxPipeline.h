@@ -5,6 +5,7 @@
 #include <iq/correction/IqCorrection.h>
 #include <iq/resample/Resampler.h>
 #include <iq/filter/FilterStage.h>
+#include <iq/monitor/MonitorStageT.h>
 
 
 #include <iq/modulation/Demodulator.h>
@@ -12,13 +13,16 @@
 #include <iq/modulation/AmDemodulator.h>
 #include <iq/modulation/FmDemodulator.h>
 #include <iq/modulation/SsbDemodulator.h>
-#include <settings/model/component/RxPipelineSettings.h>
+
+#include <event/EventDispatcher.h>
+#include <event/sample/RxIqEvent.h>
+#include <settings/model/radios/component/RxPipelineSettings.h>
 
 
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const RadioLookup& radioLookup);
+  IqRxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
@@ -26,7 +30,7 @@ public:
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
 
-  ResultCode apply(const BandRfSettings* bandRfSettings, const RxPipelineSettings* settings);
+  ResultCode apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* settings);
 
   [[nodiscard]] uint32_t getMaxFramesPerInputPacket() const override;
   [[nodiscard]] uint32_t getMaxFramesPerOutputPacket() const override;
@@ -49,6 +53,7 @@ private:
   SsbDemodulator m_ssbDemodulator;
   CwDemodulator m_cwDemodulator;
   Demodulator* m_pDemodulator;
+  MonitorStageT<EventDispatcher, RxIqEvent> m_monitorStage;
 
   RealSamplesMax m_audioBuffer;
 };

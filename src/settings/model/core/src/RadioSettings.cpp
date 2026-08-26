@@ -10,7 +10,7 @@ RadioSettings::RadioSettings(
   const makesdr_RadioLookupPb& meta,
   BandSettingsCache& cache
   )
-  : m_assumeComplete(false)
+  : m_deemComplete(false)
   , m_payload(makesdr_RadioSettingsPayloadPb_init_zero)
   , m_traverser(&m_payload.body, &makesdr_RadioSettingsPb_msg)
   , m_meta(meta)
@@ -26,7 +26,7 @@ RadioSettings::RadioSettings(
   const makesdr_RadioLookupPb& meta,
   BandSettingsCache& cache
   )
-  : m_assumeComplete(false)
+  : m_deemComplete(false)
   , m_payload(makesdr_RadioSettingsPayloadPb_init_zero)
   , m_traverser(&m_payload.body, &makesdr_RadioSettingsPb_msg)
   , m_meta(meta)
@@ -76,10 +76,10 @@ RadioSettings::readProtobuf(const uint8_t *buffer, size_t msg_length)
 }
 
 void
-RadioSettings::replace(makesdr_RadioSettingsPb& update, bool assumeComplete)
+RadioSettings::replace(makesdr_RadioSettingsPb& update, bool deemComplete)
 {
   m_payload.body = update;
-  m_assumeComplete = assumeComplete;
+  m_deemComplete = deemComplete;
   autoComplete();
 };
 

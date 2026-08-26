@@ -3,6 +3,7 @@
 #include "config/json/AudioConfig.json.h"
 #include "config/json/AudioIqSourceConfig.json.h"
 #include "config/json/AudioSignalIqSourceConfig.json.h"
+#include <CrossPlatformTypes.h>
 
 namespace Config::IqIo
 {
@@ -13,15 +14,15 @@ namespace Config::IqIo
       AudioSignalIqSource::Fields fields{};
       result = AudioSignalIqSource::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
-        sourceVariant = fields;
+        sourceVariant.emplace<AudioSignalIqSource::Fields>(fields);
       }
       return result;
     }
     if (json.type == AudioIqSource::type) {
-      AudioIqSource::Fields fields{};
+        AudioIqSource::Fields fields{};
       result = AudioIqSource::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
-        sourceVariant = fields;
+        sourceVariant.emplace<AudioIqSource::Fields>(fields);
       }
       return result;
     }
@@ -35,7 +36,7 @@ namespace Config::IqIo
       Audio::Fields fields{};
       result = Audio::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
-        outputVariant = fields;
+        outputVariant.emplace<Audio::Fields>(fields);
       }
       return result;
     }

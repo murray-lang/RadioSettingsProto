@@ -1,7 +1,7 @@
 #pragma once
 #include "ControlConfig.h"
 #include "UiConfig.h"
-#include "IqRxTxConfig.h"
+#include "SdrConfig.h"
 
 namespace Config::Radio
 {
@@ -10,7 +10,7 @@ namespace Config::Radio
   struct Fields
   {
     Control::Fields control;
-    optional<IqRxTx::Fields> iqrxtx;
+    optional<Sdr::Fields> sdr;
     optional<Ui::Fields> ui;
   };
 }

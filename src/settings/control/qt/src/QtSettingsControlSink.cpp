@@ -53,7 +53,7 @@ QtSettingsControlSink::exit()
 }
 
 ResultCode
-QtSettingsControlSink::applySettings(const RadioSettings& settings)
+QtSettingsControlSink::applySettings(IRadioSettings& settings)
 {
   // if (globalControlClientEventTarget != nullptr) {
   //   auto* rse = new RadioSettingsEvent(settings, ++m_updateSequenceNo, SettingEventBase::BACK_END);
@@ -63,7 +63,7 @@ QtSettingsControlSink::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-QtSettingsControlSink::applySettingUpdate(const SettingUpdate& settingUpdate)
+QtSettingsControlSink::applySettingUpdate(const SettingUpdate& settingUpdate, bool final)
 {
   // if (globalControlClientEventTarget != nullptr) {
   //   auto* sue = new SettingUpdateEvent(settingDelta, SettingEventBase::BACK_END);

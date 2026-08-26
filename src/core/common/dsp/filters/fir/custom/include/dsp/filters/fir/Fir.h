@@ -44,11 +44,11 @@ protected:
     ComplexSamplesFft localInput, localOutput;
     localInput.resize(inputSize);
     localOutput.resize(inputSize);
-    m_fft.transform(input, localInput, true, false);
+    m_fft.transform(input, localInput, FFT_SIZE, true, false);
 
     multiplyByCoefficients(localInput, localOutput);
 
-    m_fft.transform(localOutput, output, false, true);
+    m_fft.transform(localOutput, output, FFT_SIZE, false, true);
   }
 
   void multiplyByCoefficients(const ComplexSamplesFft& values, ComplexSamplesFft& result)
@@ -76,7 +76,7 @@ protected:
 
 private:
   kernel m_kernel;
-  Fft m_fft;
+  Fft<ComplexSamplesFft> m_fft;
   ComplexSamplesFft m_inputBuffer;
   ComplexSamplesFft m_outputBuffer;
   ComplexSamplesFir m_overlapBuffer;

@@ -8,5 +8,5 @@ class SettingUpdateSink
 public:
   virtual ~SettingUpdateSink() = default;
 
-  virtual ResultCode applySettingUpdate(const SettingUpdate& update) = 0;
+  virtual ResultCode applySettingUpdate(const SettingUpdate& update, bool final) = 0;
 };

@@ -4,7 +4,7 @@
 
 namespace Config::IqReceiver
 {
-  static constexpr auto type = "iqreceiver";
+  static constexpr auto type = "receiver";
 
   struct Fields
   {

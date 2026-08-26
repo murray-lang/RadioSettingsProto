@@ -3,7 +3,7 @@
 
 #include <settings/control/sink/SettingsControlSink.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/radio/RadioSettings.h>
+#include <settings/model/radios/base/IRadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 
@@ -24,8 +24,8 @@ public:
     // void applySettings(const RadioSettings& radioSettings) override;
     // void readSettings(RadioSettings& radioSettings) override;
   // void applySettings(const RadioSettings& radioSettings, BandSettings* pBandSettings) override;
-  ResultCode applySettings(const RadioSettings& radioSettings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& update) override
+  ResultCode applySettings(IRadioSettings& radioSettings) override;
+  ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override
   {
     return ResultCode::OK; //ignore for now.
   }

@@ -1,7 +1,7 @@
 #include "settings/control/FunCubeDongle/FunCubeDongle.h"
 #include "settings/control/FunCubeDongle/FCDHidCmd.h"
-#include <settings/model/radio/ActiveBandSettings.h>
-#include <settings/model/radio/BandSettings.h>
+#include <settings/model/radios/selected/ActiveBandSettings.h>
+#include <settings/model/radios/selected/BandSettings.h>
 
 #include <cmath>
 
@@ -34,31 +34,31 @@ FunCubeDongle::operator=(FunCubeDongle&& rhs) noexcept
 }
 
 ResultCode
-FunCubeDongle::applySettings(const RadioSettings& settings)
+FunCubeDongle::applySettings(IRadioSettings& settings)
 {
   if (!settings.hasActiveBands()) {
     return ResultCode:: OK;
   }
 
-  const ActiveBandSettings& activeBandSettings = settings.activeBandSettings();
-  if (!activeBandSettings.hasFocusBand()) {
+  const IActiveBandSettings* activeBandSettings = settings.activeBands();
+  if (!activeBandSettings->hasFocusBand()) {
     return ResultCode:: OK;
   }
-  const BandSettings* bandSettings = activeBandSettings.focusBand();
-  if (bandSettings->hasRfSettings()) {
-    const BandRfSettings& rfSettings = bandSettings->rfSettings();
-    if (rfSettings.hasFrequency()) {
-      int64_t centreFrequency = rfSettings.frequency();
+  const IBandSettings* bandSettings = activeBandSettings->focusBand();
+  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+    if (rfSettings->hasFrequency()) {
+      int64_t centreFrequency = rfSettings->frequency();
       setFrequency(centreFrequency);
       setRfFilter(centreFrequency);
     }
-    if (rfSettings.hasGain()) {
-      float gain = rfSettings.gain();
+    if (rfSettings->hasGain()) {
+      float gain = rfSettings->gain();
       setLnaGain(gain);
       m_lastRfGain = gain;
     }
   }
-  if (bandSettings->hasIfSettings()) {
+  if (bandSettings != nullptr && bandSettings->hasIfSettings()) {
     const IfSettings* ifSettings = bandSettings->ifSettings();
     if (ifSettings->hasBandwidth()) {
       setIfFilter(ifSettings->bandwidth());
