@@ -3,7 +3,7 @@
 #include <ResultCode.h>
 #include <iq/split/SplitBandDualIq.h>
 #include <config/struct/RadioConfig.h>
-#include <settings/control/radio/RadioControl.h>
+#include <settings/control/radio/RadioControlT.h>
 #include <settings/model/radios/selected/RadioSettings.h>
 // #include <settings/model/radio/BandSettingsCache.h>
 #include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
@@ -39,6 +39,6 @@ public:
 protected:
   const RadioLookup& m_lookup;
   SplitBandDualIq m_transceiver;
-  RadioControl m_control;
+  RadioControlT m_control;
   SplitBandDualIqRxTxSettings m_settings;
 };

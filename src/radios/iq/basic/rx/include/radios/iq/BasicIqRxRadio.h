@@ -3,7 +3,7 @@
 #include <ResultCode.h>
 #include <iq/rx/BasicIqRx.h>
 #include <config/struct/RadioConfig.h>
-#include <settings/control/radio/RadioControl.h>
+#include <settings/control/radio/RadioControlT.h>
 #include <settings/model/radio/RadioSettings.h>
 // #include <settings/model/radio/BandSettingsCache.h>
 #include <settings/model/radio/iq/BasicIqRxSettings.h>
@@ -32,6 +32,6 @@ protected:
 
 protected:
   BasicIqRx m_receiver;
-  RadioControl m_control;
+  RadioControlT m_control;
   BasicIqRxSettings m_settings;
 };

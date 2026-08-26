@@ -26,7 +26,7 @@ using ControlSinkVector = std::vector<SettingsControlSinkVariant>;
 using ControlSourceVector = std::vector<SettingsControlSourceVariant>;
 #endif
 
-class RadioControl :
+class RadioControlT :
   public RadioSettingsSource,
   public RadioSettingsSink,
   public SettingUpdateSink,
@@ -34,8 +34,8 @@ class RadioControl :
   public PttSink
 {
 public:
-  RadioControl();
-  ~RadioControl() override = default;
+  RadioControlT();
+  ~RadioControlT() override = default;
 
   ResultCode configure(const Config::Control::Fields& pConfig);
   ResultCode start();
@@ -62,7 +62,7 @@ protected:
   class InternalSink : public RadioSettingsSink, public SettingUpdateSink
   {
   public:
-    explicit InternalSink(RadioControl* pControl) : m_pControl(pControl) {}
+    explicit InternalSink(RadioControlT* pControl) : m_pControl(pControl) {}
     ResultCode applySettings(IRadioSettings& settings) override
     {
       if (m_pControl) {
@@ -79,7 +79,7 @@ protected:
     }
 
   protected:
-    RadioControl* m_pControl;
+    RadioControlT* m_pControl;
   };
 protected:
   ControlSinkVector m_controlSinks;

@@ -10,7 +10,7 @@
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "settings/model/lookup/radio/generalCoverageRadioLookup.h"
 #include "../../data/exampleRadioSettings.h"
-#include <settings/control/radio/RadioControl.h>
+#include <settings/control/radio/RadioControlT.h>
 #include "radioConfig.h"
 #include "RadioControlClient.h"
 
@@ -72,7 +72,7 @@ Gpio& gpio = Gpio::getInstance();
 
 DigitalInputs digitalInputs;
 
-RadioControl radioControl;
+RadioControlT radioControl;
 
 Gpio& gpioInstance = Gpio::getInstance();
 

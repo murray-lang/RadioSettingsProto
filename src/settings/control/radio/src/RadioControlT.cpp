@@ -1,4 +1,4 @@
-#include "settings/control/radio/RadioControl.h"
+#include "settings/control/radio/RadioControlT.h"
 
 #include <cstdio>
 #include <settings/control/factory/SettingsControlSinkFactory.h>
@@ -6,7 +6,7 @@
 
 
 
-RadioControl::RadioControl()
+RadioControlT::RadioControlT()
   : m_controlSinks()
   , m_controlSources()
   , m_internalSink(this)
@@ -14,21 +14,15 @@ RadioControl::RadioControl()
 }
 
 ResultCode
-RadioControl::configure(const Config::Control::Fields& config)
+RadioControlT::configure(const Config::Control::Fields& config)
 {
   ResultCode rc = ResultCode::OK;
   for (auto& controllerConfig : config.sinks) {
     m_controlSinks.emplace_back();
-    // SettingsControlSinkVariant sink;
     ResultCode rc = SettingsControlSinkFactory::create(controllerConfig, m_controlSinks.back());
     if (rc != ResultCode::OK) {
       return rc;
     }
-    // if (rc == ResultCode::OK) {
-    //   m_controlSinks.emplace_back(sink);
-    // } else {
-    //   return rc;
-    // }
   }
 
   for (auto& controllerConfig : config.sources) {
@@ -59,19 +53,19 @@ RadioControl::configure(const Config::Control::Fields& config)
 }
 
 void
-RadioControl::connectRadioSettingsSink(RadioSettingsSink* sink)
+RadioControlT::connectRadioSettingsSink(RadioSettingsSink* sink)
 {
   m_externalSettingsSink.reset(sink);
 }
 
 void
-RadioControl::connectSettingUpdateSink(SettingUpdateSink* sink)
+RadioControlT::connectSettingUpdateSink(SettingUpdateSink* sink)
 {
   m_externalFieldUpdateSink.reset(sink);
 }
 
 ResultCode
-RadioControl::notifySettings(IRadioSettings& radioSettings)
+RadioControlT::notifySettings(IRadioSettings& radioSettings)
 {
   if (m_externalSettingsSink) {
     return m_externalSettingsSink->applySettings(radioSettings);
@@ -80,7 +74,7 @@ RadioControl::notifySettings(IRadioSettings& radioSettings)
 }
 
 ResultCode
-RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta, bool final)
+RadioControlT::notifySettingUpdate(const SettingUpdate& settingDelta, bool final)
 {
   if (m_externalFieldUpdateSink) {
     return m_externalFieldUpdateSink->applySettingUpdate(settingDelta, final);
@@ -89,7 +83,7 @@ RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta, bool final)
 }
 
 ResultCode
-RadioControl::applySettings(IRadioSettings& settings)
+RadioControlT::applySettings(IRadioSettings& settings)
 {
   for (auto& sinkVar : m_controlSinks) {
     ResultCode rc = visit([&settings] (auto&& sink) -> ResultCode
@@ -104,7 +98,7 @@ RadioControl::applySettings(IRadioSettings& settings)
 }
 
 ResultCode
-RadioControl::applySettingUpdate(const SettingUpdate& setting, bool final)
+RadioControlT::applySettingUpdate(const SettingUpdate& setting, bool final)
 {
   for (auto& sinkVar : m_controlSinks) {
     const ResultCode rc = visit([&setting, &final] (auto&& sink) -> ResultCode
@@ -119,11 +113,9 @@ RadioControl::applySettingUpdate(const SettingUpdate& setting, bool final)
 }
 
 ResultCode
-RadioControl::start()
+RadioControlT::start()
 {
-  // printf("[RadioControl]\t Entered start().\r\n");
   for (auto& pSink : m_controlSinks) {
-    // printf("[RadioControl]\t Next sink...\r\n");
     ResultCode rc = visit([&pSink](auto&& sink) -> ResultCode
     {
 
@@ -132,16 +124,12 @@ RadioControl::start()
         return ResultCode::ERR_SETTINGS_CONTROL_NO_SINKS;
       } else {
         if (sink.discover()) {
-          // printf("[RadioControl]\tAbout to call sink.open()\r\n");
           return sink.open();
         }
       }
-      // printf("[RadioControl]\tAbout to return error ERR_SETTINGS_CONTROL_SINK_DISCOVER\r\n");
       return ResultCode::ERR_SETTINGS_CONTROL_SINK_DISCOVER;
     }, pSink);
-    // printf("[RadioControl]\t...done!\r\n");
     if (rc != ResultCode::OK) {
-      // printf("[RadioControl]\t Error starting sink: %u.\r\n", static_cast<uint32_t>(rc));
       return rc;
     }
   }
@@ -168,13 +156,13 @@ RadioControl::start()
 }
 
 void
-RadioControl::stop()
+RadioControlT::stop()
 {
 
 }
 
 void
-RadioControl::ptt(bool on)
+RadioControlT::ptt(bool on)
 {
   SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
   SettingUpdate setting(path, on, SettingUpdate::VALUE);
