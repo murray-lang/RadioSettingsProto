@@ -1,20 +1,30 @@
 #pragma once
 
+#include <EventId.h>
 #include <settings/model/base/SettingEventBaseT.h>
 #include "IRadioSettings.h"
+#include "IRadioSettingsEvent.h"
 
-template<typename RadioSettingsT, typename EventBaseT, typename EventTypeT, typename RegisterFunc>
-class RadioSettingsEventT : public SettingEventBaseT<EventBaseT, EventTypeT, RegisterFunc>
+template<typename RadioSettingsT, typename EventBaseT, typename EventIdT, EventId eventId>
+class RadioSettingsEventT :
+  public SettingsEventBaseT<EventBaseT, EventIdT, eventId>,
+  public IRadioSettingsEvent
 {
 public:
-  explicit RadioSettingsEventT(const RadioSettingsT& radioSettings, int32_t sequence, EventSource source)
-    : SettingEventBaseT(source)
+  using Base = SettingsEventBaseT<EventBaseT, EventIdT, eventId>;
+
+  explicit RadioSettingsEventT(
+    const RadioSettingsT& radioSettings,
+    int32_t sequence,
+    Base::EventSource source
+    )
+    : Base(source)
     , m_radioSettings(radioSettings)
     , m_sequence(sequence)
   {
   }
-  [[nodiscard]] const IRadioSettings& getRadioSettings() const { return m_radioSettings; }
-  [[nodiscard]] int32_t getSequence() const { return m_sequence; }
+  [[nodiscard]] const IRadioSettings& getRadioSettings() const override { return m_radioSettings; }
+  [[nodiscard]] int32_t getSequence() const override { return m_sequence; }
 
 protected:
   RadioSettingsT m_radioSettings;

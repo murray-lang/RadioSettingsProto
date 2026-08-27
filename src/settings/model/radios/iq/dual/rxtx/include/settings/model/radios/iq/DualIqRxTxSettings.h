@@ -7,6 +7,8 @@
 #include <settings/model/radios/component/RxTxDualIqActiveBandSettings.h>
 #include <settings/model/radios/component/RxTxDualIqBandSettingsCache.h>
 
+#include "EventId.h"
+
 
 using DualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxTxSettingsPb,
@@ -15,7 +17,8 @@ using DualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX,
     makesdr_DualIqRxTxSettingsPayloadPb_size,
     RxTxDualIqActiveBandSettings,
-    RxTxDualIqBandSettingsCache
+    RxTxDualIqBandSettingsCache,
+    EVENT_SETTINGS_DUAL_IQ_RXTX
   >;
 
 class DualIqRxTxSettings : public DualIqRxTxSettingsBaseType

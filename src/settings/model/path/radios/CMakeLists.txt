@@ -4,3 +4,4 @@ project(settings-model-path-radios)
 
 add_subdirectory(basic)
 add_subdirectory(iq)
+add_subdirectory(update-helpers)

@@ -43,8 +43,6 @@ public:
 #endif
 
 
-
-
   RadioControlT()
     : m_controlSinks()
    , m_controlSources()

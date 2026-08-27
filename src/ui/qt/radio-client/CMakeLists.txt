@@ -20,4 +20,8 @@ target_link_libraries(ui-qt-radio-client PUBLIC
         Qt6::Core
         radios-base
         core-common-samples
+        core-linux-event-data
+        core-linux-event-targets
+        settings-control-qt-event-targets
+        settings-model-path-radios-update-helpers
 )

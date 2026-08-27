@@ -26,5 +26,6 @@ target_include_directories(core-linux-event-data INTERFACE
 
 target_link_libraries(core-linux-event-data INTERFACE
         core-common-event
+        settings-model-base
         Qt6::Core
 )

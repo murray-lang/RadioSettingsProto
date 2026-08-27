@@ -7,6 +7,8 @@
 #include <settings/model/radios/component/BasicActiveBandSettings.h>
 #include <settings/model/radios/component/BasicBandSettingsCache.h>
 
+#include "EventId.h"
+
 
 using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_BasicRxSettingsPb,
@@ -15,7 +17,8 @@ using BasicRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX,
     makesdr_BasicRxSettingsPayloadPb_size,
     BasicActiveBandSettings,
-    BasicBandSettingsCache
+    BasicBandSettingsCache,
+    EVENT_SETTINGS_BASIC_RX
   >;
 
 class BasicRxSettings : public BasicRxSettingsBaseType

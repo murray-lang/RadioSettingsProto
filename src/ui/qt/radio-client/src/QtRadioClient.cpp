@@ -2,19 +2,25 @@
 
 #include <qcoreapplication.h>
 
-#include "QtGlobalEventTargets.h"
-#include "core/config-settings/settings/events/RadioSettingsEvent.h"
-#include "core/config-settings/settings/events/SettingUpdateEvent.h"
-#include "core/radio/receiver/events/ReceiverAudioEvent.h"
-#include "core/radio/receiver/events/ReceiverIqEvent.h"
-#include "core/radio/receiver/events/ReceiverMeterEvent.h"
-#include "core/radio/transmitter/events/TransmitterAudioEvent.h"
-#include "core/radio/transmitter/events/TransmitterIqEvent.h"
+#include <settings/control/qt/QtGlobalControlEventTargets.h>
+#include <event/targets/QtDataEventTargets.h>
+#include <event/sample/RxIqEvent.h>
+#include <event/sample/TxIqEvent.h>
+#include <event/sample/RxAudioEvent.h>
+#include <event/sample/TxAudioEvent.h>
+#include <event/metering/RxIqMeterEvent.h>
+#include <event/metering/RxMeterEvent.h>
+#include <event/SettingUpdateEvent.h>
+#include <EventId.h>
+
+#include "settings/model/radios/base/IRadioSettingsEvent.h"
 
 QtRadioClient::QtRadioClient(QObject* parent)
   : m_pParent(parent)
 {
-
+  m_updateHelper.emplace<SplitBandDualIqUpdateHelper>();
+  SettingUpdateHelper& helper = get<SplitBandDualIqUpdateHelper>(m_updateHelper);
+  helper.connectSettingUpdateSink(this);
 }
 
 ResultCode
@@ -43,58 +49,63 @@ QtRadioClient::stop()
 void
 QtRadioClient::customEvent(QEvent* event)
 {
-  if (event->type() == RadioSettingsEvent::RadioSettingsEventType) {
+  EventId eventId = static_cast<EventId>(event->type());
 
-    const auto* settingsEvent = dynamic_cast<RadioSettingsEvent*>(event);
+  if (eventId >= EVENT_SETTINGS_RADIO_FIRST && eventId <= EVENT_SETTINGS_RADIO_LAST) {
+
+    const auto* settingsEvent = dynamic_cast<IRadioSettingsEvent*>(event);
     emit radioSettingsReceived(settingsEvent->getRadioSettings(), settingsEvent->getSequence());
 
-  } else if (event->type() == SettingUpdateEvent::SettingUpdateEventType) {
+  } else if (eventId == EVENT_SETTINGS_UPDATE) {
 
     const auto* updateEvent = dynamic_cast<SettingUpdateEvent*>(event);
-    emit settingUpdateReceived(updateEvent->m_setting);
+    emit settingUpdateReceived(updateEvent->getUpdate(), updateEvent->isFinal());
 
-  } else if (event->type() == ReceiverIqEvent::RxIqEvent) {
+  } else if (eventId == EVENT_IQ_RX) {
 
-    const auto* iqEvent = dynamic_cast<ReceiverIqEvent*>(event);
-    emit receiverIqReceived(iqEvent->buffer.get(), iqEvent->dataLength, iqEvent->sampleRate);
+    const auto* iqEvent = dynamic_cast<RxIqEvent*>(event);
+    emit receiverIqReceived(&iqEvent->samples, iqEvent->length, iqEvent->sampleRate);
 
-  } else if (event->type() == ReceiverAudioEvent::RxAudioEvent) {
+  } else if (eventId == EVENT_AUDIO_RX) {
 
-    const auto* audioEvent = dynamic_cast<ReceiverAudioEvent*>(event);
-    emit receiverAudioReceived(audioEvent->buffer.get(), audioEvent->dataLength, audioEvent->sampleRate);
+    const auto* audioEvent = dynamic_cast<RxAudioEvent*>(event);
+    emit receiverAudioReceived(&audioEvent->samples, audioEvent->length, audioEvent->sampleRate);
 
-  } else if (event->type() == ReceiverMeterEvent::RxMeterEvent) {
+  } else if (eventId == EVENT_METER_RX_IQ) {
 
-    const auto* meterEvent = dynamic_cast<ReceiverMeterEvent*>(event);
-    emit meteringReceived(meterEvent->metering());
+    const auto* meterEvent = dynamic_cast<RxIqMeterEvent*>(event);
+    emit meteringReceived(*meterEvent);
 
-  } else if (event->type() == TransmitterIqEvent::TxIqEvent) {
+  } else if (eventId == EVENT_IQ_TX) {
 
-    const auto* iqEvent = dynamic_cast<TransmitterIqEvent*>(event);
-    emit transmitterIqReceived(iqEvent->buffer.get(), iqEvent->dataLength, iqEvent->sampleRate);
+    const auto* iqEvent = dynamic_cast<TxIqEvent*>(event);
+    emit transmitterIqReceived(&iqEvent->samples, iqEvent->length, iqEvent->sampleRate);
 
-  } else if (event->type() == TransmitterAudioEvent::TxAudioEvent) {
+  } else if (eventId == EVENT_AUDIO_TX) {
 
-    const auto* audioEvent = dynamic_cast<TransmitterAudioEvent*>(event);
-    emit transmitterAudioReceived(audioEvent->buffer.get(), audioEvent->dataLength, audioEvent->sampleRate);
+    const auto* audioEvent = dynamic_cast<TxAudioEvent*>(event);
+    emit transmitterAudioReceived(&audioEvent->samples, audioEvent->length, audioEvent->sampleRate);
   }
 }
 
 ResultCode
 QtRadioClient::requestCurrentSettings()
 {
-  SettingUpdatePath path({RadioSettings::NOTIFY_CONTROL_SINKS});
-  SettingUpdate setting(path, true, SettingUpdate::Meaning::VALUE);
-  return applySettingUpdate(setting);
+  SettingUpdateHelper& helper = get<SplitBandDualIqUpdateHelper>(m_updateHelper);
+  // TODO: Need a way to trigger a full update
+  // SettingUpdatePath path({RadioSettings::NOTIFY_CONTROL_SINKS});
+  // SettingUpdate setting(path, true, SettingUpdate::Meaning::VALUE);
+  // return applySettingUpdate(setting);
+  return ResultCode::OK;
 }
 
 ResultCode
-QtRadioClient::applySettingUpdate(SettingUpdate& update)
+QtRadioClient::applySettingUpdate(const SettingUpdate& update, bool isFinal)
 {
   if (globalControlRadioEventTarget != nullptr) {
-   auto* sue = new SettingUpdateEvent(update, SettingEventBase::FRONT_END);
+   auto* sue = new SettingUpdateEvent(SettingUpdateEvent::FRONT_END, isFinal, update);
    QCoreApplication::postEvent(globalControlRadioEventTarget, sue);
    return ResultCode::OK;
   }
-  return ResultCode::ERR_CONTROL_NO_EVENT_TARGET;
+  return ResultCode::ERR_EVENT_NO_TARGET;
 }

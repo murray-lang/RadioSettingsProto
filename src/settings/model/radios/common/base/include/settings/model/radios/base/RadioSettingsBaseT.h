@@ -5,6 +5,7 @@
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/base/SettingsBase.h>
 #include <settings/model/base/SettingUpdateSink.h>
+#include <EventId.h>
 #include "IRadioSettings.h"
 
 #define COMMON_ACTIVE_BANDS_TAG 1
@@ -16,11 +17,16 @@ template<
   makesdr_RadioPayloadType payloadTypeEnum,
   int payloadSize,
   typename ActiveBandSettingsClass,
-  typename CacheClass
+  typename CacheClass,
+  // typename EventBaseT,
+  // typename EventIdT,
+  EventId eventId
 >
 class RadioSettingsBaseT : public IRadioSettings //public SettingsBase, public SettingUpdateSink
 {
 public:
+  static const EventId eventType = eventId;
+
   RadioSettingsBaseT(const makesdr_RadioLookupPb& lookup, CacheClass& cache)
   : m_deemComplete(false)
   , m_payload{0}

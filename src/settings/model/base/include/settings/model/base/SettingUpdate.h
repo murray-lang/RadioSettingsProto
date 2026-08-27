@@ -13,6 +13,8 @@ public:
 
   enum Meaning { NONE = 0, VALUE, DELTA };
 
+  SettingUpdate(const SettingUpdate& rhs) noexcept = default;
+
   SettingUpdate(SettingDescriptor descriptor, Meaning meaning)
     : m_descriptor(::move(descriptor))
     , m_meaning(meaning)
@@ -68,6 +70,9 @@ public:
     , m_value(value)
     , m_meaning(meaning)
   {}
+
+  SettingUpdate& operator=(const SettingUpdate& rhs) = default;
+  // SettingUpdate& operator=(SettingUpdate&& rhs) noexcept = default;
 
   [[nodiscard]] const SettingDescriptor& descriptor() const { return m_descriptor; }
   [[nodiscard]] const SettingPath& path() const { return m_descriptor.getPath(); }

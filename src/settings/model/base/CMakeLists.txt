@@ -5,7 +5,7 @@ project(settings-model-base)
 set(CLASSES_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/AutoCompleteTrigger.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingDescriptor.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingEventBaseT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingsEventBaseT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingPath.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingsBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/base/SettingUpdate.h

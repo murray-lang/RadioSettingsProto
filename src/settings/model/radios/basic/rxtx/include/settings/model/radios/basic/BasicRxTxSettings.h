@@ -14,7 +14,8 @@ using BasicRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX,
     makesdr_BasicRxTxSettingsPayloadPb_size,
     BasicActiveBandSettings,
-    BasicBandSettingsCache
+    BasicBandSettingsCache,
+    EVENT_SETTINGS_BASIC_RXTX
   >;
 
 class BasicRxTxSettings : public BasicRxTxSettingsBaseType

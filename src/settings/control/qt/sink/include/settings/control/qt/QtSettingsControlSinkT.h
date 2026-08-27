@@ -2,14 +2,19 @@
 
 #include <config/struct/QtControlSinkConfig.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/radios/base/RadioSettingsEventT.h>
 #include <settings/control/qt/QtGlobalControlEventTargets.h>
 #include <settings/control/qt/QtSettingsControlSinkBase.h>
+#include <event/QtEventRegistrar.h>
+
+#include "event/EventDispatcher.h"
 
 template<typename RadioSettingsT>
 class QtSettingsControlSinkT : public QtSettingsControlSinkBase, public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
 {
 public:
+  using RadioSettingsEvent = RadioSettingsEventT<RadioSettingsT, QEvent, QEvent::Type, RadioSettingsT::eventId>;
+
   QtSettingsControlSinkT()
     : m_updateSequenceNo(0)
   {
@@ -33,10 +38,11 @@ public:
 
   ResultCode applySettings(RadioSettingsT& settings) override
   {
-    // if (globalControlClientEventTarget != nullptr) {
-    //   auto* rse = new RadioSettingsEvent(settings, ++m_updateSequenceNo, SettingEventBase::BACK_END);
-    //   QCoreApplication::postEvent(globalControlClientEventTarget, rse);
-    // }
+    if (globalControlClientEventTarget != nullptr) {
+      auto* rse = new RadioSettingsEvent(settings, ++m_updateSequenceNo, RadioSettingsEvent::BACK_END);
+      EventDispatcher::dispatch<RadioSettingsEvent>(globalControlClientEventTarget, rse);
+      // QCoreApplication::postEvent(globalControlClientEventTarget, rse);
+    }
     return ResultCode::OK;
   }
 

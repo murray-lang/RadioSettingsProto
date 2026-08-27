@@ -13,7 +13,8 @@ using SplitBandDualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX,
     makesdr_SplitBandDualIqRxTxSettingsPayloadPb_size,
     SplitBandDualIqActiveBandSettings,
-    RxTxDualIqBandSettingsCache
+    RxTxDualIqBandSettingsCache,
+    EVENT_SETTINGS_DUAL_IQ_SPLIT
   >;
 
 class SplitBandDualIqRxTxSettings : public SplitBandDualIqRxTxSettingsBaseType
