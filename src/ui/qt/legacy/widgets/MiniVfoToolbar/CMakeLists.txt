@@ -26,7 +26,6 @@ target_link_libraries(ui-qt-mini-vfo-toolbar PUBLIC
         Qt6::Gui
         Qt6::Widgets
         config-json
-        settings-model-radios-common-component
-        settings-model-radios-selected
+        settings-model-base
         ui-qt-property-setter
 )

@@ -22,7 +22,7 @@ public:
   ResultCode start() override;
   void stop() override;
 
-  void ptt(bool on) override;
+  ResultCode ptt(bool on) override;
 
   ResultCode apply(IRadioSettings& settings) override;
 

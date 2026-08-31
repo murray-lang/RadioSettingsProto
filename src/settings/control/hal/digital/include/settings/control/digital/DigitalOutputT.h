@@ -6,13 +6,10 @@
 #include <gpio/service/Gpio.h>
 #include <gpio/service/GpioOutputLinesSource.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/base/SettingDescriptor.h>
-#include <settings/model/base/SettingUpdate.h>
-#include <settings/model/base/SettingUpdateSink.h>
-
-#ifdef USE_DOTTED_STRING_PATHS
-#include <settings/model/radios/selected/resolveDottedString.h>
-#endif
+#include <settings/model/SettingDescriptor.h>
+#include <settings/model/SettingUpdate.h>
+#include <settings/model/SettingUpdateSink.h>
+#include <settings/model/ResolveDottedStringFunc.h>
 
 template <typename RadioSettingsT>
 class DigitalOutputT : public GpioLines, public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
@@ -39,16 +36,12 @@ public:
     return *this;
   }
 
-  ResultCode configure(const Config::DigitalOutput::Fields& config)
+  ResultCode configure(const Config::DigitalOutput::Fields& config, ResolveDottedStringFunc resolver)
   {
     ResultCode rc = GpioLines::configureLines(config);
     if (rc != ResultCode::OK) return rc;
     if (config.settingPath) {
-#ifdef USE_DOTTED_STRING_PATHS
-      return resolveDottedString(config.settingPath.value().c_str(), m_settingDescriptor);
-#else
-      return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
-#endif
+      return resolver(config.settingPath.value().c_str(), m_settingDescriptor);
     } else if (config.settingDescriptor) {
       return m_settingDescriptor.configure(config.settingDescriptor.value());
     } else {
@@ -72,7 +65,7 @@ public:
   // Note: This DigitalOutput may well have a setting path corresponding to PTT, but it doesn't
   // respond to ptt() since this is informational. It already responds to the applySetting*() so
   // to respond here as well would be circular.
-  void ptt(bool on) override {};
+  ResultCode ptt(bool on) override { return ResultCode::OK;};
 
   ResultCode applySettingUpdate(const SettingUpdate& setting, bool final) override
   {

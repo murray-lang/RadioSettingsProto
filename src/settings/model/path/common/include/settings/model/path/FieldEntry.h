@@ -1,6 +1,6 @@
 #pragma once
 
-#include <settings/model/base/AutoCompleteTrigger.h>
+#include <settings/model/AutoCompleteTrigger.h>
 #include <cstdint>
 
 #define MAX_FIELD_NAME_LENGTH 32

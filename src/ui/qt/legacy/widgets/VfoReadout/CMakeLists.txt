@@ -20,6 +20,5 @@ target_include_directories(ui-qt-vfo-readout PUBLIC
 target_link_libraries(ui-qt-vfo-readout PUBLIC
         ui-qt-number-readout
         ui-qt-mini-vfo-toolbar
-        settings-model-radios-selected
         settings-model-component-common
 )

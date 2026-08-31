@@ -15,9 +15,9 @@ public:
   DigitalOutputsT& operator=(DigitalOutputsT&&)  noexcept = default;
 
   // ControlBase overrides;
-  ResultCode configure(const Config::DigitalOutputs::Fields& config)
+  ResultCode configure(const Config::DigitalOutputs::Fields& config, ResolveDottedStringFunc resolver)
   {
-    return createOutputs(config);
+    return createOutputs(config, resolver);
   }
 
   bool discover() override { return Gpio::isPresent(); }
@@ -76,7 +76,7 @@ public:
     return ResultCode::OK;
   }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     for (auto& output : m_outputs)
     {
@@ -85,16 +85,17 @@ public:
         dov.ptt(on);
       }, output) ;
     }
+    return ResultCode::OK;
   }
 
 protected:
-  ResultCode createOutputs(const Config::DigitalOutputs::Fields& config)
+  ResultCode createOutputs(const Config::DigitalOutputs::Fields& config, ResolveDottedStringFunc resolver)
   {
     m_outputs.clear();
     ResultCode rc = ResultCode::OK;
     for (const auto& outputConfig : config.outputs) {
       typename DigitalOutputTypesT<RadioSettingsT>::Variant digitalOutput;
-      rc = DigitalOutputFactoryT<RadioSettingsT>::create(outputConfig, digitalOutput);
+      rc = DigitalOutputFactoryT<RadioSettingsT>::create(outputConfig, resolver, digitalOutput);
       if (rc == ResultCode::OK) {
         m_outputs.emplace_back(std::move(digitalOutput));
       }

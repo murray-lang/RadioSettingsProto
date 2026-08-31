@@ -9,6 +9,7 @@ class SettingsControlSinkFactoryT
 public:
   static ResultCode create(
     const Config::Control::SinkConfigVariant& config,
+    ResolveDottedStringFunc resolver,
     SettingsControlSinkTypesT<RadioSettingsT>::Variant& sink)
   {
     ResultCode result = ResultCode::OK;
@@ -24,7 +25,7 @@ public:
 #ifdef USE_GPIO
     if (holds_alternative<Config::DigitalOutputs::Fields>(config)) {
       DigitalOutputsT<RadioSettingsT> douts;
-      result = douts.configure(get<Config::DigitalOutputs::Fields>(config));
+      result = douts.configure(get<Config::DigitalOutputs::Fields>(config), resolver);
       if (result == ResultCode::OK) {
         sink.template emplace<DigitalOutputsT<RadioSettingsT>>(move(douts));
       }

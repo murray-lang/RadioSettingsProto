@@ -1,9 +1,9 @@
 #pragma once
 #include <settings/control/SettingsControlBase.h>
-#include <settings/model/radios/base/RadioSettingsSourceT.h>
-#include <settings/model/radios/base/RadioSettingsSinkT.h>
-#include <settings/model/base/SettingUpdateSource.h>
-#include <settings/model/base/SettingUpdateSink.h>
+#include <settings/model/RadioSettingsSourceT.h>
+#include <settings/model/RadioSettingsSinkT.h>
+#include <settings/model/SettingUpdateSource.h>
+#include <settings/model/SettingUpdateSink.h>
 
 
 template <typename RadioSettingsT>

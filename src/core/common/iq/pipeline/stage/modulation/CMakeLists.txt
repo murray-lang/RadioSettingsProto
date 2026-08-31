@@ -41,7 +41,7 @@ if(USE_FREERTOS)
 else()
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-radios-common-component
+            settings-model-base
             core-common-iq-pipeline-stage-oscillator
             core-linux-liquid-dsp
     )

@@ -13,14 +13,14 @@
 #include <event/SettingUpdateEvent.h>
 #include <EventId.h>
 
-#include "settings/model/radios/base/IRadioSettingsEvent.h"
+#include "settings/model/IRadioSettingsEvent.h"
 
 QtRadioClient::QtRadioClient(QObject* parent)
   : m_pParent(parent)
 {
-  m_updateHelper.emplace<SplitBandDualIqUpdateHelper>();
-  SettingUpdateHelper& helper = get<SplitBandDualIqUpdateHelper>(m_updateHelper);
-  helper.connectSettingUpdateSink(this);
+  m_updateHelperVariant.emplace<SplitBandDualIqUpdateHelper>();
+  m_updateHelper = get_if<SplitBandDualIqUpdateHelper>(&m_updateHelperVariant);
+  m_updateHelper->connectSettingUpdateSink(this);
 }
 
 ResultCode
@@ -89,9 +89,15 @@ QtRadioClient::customEvent(QEvent* event)
 }
 
 ResultCode
+QtRadioClient::ptt(bool on)
+{
+  return m_updateHelper->ptt(on);
+}
+
+ResultCode
 QtRadioClient::requestCurrentSettings()
 {
-  SettingUpdateHelper& helper = get<SplitBandDualIqUpdateHelper>(m_updateHelper);
+  SettingUpdateHelper& helper = get<SplitBandDualIqUpdateHelper>(m_updateHelperVariant);
   // TODO: Need a way to trigger a full update
   // SettingUpdatePath path({RadioSettings::NOTIFY_CONTROL_SINKS});
   // SettingUpdate setting(path, true, SettingUpdate::Meaning::VALUE);

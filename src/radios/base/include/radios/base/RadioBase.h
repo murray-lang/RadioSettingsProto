@@ -1,7 +1,6 @@
 #pragma once
 #include <config/struct/RadioConfig.h>
-#include <settings/model/radios/base/RadioSettingsSink.h>
-#include <settings/model/radios/base/SettingUpdateHelper.h>
+#include <settings/model/RadioSettingsSink.h>
 #include <settings/control/sink/PttSink.h>
 
 #include <event/EventTarget.h>
@@ -15,5 +14,4 @@ public:
 
   [[nodiscard]] virtual const IRadioSettings* getSettings() const = 0;
   [[nodiscard]] virtual const RadioLookup* getLookup() const = 0;
-  [[nodiscard]] virtual const SettingUpdateHelper* getUpdateHelper() = 0;
 };

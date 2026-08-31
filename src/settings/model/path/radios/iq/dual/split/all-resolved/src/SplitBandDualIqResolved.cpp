@@ -3495,10 +3495,10 @@ const SettingDescriptor transmitter_mic_gain_use_fine = SettingDescriptor(
     false
 );
 */
-/*
+/**/
 const SettingDescriptor ptt = SettingDescriptor(
     SettingPath{4},
     AutoCompleteTrigger::NONE,
     false
 );
-*/
+/**/

@@ -3,11 +3,15 @@
 #include <gpio/input/GpioInputLines.h>
 #include <gpio/input/GpioInputLinesRequest.h>
 
-#include <settings/model/base/SettingUpdate.h>
+#include <settings/model/SettingUpdate.h>
 #include <config/struct/DigitalInputConfig.h>
 
-#include <settings/model/base/SettingDescriptor.h>
-#include <settings/model/base/SettingUpdateSource.h>
+#include <settings/model/SettingDescriptor.h>
+#include <settings/model/SettingUpdateSource.h>
+
+// #ifdef USE_DOTTED_STRING_PATHS
+#include <settings/model/ResolveDottedStringFunc.h>
+// #endif
 
 
 #ifdef USE_ETL
@@ -31,8 +35,7 @@ public:
 
   DigitalInput(DigitalInput&& rhs)  noexcept;
   DigitalInput& operator=(DigitalInput&& rhs)  noexcept;
-
-  virtual ResultCode configure(const Config::DigitalInput::Fields& config);
+  virtual ResultCode configure(const Config::DigitalInput::Fields& config, ResolveDottedStringFunc resolver);
   [[nodiscard]] const IdString& getId() const { return m_id; }
   [[nodiscard]] const SettingPath& getSettingPath() const { return m_settingDescriptor.getPath(); }
 

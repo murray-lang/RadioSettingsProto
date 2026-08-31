@@ -27,7 +27,7 @@ SplitBandDualIqRadio::configure(const Config::Radio::Fields& config)
   ResultCode rc = m_transceiver.configure(sdr);
   if (rc != ResultCode::OK) return rc;
 
-  return m_control.configure(config.control);
+  return m_control.configure(config.control, m_settings.resolveDottedStringFunc());
 }
 
 ResultCode
@@ -69,7 +69,7 @@ SplitBandDualIqRadio::applySettingUpdate(const SettingUpdate& update, bool final
   return ResultCode::OK; // TODO: Decide how to manage locally stored settings.
 }
 
-void
+ResultCode
 SplitBandDualIqRadio::ptt(bool on)
 {
   if (on) {
@@ -79,5 +79,6 @@ SplitBandDualIqRadio::ptt(bool on)
     m_transceiver.ptt(true);
     m_control.ptt(true);
   }
+  return ResultCode::OK;
 }
 

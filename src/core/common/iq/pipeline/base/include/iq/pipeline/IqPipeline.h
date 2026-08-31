@@ -5,8 +5,8 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/radios/component/PipelineSettings.h>
-#include <settings/model/radios/component/BandRfSettings.h>
+#include <settings/model/radios/iq/PipelineSettings.h>
+#include <settings/model/BandRfSettings.h>
 #include <settings/model/data/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"

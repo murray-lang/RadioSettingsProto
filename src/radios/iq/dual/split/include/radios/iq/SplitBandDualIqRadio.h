@@ -3,7 +3,6 @@
 #include <ResultCode.h>
 #include <iq/split/SplitBandDualIq.h>
 #include <config/struct/RadioConfig.h>
-#include <settings/model/radios/selected/RadioSettings.h>
 // #include <settings/model/radio/BandSettingsCache.h>
 #include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
 #include <settings/model/data/radio/RadioLookup.h>
@@ -36,7 +35,7 @@ public:
   ResultCode applySettings(SplitBandDualIqRxTxSettings& settings) override;
   ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override;
 
-  void ptt(bool on) override;
+  ResultCode ptt(bool on) override;
 
 protected:
   const RadioLookup& m_lookup;

@@ -10,9 +10,11 @@ BasicRxSettings::BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandS
 {}
 
 #ifdef USE_DOTTED_STRING_PATHS
-ResultCode
-BasicRxSettings::resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor)
+ResolveDottedStringFunc
+BasicRxSettings::resolveDottedStringFunc()
 {
-  return ::resolveDottedString(dottedPath, basic_rx_radio_fields, descriptor);
+  return [](const char* dottedPath, SettingDescriptor& descriptor) -> ResultCode {
+    return ::resolveDottedString(dottedPath, basic_rx_radio_fields, descriptor);
+  };
 }
 #endif

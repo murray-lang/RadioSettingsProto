@@ -74,7 +74,7 @@ public:
     return ResultCode::OK;
   }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     for (auto& device : m_devices)
     {
@@ -83,6 +83,7 @@ public:
         dev.ptt(on);
       }, device) ;
     }
+    return ResultCode::OK;
   }
 
 protected:

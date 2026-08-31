@@ -1,7 +1,7 @@
 #pragma once
 #include <ResultCode.h>
 #include <settings/model/proto/RadioSettings.pb.h>
-#include <settings/model/base/StringRef.h>
+#include <settings/model/StringRef.h>
 #include <etl/vector.h>
 #include "pb.h"
 

@@ -3,7 +3,7 @@
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/data/radio/RadioLookup.h>
-#include <settings/model/radios/base/RadioSettingsBaseT.h>
+#include <settings/model/RadioSettingsBaseT.h>
 #include <settings/model/radios/component/BasicActiveBandSettings.h>
 #include <settings/model/radios/component/BasicBandSettingsCache.h>
 
@@ -32,7 +32,7 @@ public:
   [[nodiscard]] const TransmitterSettings* transmitter() const override { return &m_transmitterSettings; }
 
 #ifdef USE_DOTTED_STRING_PATHS
-  ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
+  ResolveDottedStringFunc resolveDottedStringFunc() override;
 #endif
 
 protected:

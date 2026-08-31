@@ -2,9 +2,9 @@
 #define CORE_RADIO_SETTINGS_H
 
 #include <settings/model/proto/RadioPayloads.pb.h>
-#include <settings/model/base/SettingUpdate.h>
-#include <settings/model/base/SettingUpdateVariant.h>
-#include <settings/model/base/SettingUpdateSink.h>
+#include <settings/model/SettingUpdate.h>
+#include <settings/model/SettingUpdateVariant.h>
+#include <settings/model/SettingUpdateSink.h>
 #include <settings/model/traverse/MessageTraverser.h>
 #include <settings/model/meta/RadioLookup.h>
 

@@ -16,7 +16,7 @@
 
 #include <event/EventDispatcher.h>
 #include <event/sample/RxIqEvent.h>
-#include <settings/model/radios/component/RxPipelineSettings.h>
+#include <settings/model/radios/iq/RxPipelineSettings.h>
 
 
 class IqRxPipeline : public IqPipeline

@@ -1,10 +1,12 @@
 #pragma once
-#include <settings/model/radios/component/BandSettingsCacheT.h>
+// #include <settings/model/BandSettingsCacheT.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/data/radio/RadioLookup.h>
 #include <settings/model/radios/base/RadioSettingsBaseT.h>
-#include <settings/model/radios/component/SplitBandDualIqActiveBandSettings.h>
+#include <settings/model/radios/iq/SplitBandDualIqActiveBandSettings.h>
+#include <settings/model/radios/iq/RxTxDualIqBandSettingsCache.h>
+#include "SplitBandDualIqRxTxShortcutExpander.h"
 
 using SplitBandDualIqRxTxSettingsBaseType = RadioSettingsBaseT<
     makesdr_SplitBandDualIqRxTxSettingsPb,
@@ -25,6 +27,8 @@ public:
   using Payload = makesdr_SplitBandDualIqRxTxSettingsPayloadPb;
   using Cache = RxTxDualIqBandSettingsCache;
   SplitBandDualIqRxTxSettings(const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache);
+  SplitBandDualIqRxTxSettings(const SplitBandDualIqRxTxSettings& other);
+  SplitBandDualIqRxTxSettings(SplitBandDualIqRxTxSettings&& other) noexcept;
 
   [[nodiscard]] bool hasActiveBands() const override{ return m_payload.body.has_active_bands;}
   IActiveBandSettings* activeBands() override { return &m_activeBandSettings; }
@@ -34,11 +38,14 @@ public:
   TransmitterSettings* transmitter() override { return &m_transmitterSettings; }
   [[nodiscard]] const TransmitterSettings* transmitter() const override { return &m_transmitterSettings; }
 
+  RadioSettingsShortcuts* shortcuts() override { return &m_shortcutExpander; }
+
 #ifdef USE_DOTTED_STRING_PATHS
-  ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
+  ResolveDottedStringFunc resolveDottedStringFunc() override;
 #endif
 
 protected:
   TransmitterSettings m_transmitterSettings;
+  SplitBandDualIqRxTxShortcutExpander m_shortcutExpander;
 };
 

@@ -22,7 +22,6 @@ set(CONTROL_FACTORY_LIBS
         settings-control-hal-usb-sinks
         settings-control-sink
         settings-control-source
-        settings-model-radios-selected
 )
 
 if (PLATFORM_FAMILY STREQUAL "linux")

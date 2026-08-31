@@ -2,7 +2,7 @@
 
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHost.h>
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/IRadioSettings.h>
 #include <config/struct/SoftRockConfig.h>
 #include <cmath>
 
@@ -77,9 +77,10 @@ public:
     return ResultCode::OK; //ignore for now.
   }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     m_usbHost.write(static_cast<uint8_t>(Request::PTT), on ? 1 : 0, 0);
+    return ResultCode::OK;
   }
 
   // void initialise(JsonVariantConst json) override;

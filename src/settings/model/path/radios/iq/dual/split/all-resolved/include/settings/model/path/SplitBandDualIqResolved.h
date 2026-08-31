@@ -1,5 +1,5 @@
 #pragma once
-#include <settings/model/base/SettingDescriptor.h>
+#include <settings/model/SettingDescriptor.h>
 
 // Auto-generated pre-resolved field descriptors
 // Uncomment the ones you need, likewise in SplitBandDualIqResolved.cpp
@@ -502,4 +502,4 @@ extern const SettingDescriptor active_bands_tx_band_id;
 // extern const SettingDescriptor transmitter_mic_gain_coarse_delta;
 // extern const SettingDescriptor transmitter_mic_gain_fine_delta;
 // extern const SettingDescriptor transmitter_mic_gain_use_fine;
-// extern const SettingDescriptor ptt;
+extern const SettingDescriptor ptt;

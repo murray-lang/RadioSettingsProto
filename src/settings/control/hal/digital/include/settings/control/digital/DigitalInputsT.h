@@ -2,7 +2,7 @@
 
 #include <settings/control/source/SettingsControlSourceT.h>
 #include <config/struct/DigitalInputsConfig.h>
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/IRadioSettings.h>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #include <settings/control/digital/DigitalInputTypes.h>
@@ -41,7 +41,10 @@ public:
   }
 
   // ControlBase overrides;
-  ResultCode configure(const Config::DigitalInputs::Fields& config) {return createInputs(config); }
+  ResultCode configure(const Config::DigitalInputs::Fields& config, ResolveDottedStringFunc resolver)
+  {
+    return createInputs(config, resolver);
+  }
   bool discover() override { return Gpio::isPresent(); }
   ResultCode open() override
   {
@@ -77,13 +80,13 @@ protected:
     return ResultCode::ERR_SETTING_CONTROL_NOTIFY_SETTINGS_NOT_IMPLEMENTED;
   }
 
-  ResultCode createInputs(const Config::DigitalInputs::Fields& config)
+  ResultCode createInputs(const Config::DigitalInputs::Fields& config, ResolveDottedStringFunc resolver)
   {
     m_inputs.clear();
     ResultCode rc = ResultCode::OK;
     for (const auto& inputConfig : config.inputs) {
       DigitalInput digitalInput;
-      rc = DigitalInputFactory::create(inputConfig, digitalInput);
+      rc = DigitalInputFactory::create(inputConfig, digitalInput, resolver);
       if (rc == ResultCode::OK) {
         digitalInput.connectSettingUpdateSink(&m_internalSink);
         m_inputs.emplace_back(::move(digitalInput));

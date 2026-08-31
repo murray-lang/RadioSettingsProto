@@ -1,5 +1,5 @@
 #include <CrossPlatformTypes.h>
-#include "settings/model/base/SettingDescriptor.h"
+#include "settings/model/SettingDescriptor.h"
 
 SettingDescriptor::SettingDescriptor()
   : m_autoCompleteTrigger(AutoCompleteTrigger::NONE)

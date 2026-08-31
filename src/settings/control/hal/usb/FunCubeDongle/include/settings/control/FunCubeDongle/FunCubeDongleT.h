@@ -3,7 +3,7 @@
 #include <CrossPlatformTypes.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/IRadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 #include <cmath>
@@ -81,7 +81,7 @@ public:
   }
   ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override { return ResultCode::OK; }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     if (on) {
       setLnaGain(-100.0); // Mute LNA when transmitting
@@ -90,6 +90,7 @@ public:
       setLnaGain(m_lastRfGain);
       setIfGain(m_lastRfGain);
     }
+    return ResultCode::OK;
   }
 
   // void initialise(JsonVariantConst json) override;

@@ -1,11 +1,7 @@
 #include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
 
-#ifdef USE_DOTTED_STRING_PATHS
-#include <settings/model/radios/selected/resolveDottedString.h>
-#endif
-
-#include "settings/model/base/SettingUpdateSink.h"
+#include "settings/model/SettingUpdateSink.h"
 
 DigitalInput::DigitalInput()
   : m_lineEventCallback(
@@ -36,19 +32,15 @@ DigitalInput::operator=(DigitalInput&& rhs)  noexcept
 }
 
 ResultCode
-DigitalInput::configure(const Config::DigitalInput::Fields& config)
+DigitalInput::configure(const Config::DigitalInput::Fields& config, ResolveDottedStringFunc resolver)
 {
   ResultCode rc = configureLines(config);
   if (rc != ResultCode::OK) return rc;
   setEdge(Edge::BOTH);
 
   if (config.settingPath) {
-#ifdef USE_DOTTED_STRING_PATHS
     m_id = config.settingPath.value();
-    return resolveDottedString(m_id.c_str(), m_settingDescriptor);
-#else
-    return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
-#endif
+    return resolver(m_id.c_str(), m_settingDescriptor);
   } else if (config.settingDescriptor) {
     return m_settingDescriptor.configure(config.settingDescriptor.value());
   } else {

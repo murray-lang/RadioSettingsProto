@@ -9,12 +9,31 @@ SplitBandDualIqRxTxSettings::SplitBandDualIqRxTxSettings(
   )
   : SplitBandDualIqRxTxSettingsBaseType(meta, cache)
   , m_transmitterSettings(m_payload.body.transmitter)
+  , m_shortcutExpander(static_cast<SettingUpdateSink*>(this))
 {}
 
-#ifdef USE_DOTTED_STRING_PATHS
-ResultCode
-SplitBandDualIqRxTxSettings::resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor)
+SplitBandDualIqRxTxSettings::SplitBandDualIqRxTxSettings(const SplitBandDualIqRxTxSettings& other)
+  : SplitBandDualIqRxTxSettingsBaseType(other)
+  , m_transmitterSettings(m_payload.body.transmitter)
+  , m_shortcutExpander(static_cast<SettingUpdateSink*>(this))
 {
-  return ::resolveDottedString(dottedPath, split_band_dual_iq_radio_fields, descriptor);
+
+}
+
+SplitBandDualIqRxTxSettings::SplitBandDualIqRxTxSettings(SplitBandDualIqRxTxSettings&& other) noexcept
+  : SplitBandDualIqRxTxSettingsBaseType(::move(other))
+  , m_transmitterSettings(m_payload.body.transmitter)
+  , m_shortcutExpander(static_cast<SettingUpdateSink*>(this))
+{
+
+}
+
+#ifdef USE_DOTTED_STRING_PATHS
+ResolveDottedStringFunc
+SplitBandDualIqRxTxSettings::resolveDottedStringFunc()
+{
+  return [](const char* dottedPath, SettingDescriptor& descriptor) -> ResultCode {
+    return ::resolveDottedString(dottedPath, split_band_dual_iq_radio_fields, descriptor);
+  };
 }
 #endif

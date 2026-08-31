@@ -26,6 +26,5 @@ target_link_libraries(ui-qt-band-dialog PUBLIC
         Qt6::Gui
         Qt6::Widgets
         config-json
-        settings-model-radios-selected
         settings-model-data-band
 )

@@ -31,7 +31,7 @@ SplitBandDualIq::stop()
   m_rx.stop();
 }
 
-void
+ResultCode
 SplitBandDualIq::ptt(bool on)
 {
   if (on) {
@@ -41,6 +41,7 @@ SplitBandDualIq::ptt(bool on)
     m_tx.stop();
     m_rx.start();
   }
+  return ResultCode::OK;
 }
 
 ResultCode

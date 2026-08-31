@@ -5,7 +5,7 @@
 // #include <audio/AudioSink.h>
 #include <config/struct/SdrConfig.h>
 #include <settings/control/sink/PttSink.h>
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/IRadioSettings.h>
 
 #include <event/EventTarget.h>
 

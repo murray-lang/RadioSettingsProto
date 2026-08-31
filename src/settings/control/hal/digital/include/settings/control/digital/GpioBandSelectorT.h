@@ -1,6 +1,6 @@
 #pragma once
 #include "DigitalOutputT.h"
-#include <settings/model/radios/base/IRadioSettings.h>
+#include <settings/model/IRadioSettings.h>
 #include <config/struct/BandSelectorConfig.h>
 
 template <typename RadioSettingsT>
@@ -18,9 +18,9 @@ public:
   GpioBandSelectorT(GpioBandSelectorT&&)  noexcept = default;
   GpioBandSelectorT& operator=(GpioBandSelectorT&&)  noexcept = default;
 
-  ResultCode configure(const Config::BandSelector::Fields& config)
+  ResultCode configure(const Config::BandSelector::Fields& config, ResolveDottedStringFunc resolver)
   {
-    ResultCode rc = DigitalOutputT<RadioSettingsT>::configure(config);
+    ResultCode rc = DigitalOutputT<RadioSettingsT>::configure(config, resolver);
     if (rc == ResultCode::OK) {
       m_defaultOut = config.defaultOut;
       m_bands = config.bands;
@@ -57,7 +57,7 @@ public:
     return ResultCode::ERR_SETTING_PATH_MISMATCH;
   }
 
-  void ptt(bool on) override {};
+  ResultCode ptt(bool on) override { return ResultCode::OK; };
 
 protected:
   [[nodiscard]] uint32_t getBandOutput(uint32_t frequency) const

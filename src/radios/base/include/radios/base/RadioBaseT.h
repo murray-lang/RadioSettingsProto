@@ -1,12 +1,12 @@
 #pragma once
-#include <settings/model/radios/base/IRadioSettings.h>
-#include <settings/model/radios/base/RadioSettingsSinkT.h>
+#include <settings/model/IRadioSettings.h>
+#include <settings/model/RadioSettingsSinkT.h>
 #include <settings/control/sink/PttSink.h>
 
 #include <event/EventTarget.h>
 
 #include "config/struct/RadioConfig.h"
-#include "settings/model/base/SettingUpdateSink.h"
+#include "settings/model/SettingUpdateSink.h"
 
 template <typename RadioSettingsT>
 class RadioBaseT : public RadioSettingsSinkT<RadioSettingsT>, public SettingUpdateSink, public PttSink

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <CrossPlatformTypes.h>
-#include <settings/model/radios/base/RadioSettingsSinkT.h>
-#include <settings/model/radios/base/RadioSettingsSourceT.h>
-#include <settings/model/base/SettingUpdateSource.h>
+#include <settings/model/RadioSettingsSinkT.h>
+#include <settings/model/RadioSettingsSourceT.h>
+#include <settings/model/SettingUpdateSource.h>
 
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkFactoryT.h>
@@ -51,12 +51,12 @@ public:
   }
   ~RadioControlT() override = default;
 
-  ResultCode configure(const Config::Control::Fields&config)
+  ResultCode configure(const Config::Control::Fields&config, ResolveDottedStringFunc resolver)
   {
     ResultCode rc = ResultCode::OK;
     for (auto& controllerConfig : config.sinks) {
       m_controlSinks.emplace_back();
-      ResultCode rc = SettingsControlSinkFactoryT<RadioSettingsT>::create(controllerConfig, m_controlSinks.back());
+      ResultCode rc = SettingsControlSinkFactoryT<RadioSettingsT>::create(controllerConfig, resolver, m_controlSinks.back());
       if (rc != ResultCode::OK) {
         return rc;
       }
@@ -65,7 +65,7 @@ public:
     for (auto& controllerConfig : config.sources) {
       m_controlSources.emplace_back();
       // SettingsControlSourceVariant source;
-      rc = SettingsControlSourceFactoryT<RadioSettingsT>::create(controllerConfig, m_controlSources.back());
+      rc = SettingsControlSourceFactoryT<RadioSettingsT>::create(controllerConfig, resolver, m_controlSources.back());
       if (rc == ResultCode::OK) {
         rc = visit([this](auto&& s) -> ResultCode {
           using T = decay_t<decltype(s)>;
@@ -75,7 +75,7 @@ public:
             return ResultCode::OK;
           } else
           {
-            return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES_DEFINED;
+            return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES_DEFINED;
           }
         }, m_controlSources.back());
         if (rc == ResultCode::OK) {
@@ -97,13 +97,13 @@ public:
 
         using T = decay_t<decltype(sink)>;
         if constexpr (is_same_v<T, monostate>) {
-          return ResultCode::ERR_SETTINGS_CONTROL_NO_SINKS;
+          return ResultCode::ERR_SETTING_CONTROL_NO_SINKS;
         } else {
           if (sink.discover()) {
             return sink.open();
           }
         }
-        return ResultCode::ERR_SETTINGS_CONTROL_SINK_DISCOVER;
+        return ResultCode::ERR_SETTING_CONTROL_SINK_DISCOVER;
       }, pSink);
       if (rc != ResultCode::OK) {
         return rc;
@@ -115,12 +115,12 @@ public:
       {
         using T = decay_t<decltype(source)>;
         if constexpr (is_same_v<T, monostate>) {
-          return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES;
+          return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES;
         } else {
           if (source.discover()) {
             return source.open();
           }
-          return ResultCode::ERR_SETTINGS_CONTROL_SOURCE_DISCOVER;
+          return ResultCode::ERR_SETTING_CONTROL_SOURCE_DISCOVER;
         }
       }, pSource);
       if (rc != ResultCode::OK) {
@@ -187,11 +187,11 @@ public:
   }
 
   // PttSink Method
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
     SettingUpdate setting(path, on, SettingUpdate::VALUE);
-    applySettingUpdate(setting, true);
+    return applySettingUpdate(setting, true);
   }
 
 

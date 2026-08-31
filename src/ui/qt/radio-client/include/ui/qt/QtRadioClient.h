@@ -7,7 +7,6 @@
 #include <settings/model/update/UpdateHelperVariant.h>
 
 
-// template <typename RadioSettingsT>
 class QtRadioClient : public QObject, public RadioBase
 {
   Q_OBJECT
@@ -25,14 +24,14 @@ public:
 
   ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override;
 
-  void ptt(bool on) override {}
+  ResultCode ptt(bool on) override;
 
   void customEvent(QEvent* event) override;
 
   template <typename UpdateHelperT>
   void setUpdateHelper(UpdateHelperT& updateHelper)
   {
-    m_updateHelper = updateHelper;
+    m_updateHelperVariant = updateHelper;
   }
 
 signals:
@@ -49,5 +48,6 @@ protected:
 
 private:
   QObject* m_pParent;
-  UpdateHelperVariant m_updateHelper;
+  UpdateHelperVariant m_updateHelperVariant;
+  SettingUpdateHelper* m_updateHelper;
 };

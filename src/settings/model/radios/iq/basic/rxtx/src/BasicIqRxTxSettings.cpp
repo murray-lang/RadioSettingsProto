@@ -11,9 +11,11 @@ BasicIqRxTxSettings::BasicIqRxTxSettings(const makesdr_RadioLookupPb& meta, Basi
 }
 
 #ifdef USE_DOTTED_STRING_PATHS
-ResultCode
-BasicIqRxTxSettings::resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor)
+ResolveDottedStringFunc
+BasicIqRxTxSettings::resolveDottedStringFunc()
 {
-  return ::resolveDottedString(dottedPath, basic_iq_rxtx_radio_fields, descriptor);
+  return [](const char* dottedPath, SettingDescriptor& descriptor) -> ResultCode {
+    return ::resolveDottedString(dottedPath, basic_iq_rxtx_radio_fields, descriptor);
+  };
 }
 #endif

@@ -20,13 +20,14 @@ class SettingsControlSourceFactoryT
 public:
   static ResultCode create(
     const Config::Control::SourceConfigVariant& config,
+    ResolveDottedStringFunc resolver,
     SettingsControlSourceTypesT<RadioSettingsT>::Variant& source)
   {
     ResultCode result = ResultCode::OK;
 #ifdef USE_GPIO
     if (holds_alternative<Config::DigitalInputs::Fields>(config)) {
       DigitalInputsT<RadioSettingsT> dins;
-      result = dins.configure(get<Config::DigitalInputs::Fields>(config));
+      result = dins.configure(get<Config::DigitalInputs::Fields>(config), resolver);
       if (result == ResultCode::OK) {
         source.template emplace<DigitalInputsT<RadioSettingsT>>(::move(dins));
       }
@@ -43,6 +44,6 @@ public:
       return result;
     }
 #endif
-    return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES_DEFINED;
+    return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES_DEFINED;
   }
 };

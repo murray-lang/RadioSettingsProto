@@ -1,10 +1,10 @@
 #pragma once
 #include <settings/model/proto/RadioSettings.pb.h>
-#include <settings/model/base/SettingPath.h>
+#include <settings/model/SettingPath.h>
 #include <etl/string.h>
 #include <ResultCode.h>
-#include <settings/model/base/SettingUpdate.h>
-#include <settings/model/base/SettingUpdateVariant.h>
+#include <settings/model/SettingUpdate.h>
+#include <settings/model/SettingUpdateVariant.h>
 
 class MessageTraverser
 {

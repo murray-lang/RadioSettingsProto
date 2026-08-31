@@ -2,7 +2,7 @@
 
 #include <config/struct/QtControlSinkConfig.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/radios/base/RadioSettingsEventT.h>
+#include <settings/model/RadioSettingsEventT.h>
 #include <settings/control/qt/QtGlobalControlEventTargets.h>
 #include <settings/control/qt/QtSettingsControlSinkBase.h>
 #include <event/QtEventRegistrar.h>
@@ -55,7 +55,7 @@ public:
     return ResultCode::OK;
   }
 
-  void ptt(bool on) override {}
+  ResultCode ptt(bool on) override { return ResultCode::OK; }
 
 protected:
   uint64_t m_updateSequenceNo;
